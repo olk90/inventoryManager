@@ -1,9 +1,16 @@
 package org.olk90.inventorymanager.controller
 
 import org.olk90.inventorymanager.model.InventoryItem
-import tornadofx.*
+import org.olk90.inventorymanager.model.InventoryItemModel
 
-class InventoryController : Controller() {
+class InventoryController : WorkspaceController() {
 
-    val inventoryItems = mutableListOf<InventoryItem>().asObservable()
+    val model = InventoryItemModel(InventoryItem())
+
+    fun save() {
+        model.commit()
+
+        val inventoryItem = model.item
+        // TODO persist data
+    }
 }

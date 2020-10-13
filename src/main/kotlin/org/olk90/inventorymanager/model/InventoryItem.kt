@@ -5,12 +5,13 @@ import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
 import java.sql.Timestamp
+import java.time.LocalDate
 
 class InventoryItem(
         name: String? = null,
         available: Boolean = false,
         lender: Person? = null,
-        lendingDate: Timestamp? = null
+        lendingDate: LocalDate? = null
 ) {
 
     val nameProperty = SimpleStringProperty(this, "name", name)
@@ -22,7 +23,7 @@ class InventoryItem(
     val lenderProperty = SimpleObjectProperty<Person>(this, "lender", lender)
     var lender by lenderProperty
 
-    val lendingDateProperty = SimpleObjectProperty<Timestamp>(this, "lendingDate", lendingDate)
+    val lendingDateProperty = SimpleObjectProperty<LocalDate>(this, "lendingDate", lendingDate)
     var lendingDate by lendingDateProperty
 
 }
