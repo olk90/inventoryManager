@@ -20,3 +20,5 @@ class PersonModel(person: Person) : ItemViewModel<Person>(person) {
     val firstName = bind(Person::firstNameProperty)
     val lastName = bind(Person::lastNameProperty)
 }
+
+data class PersonSet(val persons: ArrayList<Person>)

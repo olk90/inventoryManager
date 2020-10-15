@@ -2,7 +2,7 @@ package org.olk90.inventorymanager.view
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon
 import javafx.geometry.Pos
-import org.olk90.inventorymanager.controller.PersonController
+import org.olk90.inventorymanager.logic.controller.PersonController
 import org.olk90.inventorymanager.model.Person
 import tornadofx.*
 

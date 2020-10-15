@@ -23,6 +23,8 @@ dependencies {
     compile group: 'no.tornado', name: 'tornadofx-controls', version: '1.0.6'
     compile group: 'de.jensd', name: 'fontawesomefx', version: '8.9'
 
+    // https://mvnrepository.com/artifact/com.beust/klaxon
+    compile group: 'com.beust', name: 'klaxon', version: '5.4'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.10"
 }
