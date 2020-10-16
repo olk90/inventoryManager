@@ -1,4 +1,4 @@
-package org.olk90.inventorymanager.view
+package org.olk90.inventorymanager.view.common
 
 import de.jensd.fx.glyphs.octicons.OctIcon
 import javafx.scene.control.ListView

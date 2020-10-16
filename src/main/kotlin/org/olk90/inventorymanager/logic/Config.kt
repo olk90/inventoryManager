@@ -8,7 +8,6 @@ import org.olk90.inventorymanager.logic.controller.WorkspaceController
 import org.olk90.inventorymanager.model.FileExtension
 import tornadofx.*
 import java.io.File
-import java.io.IOException
 import java.nio.file.Paths
 
 object Config {

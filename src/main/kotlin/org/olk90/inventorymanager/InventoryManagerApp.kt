@@ -2,8 +2,8 @@ package org.olk90.inventorymanager
 
 import javafx.stage.Stage
 import org.olk90.inventorymanager.logic.Config
-import org.olk90.inventorymanager.view.InventoryWorkspace
-import org.olk90.inventorymanager.view.PersonView
+import org.olk90.inventorymanager.view.common.InventoryWorkspace
+import org.olk90.inventorymanager.view.person.PersonView
 import tornadofx.*
 
 class InventoryManagerApp : App(InventoryWorkspace::class) {

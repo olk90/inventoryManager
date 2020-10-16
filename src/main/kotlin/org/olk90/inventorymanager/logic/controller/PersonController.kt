@@ -19,6 +19,11 @@ class PersonController : WorkspaceController() {
         // TODO persist data
     }
 
+    fun add() {
+        val person = Person(model.firstName.value, model.lastName.value, model.email.value)
+        persons.add(person)
+    }
+
     fun parsePersonsFromFile(jsonDocument: File) {
         val set = Klaxon().parse<PersonSet>(jsonDocument)
         if (set != null) {

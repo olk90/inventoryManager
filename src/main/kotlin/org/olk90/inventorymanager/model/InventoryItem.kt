@@ -1,10 +1,10 @@
 package org.olk90.inventorymanager.model
 
+import com.beust.klaxon.Json
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
-import java.sql.Timestamp
 import java.time.LocalDate
 
 class InventoryItem(
@@ -14,16 +14,18 @@ class InventoryItem(
         lendingDate: LocalDate? = null
 ) {
 
+    @Json(ignored = true)
     val nameProperty = SimpleStringProperty(this, "name", name)
-    var name by nameProperty
-
+    @Json(ignored = true)
     val availableProperty = SimpleBooleanProperty(this, "available", available)
-    var available by availableProperty
-
+    @Json(ignored = true)
     val lenderProperty = SimpleObjectProperty<Person>(this, "lender", lender)
-    var lender by lenderProperty
-
+    @Json(ignored = true)
     val lendingDateProperty = SimpleObjectProperty<LocalDate>(this, "lendingDate", lendingDate)
+
+    var name by nameProperty
+    var available by availableProperty
+    var lender by lenderProperty
     var lendingDate by lendingDateProperty
 
 }

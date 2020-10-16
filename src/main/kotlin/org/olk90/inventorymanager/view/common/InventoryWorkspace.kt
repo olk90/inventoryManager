@@ -1,23 +1,27 @@
-package org.olk90.inventorymanager.view
+package org.olk90.inventorymanager.view.common
 
 import de.jensd.fx.glyphs.octicons.OctIcon
-import javafx.stage.FileChooser
-import org.olk90.inventorymanager.logic.Config
-import org.olk90.inventorymanager.logic.Config.jsonFilters
 import org.olk90.inventorymanager.logic.controller.WorkspaceController
-import org.olk90.inventorymanager.model.FileExtension
+import org.olk90.inventorymanager.view.inventory.InventoryView
+import org.olk90.inventorymanager.view.person.PersonView
 import tornadofx.*
-import java.io.File
 
 class InventoryWorkspace : Workspace() {
 
-    private val controller: WorkspaceController by inject()
+    val controller:  WorkspaceController by inject()
 
     init {
         // remove obsolete buttons
         forwardButton.hide()
         backButton.hide()
         refreshButton.hide()
+
+        createButton.apply {
+            tooltip("Insert new data")
+            action {
+                controller.openCreateDialog()
+            }
+        }
 
         // custom buttons
         button {
