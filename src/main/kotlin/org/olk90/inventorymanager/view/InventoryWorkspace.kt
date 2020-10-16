@@ -1,9 +1,17 @@
 package org.olk90.inventorymanager.view
 
 import de.jensd.fx.glyphs.octicons.OctIcon
+import javafx.stage.FileChooser
+import org.olk90.inventorymanager.logic.Config
+import org.olk90.inventorymanager.logic.Config.jsonFilters
+import org.olk90.inventorymanager.logic.controller.WorkspaceController
+import org.olk90.inventorymanager.model.FileExtension
 import tornadofx.*
+import java.io.File
 
 class InventoryWorkspace : Workspace() {
+
+    private val controller: WorkspaceController by inject()
 
     init {
         // remove obsolete buttons
@@ -12,6 +20,15 @@ class InventoryWorkspace : Workspace() {
         refreshButton.hide()
 
         // custom buttons
+        button {
+            tooltip("Create new data container")
+            addClass("icon-only")
+            graphic = icon(OctIcon.DATABASE)
+            action {
+                openInternalWindow(DataContainerFragment::class, closeButton = false)
+            }
+        }
+
         button {
             tooltip("Open person overview")
             addClass("icon-only")
@@ -22,6 +39,7 @@ class InventoryWorkspace : Workspace() {
                 }
             }
         }
+
         button {
             tooltip("Open inventory overview")
             addClass("icon-only")

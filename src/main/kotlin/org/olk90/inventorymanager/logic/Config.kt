@@ -3,12 +3,21 @@ package org.olk90.inventorymanager.logic
 import com.beust.klaxon.Klaxon
 import com.beust.klaxon.KlaxonException
 import com.beust.klaxon.json
+import javafx.stage.FileChooser
 import org.olk90.inventorymanager.logic.controller.WorkspaceController
+import org.olk90.inventorymanager.model.FileExtension
 import tornadofx.*
+import java.io.File
 import java.io.IOException
 import java.nio.file.Paths
 
 object Config {
+
+    val jsonFilters = arrayOf(
+            FileChooser.ExtensionFilter("GraphSim JSON file", "*${FileExtension.JSON.extension}")
+    )
+
+   val userHome = File(System.getProperty("user.home"))
 
     private val configDirectory = Paths.get(System.getProperty("user.home"), ".inventoryManager").toFile()
 
