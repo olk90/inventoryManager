@@ -13,9 +13,6 @@ import org.olk90.inventorymanager.view.person.PersonView
 import tornadofx.*
 
 open class WorkspaceController : Controller() {
-    val persons = mutableListOf<Person>().asObservable()
-
-    val inventoryItems = mutableListOf<InventoryItem>().asObservable()
 
     // used for managing data containers
     val history = mutableListOf<HistoryEntry>().asObservable()

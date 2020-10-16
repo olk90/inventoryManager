@@ -6,9 +6,10 @@ import org.olk90.inventorymanager.model.InventoryItem
 import org.olk90.inventorymanager.model.InventoryItemModel
 import org.olk90.inventorymanager.model.InventorySet
 import org.olk90.inventorymanager.model.Person
+import tornadofx.*
 import java.io.File
 
-class InventoryController : WorkspaceController() {
+class InventoryController : Controller() {
 
     val model = InventoryItemModel(InventoryItem())
 
@@ -21,18 +22,14 @@ class InventoryController : WorkspaceController() {
 
     fun add() {
         val item = InventoryItem(model.name.value, model.available.value, model.lender.value, model.lendingDate.value)
-        inventoryItems.add(item)
+        ObjectStore.inventoryItems.add(item)
     }
 
     fun parsePersonsFromFile(jsonDocument: File) {
         val set = Klaxon().parse<InventorySet>(jsonDocument)
         if (set != null) {
-            inventoryItems.clear()
-            inventoryItems.addAll(set.inventory)
+            ObjectStore.inventoryItems.clear()
+            ObjectStore.inventoryItems.addAll(set.inventory)
         }
-    }
-
-    fun loadPersons(): ObservableList<Person> {
-        return find(WorkspaceController::class).persons
     }
 }

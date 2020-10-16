@@ -2,6 +2,7 @@ package org.olk90.inventorymanager.view.inventory
 
 import javafx.geometry.Pos
 import org.olk90.inventorymanager.logic.controller.InventoryController
+import org.olk90.inventorymanager.logic.controller.ObjectStore
 import org.olk90.inventorymanager.model.InventoryItem
 import org.olk90.inventorymanager.view.common.align
 import tornadofx.*
@@ -12,7 +13,7 @@ class InventoryView : View("Inventory Overview") {
 
     override val root = borderpane {
         center {
-            tableview(controller.inventoryItems) {
+            tableview(ObjectStore.inventoryItems) {
                 columnResizePolicy = SmartResize.POLICY
 
                 column("Name", InventoryItem::nameProperty).apply {

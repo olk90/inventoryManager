@@ -8,7 +8,7 @@ import org.olk90.inventorymanager.model.PersonSet
 import tornadofx.*
 import java.io.File
 
-class PersonController : WorkspaceController() {
+class PersonController : Controller() {
 
     var personTable: TableView<Person> by singleAssign()
     val model = PersonModel(Person())
@@ -21,14 +21,14 @@ class PersonController : WorkspaceController() {
 
     fun add() {
         val person = Person(model.firstName.value, model.lastName.value, model.email.value)
-        persons.add(person)
+        ObjectStore.persons.add(person)
     }
 
     fun parsePersonsFromFile(jsonDocument: File) {
         val set = Klaxon().parse<PersonSet>(jsonDocument)
         if (set != null) {
-            persons.clear()
-            persons.addAll(set.persons)
+            ObjectStore.persons.clear()
+            ObjectStore.persons.addAll(set.persons)
         }
     }
 }

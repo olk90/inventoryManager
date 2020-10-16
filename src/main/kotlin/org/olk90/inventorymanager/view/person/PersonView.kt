@@ -1,6 +1,7 @@
 package org.olk90.inventorymanager.view.person
 
 import javafx.geometry.Pos
+import org.olk90.inventorymanager.logic.controller.ObjectStore
 import org.olk90.inventorymanager.logic.controller.PersonController
 import org.olk90.inventorymanager.model.Person
 import org.olk90.inventorymanager.view.common.align
@@ -12,7 +13,7 @@ class PersonView : View("Person Overview") {
 
     override val root = borderpane {
         center {
-            tableview(controller.persons) {
+            tableview(ObjectStore.persons) {
                 columnResizePolicy = SmartResize.POLICY
 
                 controller.personTable = this
