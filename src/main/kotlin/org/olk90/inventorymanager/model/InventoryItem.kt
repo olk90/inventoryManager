@@ -4,6 +4,7 @@ import com.beust.klaxon.Json
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
+import org.olk90.inventorymanager.logic.controller.ObjectStore
 import tornadofx.*
 import java.time.LocalDate
 
@@ -23,6 +24,7 @@ class InventoryItem(
     @Json(ignored = true)
     val lendingDateProperty = SimpleObjectProperty<LocalDate>(this, "lendingDate", lendingDate)
 
+    val id = ObjectStore.nextInventoryId()
     var name by nameProperty
     var available by availableProperty
     var lender by lenderProperty

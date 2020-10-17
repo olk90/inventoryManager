@@ -2,6 +2,7 @@ package org.olk90.inventorymanager.model
 
 import com.beust.klaxon.Json
 import javafx.beans.property.SimpleStringProperty
+import org.olk90.inventorymanager.logic.controller.ObjectStore
 import tornadofx.*
 
 class Person(
@@ -17,6 +18,7 @@ class Person(
     @Json(ignored = true)
     val emailProperty = SimpleStringProperty(this, "email", email)
 
+    val id = ObjectStore.nextPersonId()
     var firstName by firstNameProperty
     var lastName by lastNameProperty
     var email by emailProperty

@@ -1,13 +1,8 @@
 package org.olk90.inventorymanager.logic.controller
 
-import com.beust.klaxon.Klaxon
-import javafx.collections.ObservableList
 import org.olk90.inventorymanager.model.InventoryItem
 import org.olk90.inventorymanager.model.InventoryItemModel
-import org.olk90.inventorymanager.model.InventorySet
-import org.olk90.inventorymanager.model.Person
 import tornadofx.*
-import java.io.File
 
 class InventoryController : Controller() {
 
@@ -16,20 +11,21 @@ class InventoryController : Controller() {
     fun save() {
         model.commit()
 
-        val inventoryItem = model.item
-        // TODO persist data
+        val item = model.item
+        val i = ObjectStore.findInventoryById(item.id)!!
+        i.name = item.name
+        i.available = item.available
+        i.lender = item.lender
+        i.lendingDate = item.lendingDate
+
+        getWorkspaceControllerInstance().writeDcFile()
     }
 
     fun add() {
+        model.commit()
         val item = InventoryItem(model.name.value, model.available.value, model.lender.value, model.lendingDate.value)
         ObjectStore.inventoryItems.add(item)
+        getWorkspaceControllerInstance().writeDcFile()
     }
 
-    fun parsePersonsFromFile(jsonDocument: File) {
-        val set = Klaxon().parse<InventorySet>(jsonDocument)
-        if (set != null) {
-            ObjectStore.inventoryItems.clear()
-            ObjectStore.inventoryItems.addAll(set.inventory)
-        }
-    }
 }

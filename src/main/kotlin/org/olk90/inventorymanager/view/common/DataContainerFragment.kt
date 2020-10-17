@@ -44,16 +44,18 @@ class DataContainerFragment : Fragment("Create new data container") {
                                 if (!file.name.endsWith(FileExtension.JSON.extension)) {
                                     file = File(file.absolutePath + FileExtension.JSON.extension)
                                 }
-                                val content = controller.writeDcFile(
+                                val content = controller.buildDcFile(
                                         model.identifier.value,
                                         emptyList(),
                                         emptyList()
                                 )
+                                Config.model.pathProperty.value = file.absolutePath
                                 File(file.absolutePath).writeText(content)
                             } catch (e: Exception) {
                                 e.printStackTrace()
                             }
                         }
+                        close()
                     }
                 }
                 button {

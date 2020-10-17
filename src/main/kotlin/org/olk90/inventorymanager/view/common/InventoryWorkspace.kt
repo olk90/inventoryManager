@@ -15,6 +15,7 @@ class InventoryWorkspace : Workspace() {
         forwardButton.hide()
         backButton.hide()
         refreshButton.hide()
+        saveButton.hide()
 
         createButton.apply {
             tooltip("Insert new data")

@@ -1,5 +1,6 @@
 package org.olk90.inventorymanager.model
 
+import com.beust.klaxon.Json
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
 
@@ -8,7 +9,10 @@ class DataContainer(
         val persons: List<Person> = mutableListOf(),
         val items: List<InventoryItem> = mutableListOf()
 ) {
+
+    @Json(ignored = true)
     val identifierProperty = SimpleStringProperty(this, "identifier", identifier)
+
     var indentifier by identifierProperty
 }
 

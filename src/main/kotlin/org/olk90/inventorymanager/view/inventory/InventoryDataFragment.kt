@@ -43,10 +43,10 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                             action {
                                 if (create) {
                                     controller.add()
+                                    close()
                                 } else {
                                     controller.save()
                                 }
-                                close()
                             }
                         }
                         button {
