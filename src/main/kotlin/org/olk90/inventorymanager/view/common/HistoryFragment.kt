@@ -1,6 +1,7 @@
 package org.olk90.inventorymanager.view.common
 
 import de.jensd.fx.glyphs.octicons.OctIcon
+import javafx.scene.control.ListCell
 import javafx.scene.control.ListView
 import org.olk90.inventorymanager.logic.HistoryEntry
 import org.olk90.inventorymanager.logic.controller.WorkspaceController
@@ -16,6 +17,19 @@ class HistoryFragment : Fragment("Recently used data containers") {
         center {
             listview(controller.history) {
                 listView = this
+                setCellFactory {
+                    object : ListCell<HistoryEntry?>() {
+                        override fun updateItem(entry: HistoryEntry?, empty: Boolean) {
+                            super.updateItem(entry, empty)
+                            text = if (empty || entry == null || entry.filePath.isEmpty()) {
+                                null
+                            } else {
+                                entry.filePath
+                            }
+                        }
+                    }
+                }
+
             }
         }
 

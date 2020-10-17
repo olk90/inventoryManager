@@ -6,5 +6,6 @@ import tornadofx.*
 class WorkspaceViewModel : ViewModel() {
 
     val pathProperty = bind { Config.pathProperty }
+    val identifierProperty = bind { Config.identifierProperty }
 
 }

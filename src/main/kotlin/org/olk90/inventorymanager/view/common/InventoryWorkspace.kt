@@ -39,8 +39,8 @@ class InventoryWorkspace : Workspace() {
             addClass("icon-only")
             graphic = icon(OctIcon.PERSON)
             action {
-                if (workspace.dockedComponent !is PersonView) {
-                    workspace.dock<PersonView>()
+                if (dockedComponent !is PersonView) {
+                    dock<PersonView>()
                 }
             }
         }
@@ -50,8 +50,8 @@ class InventoryWorkspace : Workspace() {
             addClass("icon-only")
             graphic = icon(OctIcon.TOOLS)
             action {
-                if (workspace.dockedComponent !is InventoryView) {
-                    workspace.dock<InventoryView>()
+                if (dockedComponent !is InventoryView) {
+                    dock<InventoryView>()
                 }
             }
         }

@@ -10,6 +10,7 @@ import javafx.geometry.Pos
 import javafx.scene.control.TableColumn
 import javafx.scene.paint.Color
 import javafx.util.StringConverter
+import org.olk90.inventorymanager.logic.HistoryEntry
 import org.olk90.inventorymanager.model.GUIConstants
 import org.olk90.inventorymanager.model.Person
 import tornadofx.*
@@ -42,11 +43,29 @@ class PersonConverter : StringConverter<Person>() {
             map[name] = person
             return name
         }
-        return "<null>"
+        return ""
     }
 
     override fun fromString(name: String?): Person? {
         return map[name]
+    }
+}
+
+class HistoryConverter : StringConverter<HistoryEntry>() {
+
+    private val map = mutableMapOf<String, HistoryEntry>()
+
+    override fun toString(entry: HistoryEntry?): String {
+        if (entry != null) {
+            val path = entry.filePath
+            map[path] = entry
+            return path
+        }
+        return ""
+    }
+
+    override fun fromString(path: String?): HistoryEntry? {
+        return map[path]
     }
 
 }

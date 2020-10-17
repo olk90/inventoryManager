@@ -1,13 +1,14 @@
 package org.olk90.inventorymanager.view.person
 
 import javafx.geometry.Pos
+import org.olk90.inventorymanager.logic.Config
 import org.olk90.inventorymanager.logic.controller.ObjectStore
 import org.olk90.inventorymanager.logic.controller.PersonController
 import org.olk90.inventorymanager.model.Person
 import org.olk90.inventorymanager.view.common.align
 import tornadofx.*
 
-class PersonView : View("Person Overview") {
+class PersonView : View("${Config.identifierProperty.value}: Persons") {
 
     private val controller: PersonController by inject()
 

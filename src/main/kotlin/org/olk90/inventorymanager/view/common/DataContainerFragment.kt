@@ -51,6 +51,7 @@ class DataContainerFragment : Fragment("Create new data container") {
                                 )
                                 Config.model.pathProperty.value = file.absolutePath
                                 File(file.absolutePath).writeText(content)
+                                controller.updateHistory(file.absolutePath)
                             } catch (e: Exception) {
                                 e.printStackTrace()
                             }

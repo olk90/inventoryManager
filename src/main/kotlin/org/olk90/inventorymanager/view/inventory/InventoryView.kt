@@ -1,13 +1,15 @@
 package org.olk90.inventorymanager.view.inventory
 
 import javafx.geometry.Pos
+import org.olk90.inventorymanager.logic.Config
 import org.olk90.inventorymanager.logic.controller.InventoryController
 import org.olk90.inventorymanager.logic.controller.ObjectStore
 import org.olk90.inventorymanager.model.InventoryItem
+import org.olk90.inventorymanager.view.common.PersonConverter
 import org.olk90.inventorymanager.view.common.align
 import tornadofx.*
 
-class InventoryView : View("Inventory Overview") {
+class InventoryView : View("${Config.identifierProperty.value}: Inventory") {
 
     private val controller: InventoryController by inject()
 
@@ -31,6 +33,7 @@ class InventoryView : View("Inventory Overview") {
                 column("Lender", InventoryItem::lenderProperty).apply {
                     align(Pos.CENTER)
                     pctWidth(25.0)
+                    converter(PersonConverter())
                 }
 
                 // Update the person inside the view model on selection change

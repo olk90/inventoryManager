@@ -15,7 +15,7 @@ import org.olk90.inventorymanager.view.person.PersonDataFragment
 import org.olk90.inventorymanager.view.person.PersonView
 import tornadofx.*
 import java.io.File
-import java.io.IOException
+import java.nio.file.Paths
 
 fun getWorkspaceControllerInstance(): WorkspaceController {
     return find(WorkspaceController::class)
@@ -26,12 +26,14 @@ class WorkspaceController : Controller() {
     // used for managing data containers
     val history = mutableListOf<HistoryEntry>().asObservable()
 
-    // currently opened file
-
-    fun setHistory(h: History) {
+    private fun setHistory(h: History) {
         history.clear()
         history.addAll(h.history)
         history.sortByDescending { it.lastAccessTime }
+        if (history.isNotEmpty()) {
+            Config.pathProperty.value = history.first().filePath
+            writeHistory(history)
+        }
     }
 
     fun openCreateDialog() {
@@ -48,14 +50,19 @@ class WorkspaceController : Controller() {
         }
     }
 
-    @Throws(KlaxonException::class, IOException::class)
     fun openDataContainer(documentPath: String) {
-        val dc = Klaxon().parse<DataContainer>(documentPath)
-        if (dc != null) {
-            Config.model.pathProperty.value = documentPath
-            ObjectStore.fillStore(dc.persons, dc.items)
-        } else {
-            throw IOException()
+        try {
+            val dc = Klaxon().parse<DataContainer>(File(documentPath))
+            if (dc != null) {
+                Config.model.identifierProperty.value = dc.indentifier
+                Config.model.pathProperty.value = documentPath
+                ObjectStore.fillStore(dc.persons, dc.items)
+                updateHistory(documentPath)
+            } else {
+                error("Cannot open data container", "Please check file $documentPath")
+            }
+        } catch (e: KlaxonException) {
+            error("Something went terribly wrong", e.stackTraceToString())
         }
     }
 
@@ -77,5 +84,47 @@ class WorkspaceController : Controller() {
                 ObjectStore.inventoryItems
         )
         File(Config.model.pathProperty.value).writeText(fileContent)
+    }
+
+    @Throws(KlaxonException::class)
+    fun loadConfigFile() {
+        if (!Config.configDirectory.exists()) {
+            Config.configDirectory.mkdirs()
+        }
+        val configFile = Paths.get(System.getProperty("user.home"), ".inventoryManager", "config.json").toFile()
+
+        // initial setup of the file
+        if (!configFile.exists()) {
+            writeHistory()
+        } else {
+            // load contents from existing file
+            try {
+                val history = Klaxon().parse<History>(configFile)
+                if (history != null) {
+                    setHistory(history)
+                }
+            } catch (e: KlaxonException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun writeHistory(entries: List<HistoryEntry> = emptyList()) {
+        val configFile = Paths.get(System.getProperty("user.home"), ".inventoryManager", "config.json").toFile()
+        val fileContent = json {
+            obj("history" to array(entries))
+        }.toJsonString(prettyPrint = true)
+        configFile.writeText(fileContent)
+    }
+
+    fun updateHistory(filePath: String) {
+        val entry = history.find { it.filePath == filePath }
+        if (entry != null) {
+            entry.lastAccessTime = System.currentTimeMillis()
+        } else {
+            history.add(HistoryEntry(filePath, System.currentTimeMillis()))
+        }
+        writeHistory(history)
+
     }
 }
