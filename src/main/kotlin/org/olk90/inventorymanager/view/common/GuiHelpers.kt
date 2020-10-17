@@ -9,7 +9,9 @@ import de.jensd.fx.glyphs.octicons.OctIconView
 import javafx.geometry.Pos
 import javafx.scene.control.TableColumn
 import javafx.scene.paint.Color
+import javafx.util.StringConverter
 import org.olk90.inventorymanager.model.GUIConstants
+import org.olk90.inventorymanager.model.Person
 import tornadofx.*
 
 fun icon(icon: GlyphIcons, color: Color = c(GUIConstants.DEFAULT_COLOR.color), size: Int = 17): GlyphIcon<*> {
@@ -28,4 +30,23 @@ fun icon(icon: GlyphIcons, color: Color = c(GUIConstants.DEFAULT_COLOR.color), s
 
 fun TableColumn<out Any, out Any>.align(alignment: Pos) {
     this.style += "-fx-alignment: $alignment;"
+}
+
+class PersonConverter : StringConverter<Person>() {
+
+    private val map = mutableMapOf<String, Person>()
+
+    override fun toString(person: Person?): String {
+        if (person != null) {
+            val name = "${person.firstName} ${person.lastName}"
+            map[name] = person
+            return name
+        }
+        return "<null>"
+    }
+
+    override fun fromString(name: String?): Person? {
+        return map[name]
+    }
+
 }

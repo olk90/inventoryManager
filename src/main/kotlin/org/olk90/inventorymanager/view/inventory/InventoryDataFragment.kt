@@ -3,6 +3,7 @@ package org.olk90.inventorymanager.view.inventory
 import de.jensd.fx.glyphs.octicons.OctIcon
 import org.olk90.inventorymanager.logic.controller.InventoryController
 import org.olk90.inventorymanager.logic.controller.ObjectStore
+import org.olk90.inventorymanager.view.common.PersonConverter
 import org.olk90.inventorymanager.view.common.icon
 import tornadofx.*
 
@@ -26,6 +27,8 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                     }
                     field("Lender") {
                         choicebox(controller.model.lender, ObjectStore.persons) {
+                            converter = PersonConverter()
+                            fitToParentWidth()
                         }
                     }
                 }
