@@ -1,15 +1,18 @@
 package org.olk90.inventorymanager.view.inventory
 
 import javafx.geometry.Pos
+import javafx.scene.control.cell.CheckBoxTableCell
 import org.olk90.inventorymanager.logic.Config
 import org.olk90.inventorymanager.logic.controller.InventoryController
 import org.olk90.inventorymanager.logic.controller.ObjectStore
 import org.olk90.inventorymanager.model.InventoryItem
+import org.olk90.inventorymanager.view.common.LenderCell
 import org.olk90.inventorymanager.view.common.PersonConverter
 import org.olk90.inventorymanager.view.common.align
 import tornadofx.*
+import tornadofx.controlsfx.columnfilter
 
-class InventoryView : View("${Config.identifierProperty.value}: Inventory") {
+class InventoryView : View("Inventory Overview") {
 
     private val controller: InventoryController by inject()
 
@@ -25,6 +28,7 @@ class InventoryView : View("${Config.identifierProperty.value}: Inventory") {
                 column("Available", InventoryItem::availableProperty).apply {
                     align(Pos.CENTER)
                     pctWidth(25.0)
+                    setCellFactory { CheckBoxTableCell() }
                 }
                 column("Lending Date", InventoryItem::lendingDateProperty).apply {
                     align(Pos.CENTER)
@@ -33,7 +37,9 @@ class InventoryView : View("${Config.identifierProperty.value}: Inventory") {
                 column("Lender", InventoryItem::lenderProperty).apply {
                     align(Pos.CENTER)
                     pctWidth(25.0)
-                    converter(PersonConverter())
+                    setCellFactory { LenderCell() }
+                    columnfilter {
+                    }
                 }
 
                 // Update the person inside the view model on selection change

@@ -19,9 +19,13 @@ class Person(
     val emailProperty = SimpleStringProperty(this, "email", email)
 
     val id = ObjectStore.nextPersonId()
-    var firstName by firstNameProperty
-    var lastName by lastNameProperty
-    var email by emailProperty
+    var firstName: String by firstNameProperty
+    var lastName: String by lastNameProperty
+    var email: String by emailProperty
+
+    fun getFullName(): String {
+        return "$firstName $lastName"
+    }
 
 }
 
@@ -30,5 +34,3 @@ class PersonModel(person: Person) : ItemViewModel<Person>(person) {
     val lastName = bind(Person::lastNameProperty)
     val email = bind(Person::emailProperty)
 }
-
-data class PersonSet(val persons: ArrayList<Person>)

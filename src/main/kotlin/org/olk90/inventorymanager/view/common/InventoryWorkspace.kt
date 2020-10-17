@@ -1,6 +1,7 @@
 package org.olk90.inventorymanager.view.common
 
 import de.jensd.fx.glyphs.octicons.OctIcon
+import org.olk90.inventorymanager.logic.Config
 import org.olk90.inventorymanager.logic.controller.WorkspaceController
 import org.olk90.inventorymanager.view.inventory.InventoryView
 import org.olk90.inventorymanager.view.person.PersonView
@@ -25,6 +26,15 @@ class InventoryWorkspace : Workspace() {
         }
 
         // custom buttons
+        button {
+            tooltip("Recently used data containers")
+            addClass("icon-only")
+            graphic = icon(OctIcon.HISTORY)
+            action {
+                openInternalWindow(HistoryFragment::class, closeButton = false)
+            }
+        }
+
         button {
             tooltip("Create new data container")
             addClass("icon-only")
@@ -56,13 +66,6 @@ class InventoryWorkspace : Workspace() {
             }
         }
 
-        button {
-            tooltip("Recently used data containers")
-            addClass("icon-only")
-            graphic = icon(OctIcon.HISTORY)
-            action {
-                openInternalWindow(HistoryFragment::class, closeButton = false)
-            }
-        }
+        label(Config.model.identifierProperty)
     }
 }

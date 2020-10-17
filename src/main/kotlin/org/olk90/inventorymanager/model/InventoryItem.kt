@@ -38,5 +38,3 @@ class InventoryItemModel(item: InventoryItem) : ItemViewModel<InventoryItem>(ite
     val lender = bind(InventoryItem::lenderProperty)
     val lendingDate = bind(InventoryItem::lendingDateProperty)
 }
-
-data class InventorySet(val inventory: ArrayList<InventoryItem>)

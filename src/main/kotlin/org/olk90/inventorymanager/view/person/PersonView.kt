@@ -8,7 +8,7 @@ import org.olk90.inventorymanager.model.Person
 import org.olk90.inventorymanager.view.common.align
 import tornadofx.*
 
-class PersonView : View("${Config.identifierProperty.value}: Persons") {
+class PersonView() : View("Person Overview") {
 
     private val controller: PersonController by inject()
 

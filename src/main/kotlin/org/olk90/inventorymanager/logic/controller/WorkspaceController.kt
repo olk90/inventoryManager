@@ -54,7 +54,7 @@ class WorkspaceController : Controller() {
         try {
             val dc = Klaxon().parse<DataContainer>(File(documentPath))
             if (dc != null) {
-                Config.model.identifierProperty.value = dc.indentifier
+                Config.model.identifierProperty.value = dc.identifier
                 Config.model.pathProperty.value = documentPath
                 ObjectStore.fillStore(dc.persons, dc.items)
                 updateHistory(documentPath)
@@ -79,7 +79,7 @@ class WorkspaceController : Controller() {
 
     fun writeDcFile() {
         val fileContent = buildDcFile(
-                "",
+                Config.model.identifierProperty.value,
                 ObjectStore.persons,
                 ObjectStore.inventoryItems
         )

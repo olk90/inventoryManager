@@ -13,7 +13,7 @@ class DataContainer(
     @Json(ignored = true)
     val identifierProperty = SimpleStringProperty(this, "identifier", identifier)
 
-    var indentifier by identifierProperty
+    var identifier: String by identifierProperty
 }
 
 class DataContainerModel(container: DataContainer) : ItemViewModel<DataContainer>(container) {
