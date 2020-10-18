@@ -17,6 +17,7 @@ class InventoryController : Controller() {
         i.available = item.available
         i.lender = item.lender
         i.lendingDate = item.lendingDate
+        i.lenderNameProperty.value = item.lender.getFullName()
 
         getWorkspaceControllerInstance().writeDcFile()
     }
@@ -24,6 +25,7 @@ class InventoryController : Controller() {
     fun add() {
         model.commit()
         val item = InventoryItem(model.name.value, model.available.value, model.lender.value, model.lendingDate.value)
+        item.lenderNameProperty.value =  model.lenderName.value
         ObjectStore.inventoryItems.add(item)
         getWorkspaceControllerInstance().writeDcFile()
     }

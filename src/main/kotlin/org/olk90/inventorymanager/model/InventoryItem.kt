@@ -22,6 +22,8 @@ class InventoryItem(
     @Json(ignored = true)
     val lenderProperty = SimpleObjectProperty<Person>(this, "lender", lender)
     @Json(ignored = true)
+    val lenderNameProperty = SimpleStringProperty(this, "lenderName", lender?.getFullName())
+    @Json(ignored = true)
     val lendingDateProperty = SimpleObjectProperty<LocalDate>(this, "lendingDate", lendingDate)
 
     val id = ObjectStore.nextInventoryId()
@@ -36,5 +38,6 @@ class InventoryItemModel(item: InventoryItem) : ItemViewModel<InventoryItem>(ite
     val name = bind(InventoryItem::nameProperty)
     val available = bind(InventoryItem::availableProperty)
     val lender = bind(InventoryItem::lenderProperty)
+    val lenderName = bind(InventoryItem::lenderNameProperty)
     val lendingDate = bind(InventoryItem::lendingDateProperty)
 }

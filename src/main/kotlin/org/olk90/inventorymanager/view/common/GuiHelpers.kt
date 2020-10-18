@@ -7,13 +7,10 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView
 import de.jensd.fx.glyphs.octicons.OctIcon
 import de.jensd.fx.glyphs.octicons.OctIconView
 import javafx.geometry.Pos
-import javafx.scene.control.ListCell
-import javafx.scene.control.TableCell
 import javafx.scene.control.TableColumn
 import javafx.scene.paint.Color
 import javafx.util.StringConverter
 import org.olk90.inventorymanager.model.GUIConstants
-import org.olk90.inventorymanager.model.InventoryItem
 import org.olk90.inventorymanager.model.Person
 import tornadofx.*
 
@@ -50,16 +47,5 @@ class PersonConverter : StringConverter<Person>() {
 
     override fun fromString(name: String?): Person? {
         return map[name]
-    }
-}
-
-class LenderCell : TableCell<InventoryItem, Person>() {
-
-    override fun updateItem(person: Person?, empty: Boolean) {
-        text = if (empty || person == null) {
-            ""
-        } else {
-            person.getFullName()
-        }
     }
 }

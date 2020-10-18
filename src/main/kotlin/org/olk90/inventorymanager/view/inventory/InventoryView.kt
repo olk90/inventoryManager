@@ -2,12 +2,9 @@ package org.olk90.inventorymanager.view.inventory
 
 import javafx.geometry.Pos
 import javafx.scene.control.cell.CheckBoxTableCell
-import org.olk90.inventorymanager.logic.Config
 import org.olk90.inventorymanager.logic.controller.InventoryController
 import org.olk90.inventorymanager.logic.controller.ObjectStore
 import org.olk90.inventorymanager.model.InventoryItem
-import org.olk90.inventorymanager.view.common.LenderCell
-import org.olk90.inventorymanager.view.common.PersonConverter
 import org.olk90.inventorymanager.view.common.align
 import tornadofx.*
 import tornadofx.controlsfx.columnfilter
@@ -34,12 +31,10 @@ class InventoryView : View("Inventory Overview") {
                     align(Pos.CENTER)
                     pctWidth(25.0)
                 }
-                column("Lender", InventoryItem::lenderProperty).apply {
+                column("Lender", InventoryItem::lenderNameProperty).apply {
                     align(Pos.CENTER)
                     pctWidth(25.0)
-                    setCellFactory { LenderCell() }
-                    columnfilter {
-                    }
+                    columnfilter {}
                 }
 
                 // Update the person inside the view model on selection change
