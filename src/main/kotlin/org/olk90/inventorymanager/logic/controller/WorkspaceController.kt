@@ -16,6 +16,8 @@ import org.olk90.inventorymanager.view.person.PersonView
 import tornadofx.*
 import java.io.File
 import java.nio.file.Paths
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 fun getWorkspaceControllerInstance(): WorkspaceController {
     return find(WorkspaceController::class)
@@ -54,6 +56,12 @@ class WorkspaceController : Controller() {
         try {
             val dc = Klaxon().parse<DataContainer>(File(documentPath))
             if (dc != null) {
+                dc.items.forEach {
+                    if (it.lendingDateString.isNotEmpty()) {
+                        val formatter = DateTimeFormatter.ISO_LOCAL_DATE
+                        it.lendingDate = LocalDate.parse(it.lendingDateString, formatter)
+                    }
+                }
                 Config.model.identifierProperty.value = dc.identifier
                 Config.model.pathProperty.value = documentPath
                 ObjectStore.fillStore(dc.persons, dc.items)
