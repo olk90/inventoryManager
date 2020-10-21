@@ -1,9 +1,14 @@
 package org.olk90.inventorymanager.logic.controller
 
+import javafx.collections.ObservableList
 import javafx.scene.control.TextField
 import org.olk90.inventorymanager.model.Person
 import org.olk90.inventorymanager.model.PersonModel
 import tornadofx.*
+
+fun getPersonControllerInstance(): PersonController {
+    return find(PersonController::class)
+}
 
 class PersonController : Controller() {
 
@@ -52,5 +57,18 @@ class PersonController : Controller() {
             tableItems.addAll(filteredData)
         }
 
+    }
+
+    fun delete(selectedPersons: ObservableList<Person>) {
+        selectedPersons.forEach {
+            val items = ObjectStore.inventoryItems.filter { item -> item.lender?.id == it.id }
+            if (items.isNotEmpty()) {
+                error("Cannot delete data", "${it.getFullName()} still has ${items.size} items lent")
+            } else {
+                ObjectStore.persons.remove(it)
+                tableItems.remove(it)
+            }
+        }
+        getWorkspaceControllerInstance().writeDcFile()
     }
 }

@@ -1,9 +1,14 @@
 package org.olk90.inventorymanager.logic.controller
 
+import javafx.collections.ObservableList
 import javafx.scene.control.TextField
 import org.olk90.inventorymanager.model.InventoryItem
 import org.olk90.inventorymanager.model.InventoryItemModel
 import tornadofx.*
+
+fun getInventoryControllerInstance(): InventoryController {
+    return find(InventoryController::class)
+}
 
 class InventoryController : Controller() {
 
@@ -21,14 +26,14 @@ class InventoryController : Controller() {
         i.available = item.available
         i.lender = item.lender
         i.lendingDate = item.lendingDate
-        i.lenderNameProperty.value = item.lender.getFullName()
+        i.lenderNameProperty.value = item.lender?.getFullName()
 
         getWorkspaceControllerInstance().writeDcFile()
     }
 
     fun add() {
         val item = InventoryItem(model.name.value, model.available.value, model.lender.value, model.lendingDate.value)
-        item.lenderNameProperty.value =  model.lenderName.value
+        item.lenderNameProperty.value = model.lenderName.value
         insertItem(item)
         getWorkspaceControllerInstance().writeDcFile()
     }
@@ -42,19 +47,35 @@ class InventoryController : Controller() {
         textField.textProperty().addListener { _, _, newValue ->
             tableItems.clear()
             filteredData.predicate = {
-                // If filter text is empty, display all persons.
                 val filterTextEmpty = newValue == null || newValue.isEmpty()
 
-                // Compare first name and last name of every person with filter text.
                 val lowerCaseFilter = newValue.toLowerCase()
                 val nameMatch = it.name.toLowerCase().indexOf(lowerCaseFilter) != -1
-                val lenderMatch = it.lender.getFullName().toLowerCase().indexOf(lowerCaseFilter) != -1
-                val lendingDateMatch = it.lendingDateString.toLowerCase().indexOf(lowerCaseFilter) != -1
+
+                val lenderMatch = if (it.lender != null) {
+                    it.lender.getFullName().toLowerCase().indexOf(lowerCaseFilter) != -1
+                } else {
+                    false
+                }
+
+                val lendingDateMatch = if (it.lendingDateString != null) {
+                    it.lendingDateString.toLowerCase().indexOf(lowerCaseFilter) != -1
+                } else {
+                    false
+                }
 
                 filterTextEmpty || nameMatch || lenderMatch || lendingDateMatch
             }
             tableItems.addAll(filteredData)
         }
 
+    }
+
+    fun delete(items: ObservableList<InventoryItem>) {
+        items.forEach {
+            ObjectStore.inventoryItems.remove(it)
+            tableItems.remove(it)
+        }
+        getWorkspaceControllerInstance().writeDcFile()
     }
 }

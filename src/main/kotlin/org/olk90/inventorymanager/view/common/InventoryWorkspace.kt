@@ -25,6 +25,13 @@ class InventoryWorkspace : Workspace() {
             }
         }
 
+        deleteButton.apply {
+            tooltip("Delete selected data")
+            action {
+                controller.deleteEntry(dockedComponent)
+            }
+        }
+
         // custom buttons
         button {
             tooltip("Recently used data containers")

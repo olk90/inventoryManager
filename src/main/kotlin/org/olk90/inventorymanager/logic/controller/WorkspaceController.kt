@@ -38,6 +38,22 @@ class WorkspaceController : Controller() {
         }
     }
 
+    fun deleteEntry(dockedComponent: UIComponent?) {
+        when (dockedComponent) {
+            is PersonView -> {
+                val selectedItems = dockedComponent.table.selectionModel.selectedItems
+                getPersonControllerInstance().delete(selectedItems)
+            }
+            is InventoryView -> {
+                val selectedItems = dockedComponent.table.selectionModel.selectedItems
+                getInventoryControllerInstance().delete(selectedItems)
+            }
+            else -> {
+                error("Cannot delete data", "Please open the view that shall be addressed")
+            }
+        }
+    }
+
     fun openCreateDialog() {
         when (workspace.dockedComponent) {
             is PersonView -> {

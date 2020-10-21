@@ -1,16 +1,19 @@
 package org.olk90.inventorymanager.view.inventory
 
 import javafx.geometry.Pos
+import javafx.scene.control.TableView
 import javafx.scene.control.cell.CheckBoxTableCell
 import org.olk90.inventorymanager.logic.controller.InventoryController
 import org.olk90.inventorymanager.logic.controller.ObjectStore
 import org.olk90.inventorymanager.model.InventoryItem
+import org.olk90.inventorymanager.model.Person
 import org.olk90.inventorymanager.view.common.align
 import tornadofx.*
 
 class InventoryView : View("Inventory Overview") {
 
     private val controller: InventoryController by inject()
+    lateinit var table: TableView<InventoryItem>
 
     init {
         controller.tableItems.addAll(ObjectStore.inventoryItems)
@@ -24,6 +27,7 @@ class InventoryView : View("Inventory Overview") {
                     controller.configureFilterListener(this)
                 }
                 tableview(controller.tableItems) {
+                    table = this
                     fitToParentSize()
                     columnResizePolicy = SmartResize.POLICY
 

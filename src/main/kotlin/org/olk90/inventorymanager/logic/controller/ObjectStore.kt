@@ -10,7 +10,11 @@ object ObjectStore {
     val inventoryItems = mutableListOf<InventoryItem>().asObservable()
 
     fun nextPersonId(): Int {
-        return persons.size
+        return if (persons.isEmpty()) {
+            0
+        } else {
+            persons.maxOf { it.id } + 1
+        }
     }
 
     fun findPersonById(id: Int): Person? {
@@ -18,7 +22,11 @@ object ObjectStore {
     }
 
     fun nextInventoryId(): Int {
-        return inventoryItems.size
+        return if (inventoryItems.isEmpty()) {
+            0
+        } else {
+            inventoryItems.maxOf { it.id } + 1
+        }
     }
 
     fun findInventoryById(id: Int): InventoryItem? {

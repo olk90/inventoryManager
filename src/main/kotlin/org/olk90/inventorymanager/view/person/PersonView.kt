@@ -1,6 +1,7 @@
 package org.olk90.inventorymanager.view.person
 
 import javafx.geometry.Pos
+import javafx.scene.control.TableView
 import org.olk90.inventorymanager.logic.controller.ObjectStore
 import org.olk90.inventorymanager.logic.controller.PersonController
 import org.olk90.inventorymanager.model.Person
@@ -10,6 +11,7 @@ import tornadofx.*
 class PersonView : View("Person Overview") {
 
     private val controller: PersonController by inject()
+    lateinit var table: TableView<Person>
 
     init {
         controller.tableItems.addAll(ObjectStore.persons)
@@ -23,6 +25,7 @@ class PersonView : View("Person Overview") {
                     controller.configureFilterListener(this)
                 }
                 tableview(controller.tableItems) {
+                    table = this
                     fitToParentSize()
                     columnResizePolicy = SmartResize.POLICY
 
