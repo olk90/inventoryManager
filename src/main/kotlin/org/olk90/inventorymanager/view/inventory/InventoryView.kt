@@ -50,6 +50,8 @@ class InventoryView : View("Inventory Overview") {
                         pctWidth(25.0)
                     }
 
+                    contextMenu = InventoryContextMenu(this)
+
                     // Update the person inside the view model on selection change
                     controller.model.rebindOnChange(this) {
                         item = it ?: InventoryItem()

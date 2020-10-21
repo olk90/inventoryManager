@@ -9,6 +9,7 @@ import org.olk90.inventorymanager.logic.HistoryEntry
 import org.olk90.inventorymanager.model.DataContainer
 import org.olk90.inventorymanager.model.InventoryItem
 import org.olk90.inventorymanager.model.Person
+import org.olk90.inventorymanager.view.common.InventoryWorkspace
 import org.olk90.inventorymanager.view.inventory.InventoryDataFragment
 import org.olk90.inventorymanager.view.inventory.InventoryView
 import org.olk90.inventorymanager.view.person.PersonDataFragment
@@ -150,5 +151,9 @@ class WorkspaceController : Controller() {
         }
         writeHistory(history)
 
+    }
+
+    fun getWorkspace(): InventoryWorkspace {
+        return workspace as InventoryWorkspace
     }
 }

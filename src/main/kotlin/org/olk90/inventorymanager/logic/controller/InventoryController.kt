@@ -17,28 +17,31 @@ class InventoryController : Controller() {
     private val filteredData = SortedFilteredList(ObjectStore.inventoryItems)
     val tableItems = mutableListOf<InventoryItem>().asObservable()
 
-    fun save() {
+    fun save(lendItem: Boolean = false) {
         model.commit()
 
         val item = model.item
         val i = ObjectStore.findInventoryById(item.id)!!
-        i.name = item.name
-        i.available = item.available
-        i.lender = item.lender
-        i.lendingDate = item.lendingDate
-
-        val lenderId = item.lender
-        if (lenderId > -1) {
-            val lender = ObjectStore.persons.find { it.id == lenderId }
-            i.lenderNameProperty.value = lender!!.getFullName()
+        if (lendItem) {
+            i.available = false
+            i.lender = item.lender
+            i.lendingDate = item.lendingDate
+            val lenderId = item.lender
+            if (lenderId > -1) {
+                val lender = ObjectStore.persons.find { it.id == lenderId }
+                i.lenderNameProperty.value = lender!!.getFullName()
+            }
+        } else {
+            i.name = item.name
+            i.available = item.available
         }
+
 
         getWorkspaceControllerInstance().writeDcFile()
     }
 
     fun add() {
         val item = InventoryItem(model.name.value, model.available.value, model.lendingDate.value)
-        item.lenderNameProperty.value = model.lenderName.value
         insertItem(item)
         getWorkspaceControllerInstance().writeDcFile()
     }
@@ -82,6 +85,14 @@ class InventoryController : Controller() {
             ObjectStore.inventoryItems.remove(it)
             tableItems.remove(it)
         }
+        getWorkspaceControllerInstance().writeDcFile()
+    }
+
+    fun returnItem(item: InventoryItem) {
+        item.lender = -1
+        item.lendingDate = null
+        item.lendingDateString = null
+        item.available = true
         getWorkspaceControllerInstance().writeDcFile()
     }
 }
