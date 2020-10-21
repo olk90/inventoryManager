@@ -6,7 +6,7 @@ import javafx.scene.control.cell.CheckBoxTableCell
 import org.olk90.inventorymanager.logic.controller.InventoryController
 import org.olk90.inventorymanager.logic.controller.ObjectStore
 import org.olk90.inventorymanager.model.InventoryItem
-import org.olk90.inventorymanager.model.Person
+import org.olk90.inventorymanager.view.common.PersonConverter
 import org.olk90.inventorymanager.view.common.align
 import tornadofx.*
 
@@ -44,7 +44,8 @@ class InventoryView : View("Inventory Overview") {
                         align(Pos.CENTER)
                         pctWidth(25.0)
                     }
-                    column("Lender", InventoryItem::lenderNameProperty).apply {
+                    column("Lender", InventoryItem::lenderProperty).apply {
+                        converter(PersonConverter())
                         align(Pos.CENTER)
                         pctWidth(25.0)
                     }

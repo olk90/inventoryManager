@@ -1,9 +1,7 @@
 package org.olk90.inventorymanager.model
 
 import com.beust.klaxon.Json
-import javafx.beans.property.SimpleBooleanProperty
-import javafx.beans.property.SimpleObjectProperty
-import javafx.beans.property.SimpleStringProperty
+import javafx.beans.property.*
 import org.olk90.inventorymanager.logic.controller.ObjectStore
 import tornadofx.*
 import java.time.LocalDate
@@ -11,7 +9,6 @@ import java.time.LocalDate
 class InventoryItem(
         name: String? = null,
         available: Boolean = false,
-        lender: Person? = null,
         lendingDate: LocalDate? = null,
         lendingDateString: String? = null
 ) {
@@ -23,10 +20,10 @@ class InventoryItem(
     val availableProperty = SimpleBooleanProperty(this, "available", available)
 
     @Json(ignored = true)
-    val lenderProperty = SimpleObjectProperty<Person>(this, "lender", lender)
+    val lenderProperty = SimpleIntegerProperty(this, "lender", -1)
 
     @Json(ignored = true)
-    val lenderNameProperty = SimpleStringProperty(this, "lenderName", lender?.getFullName())
+    val lenderNameProperty = SimpleStringProperty(this, "lenderName", null)
 
     @Json(ignored = true)
     val lendingDateProperty = SimpleObjectProperty<LocalDate>(this, "lendingDate", lendingDate)

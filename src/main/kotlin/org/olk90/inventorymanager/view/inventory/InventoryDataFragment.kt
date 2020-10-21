@@ -2,11 +2,8 @@ package org.olk90.inventorymanager.view.inventory
 
 import de.jensd.fx.glyphs.octicons.OctIcon
 import org.olk90.inventorymanager.logic.controller.InventoryController
-import org.olk90.inventorymanager.logic.controller.ObjectStore
-import org.olk90.inventorymanager.view.common.PersonConverter
 import org.olk90.inventorymanager.view.common.icon
 import tornadofx.*
-import java.time.format.DateTimeFormatter
 
 class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
 
@@ -23,23 +20,23 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                     field("Available") {
                         checkbox(property = controller.model.available)
                     }
-                    field("Lending date") {
-                        datepicker(controller.model.lendingDate) {
-                            setOnAction {
-                                if (value != null) {
-                                    controller.model.lendingDateString.value = value.format(DateTimeFormatter.ISO_LOCAL_DATE)
-                                } else {
-                                    controller.model.lendingDateString.value = ""
-                                }
-                            }
-                        }
-                    }
-                    field("Lender") {
-                        choicebox(controller.model.lender, ObjectStore.persons) {
-                            converter = PersonConverter()
-                            fitToParentWidth()
-                        }
-                    }
+//                    field("Lending date") {
+//                        datepicker(controller.model.lendingDate) {
+//                            setOnAction {
+//                                if (value != null) {
+//                                    controller.model.lendingDateString.value = value.format(DateTimeFormatter.ISO_LOCAL_DATE)
+//                                } else {
+//                                    controller.model.lendingDateString.value = ""
+//                                }
+//                            }
+//                        }
+//                    }
+//                    field("Lender") {
+//                        choicebox(controller.model.lender, ObjectStore.persons) {
+//                            converter = PersonConverter()
+//                            fitToParentWidth()
+//                        }
+//                    }
                 }
 
                 fieldset {

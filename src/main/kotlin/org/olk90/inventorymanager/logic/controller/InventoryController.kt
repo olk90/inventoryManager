@@ -26,13 +26,18 @@ class InventoryController : Controller() {
         i.available = item.available
         i.lender = item.lender
         i.lendingDate = item.lendingDate
-        i.lenderNameProperty.value = item.lender?.getFullName()
+
+        val lenderId = item.lender
+        if (lenderId > -1) {
+            val lender = ObjectStore.persons.find { it.id == lenderId }
+            i.lenderNameProperty.value = lender!!.getFullName()
+        }
 
         getWorkspaceControllerInstance().writeDcFile()
     }
 
     fun add() {
-        val item = InventoryItem(model.name.value, model.available.value, model.lender.value, model.lendingDate.value)
+        val item = InventoryItem(model.name.value, model.available.value, model.lendingDate.value)
         item.lenderNameProperty.value = model.lenderName.value
         insertItem(item)
         getWorkspaceControllerInstance().writeDcFile()
@@ -52,8 +57,9 @@ class InventoryController : Controller() {
                 val lowerCaseFilter = newValue.toLowerCase()
                 val nameMatch = it.name.toLowerCase().indexOf(lowerCaseFilter) != -1
 
-                val lenderMatch = if (it.lender != null) {
-                    it.lender.getFullName().toLowerCase().indexOf(lowerCaseFilter) != -1
+                val lenderMatch = if (it.lender > -1) {
+                    val lender = ObjectStore.persons.first { p -> p.id == it.lender }
+                    lender.getFullName().toLowerCase().indexOf(lowerCaseFilter) != -1
                 } else {
                     false
                 }

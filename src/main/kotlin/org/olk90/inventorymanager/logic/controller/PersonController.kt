@@ -61,9 +61,13 @@ class PersonController : Controller() {
 
     fun delete(selectedPersons: ObservableList<Person>) {
         selectedPersons.forEach {
-            val items = ObjectStore.inventoryItems.filter { item -> item.lender?.id == it.id }
+            val items = ObjectStore.inventoryItems.filter { item -> item.lender == it.id }
             if (items.isNotEmpty()) {
-                error("Cannot delete data", "${it.getFullName()} still has ${items.size} items lent")
+                if (items.size > 1) {
+                    error("Cannot delete data", "${it.getFullName()} still has ${items.size} items lent")
+                } else {
+                    error("Cannot delete data", "${it.getFullName()} still has one item lent")
+                }
             } else {
                 ObjectStore.persons.remove(it)
                 tableItems.remove(it)

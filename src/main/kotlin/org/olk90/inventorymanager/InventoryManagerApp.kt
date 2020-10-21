@@ -16,18 +16,19 @@ class InventoryManagerApp : App(InventoryWorkspace::class) {
         stage.width = 1600.0
         stage.height = 900.0
 
-        // load or create config.json to setup history
-        controller.loadConfigFile()
-        // if the history was updated properly, open the last file again
-        if (Config.pathProperty.value != Config.userHome.absolutePath) {
-            try {
+        try {
+            // load or create config.json to setup history
+            controller.loadConfigFile()
+            // if the history was updated properly, open the last file again
+            if (Config.pathProperty.value != Config.userHome.absolutePath) {
                 controller.openDataContainer(Config.pathProperty.value)
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
-        }
 
-        super.start(stage)
+            super.start(stage)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun onBeforeShow(view: UIComponent) {
