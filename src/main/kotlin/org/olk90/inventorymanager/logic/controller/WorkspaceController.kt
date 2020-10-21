@@ -57,7 +57,7 @@ class WorkspaceController : Controller() {
             val dc = Klaxon().parse<DataContainer>(File(documentPath))
             if (dc != null) {
                 dc.items.forEach {
-                    if (it.lendingDateString.isNotEmpty()) {
+                    if (!it.lendingDateString.isNullOrEmpty()) {
                         val formatter = DateTimeFormatter.ISO_LOCAL_DATE
                         it.lendingDate = LocalDate.parse(it.lendingDateString, formatter)
                     }

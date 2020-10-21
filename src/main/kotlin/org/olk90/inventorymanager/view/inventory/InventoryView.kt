@@ -7,39 +7,48 @@ import org.olk90.inventorymanager.logic.controller.ObjectStore
 import org.olk90.inventorymanager.model.InventoryItem
 import org.olk90.inventorymanager.view.common.align
 import tornadofx.*
-import tornadofx.controlsfx.columnfilter
 
 class InventoryView : View("Inventory Overview") {
 
     private val controller: InventoryController by inject()
 
+    init {
+        controller.tableItems.addAll(ObjectStore.inventoryItems)
+    }
+
     override val root = borderpane {
         center {
-            tableview(ObjectStore.inventoryItems) {
-                columnResizePolicy = SmartResize.POLICY
+            vbox {
+                textfield {
+                    promptText = "Search"
+                    controller.configureFilterListener(this)
+                }
+                tableview(controller.tableItems) {
+                    fitToParentSize()
+                    columnResizePolicy = SmartResize.POLICY
 
-                column("Name", InventoryItem::nameProperty).apply {
-                    align(Pos.CENTER)
-                    pctWidth(25.0)
-                }
-                column("Available", InventoryItem::availableProperty).apply {
-                    align(Pos.CENTER)
-                    pctWidth(25.0)
-                    setCellFactory { CheckBoxTableCell() }
-                }
-                column("Lending Date", InventoryItem::lendingDateProperty).apply {
-                    align(Pos.CENTER)
-                    pctWidth(25.0)
-                }
-                column("Lender", InventoryItem::lenderNameProperty).apply {
-                    align(Pos.CENTER)
-                    pctWidth(25.0)
-                    columnfilter {}
-                }
+                    column("Name", InventoryItem::nameProperty).apply {
+                        align(Pos.CENTER)
+                        pctWidth(25.0)
+                    }
+                    column("Available", InventoryItem::availableProperty).apply {
+                        align(Pos.CENTER)
+                        pctWidth(25.0)
+                        setCellFactory { CheckBoxTableCell() }
+                    }
+                    column("Lending Date", InventoryItem::lendingDateProperty).apply {
+                        align(Pos.CENTER)
+                        pctWidth(25.0)
+                    }
+                    column("Lender", InventoryItem::lenderNameProperty).apply {
+                        align(Pos.CENTER)
+                        pctWidth(25.0)
+                    }
 
-                // Update the person inside the view model on selection change
-                controller.model.rebindOnChange(this) {
-                    item = it ?: InventoryItem()
+                    // Update the person inside the view model on selection change
+                    controller.model.rebindOnChange(this) {
+                        item = it ?: InventoryItem()
+                    }
                 }
             }
         }

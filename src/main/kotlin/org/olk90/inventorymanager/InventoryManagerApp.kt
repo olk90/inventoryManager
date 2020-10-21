@@ -6,6 +6,7 @@ import org.olk90.inventorymanager.logic.controller.WorkspaceController
 import org.olk90.inventorymanager.view.common.InventoryWorkspace
 import org.olk90.inventorymanager.view.person.PersonView
 import tornadofx.*
+import java.lang.Exception
 
 class InventoryManagerApp : App(InventoryWorkspace::class) {
 
@@ -19,7 +20,11 @@ class InventoryManagerApp : App(InventoryWorkspace::class) {
         controller.loadConfigFile()
         // if the history was updated properly, open the last file again
         if (Config.pathProperty.value != Config.userHome.absolutePath) {
-            controller.openDataContainer(Config.pathProperty.value)
+            try {
+                controller.openDataContainer(Config.pathProperty.value)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
         super.start(stage)

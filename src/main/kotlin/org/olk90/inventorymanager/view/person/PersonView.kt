@@ -11,30 +11,40 @@ class PersonView : View("Person Overview") {
 
     private val controller: PersonController by inject()
 
+    init {
+        controller.tableItems.addAll(ObjectStore.persons)
+    }
+
     override val root = borderpane {
         center {
-            tableview(ObjectStore.persons) {
-                columnResizePolicy = SmartResize.POLICY
+            vbox {
+                textfield {
+                    promptText = "Search"
+                    controller.configureFilterListener(this)
+                }
+                tableview(controller.tableItems) {
+                    fitToParentSize()
+                    columnResizePolicy = SmartResize.POLICY
 
-                controller.personTable = this
-                column("First name", Person::firstNameProperty).apply {
-                    align(Pos.CENTER)
-                    pctWidth(33.0)
-                }
-                column("Last name", Person::lastNameProperty).apply {
-                    align(Pos.CENTER)
-                    pctWidth(33.0)
-                }
-                column("Email", Person::emailProperty).apply {
-                    align(Pos.CENTER)
-                    pctWidth(33.0)
+                    column("First name", Person::firstNameProperty).apply {
+                        align(Pos.CENTER)
+                        pctWidth(33.0)
+                    }
+                    column("Last name", Person::lastNameProperty).apply {
+                        align(Pos.CENTER)
+                        pctWidth(33.0)
+                    }
+                    column("Email", Person::emailProperty).apply {
+                        align(Pos.CENTER)
+                        pctWidth(33.0)
+                    }
+
+                    // Update the person inside the view model on selection change
+                    controller.model.rebindOnChange(this) {
+                        item = it ?: Person()
+                    }
                 }
 
-
-                // Update the person inside the view model on selection change
-                controller.model.rebindOnChange(this) {
-                    item = it ?: Person()
-                }
             }
         }
         right {

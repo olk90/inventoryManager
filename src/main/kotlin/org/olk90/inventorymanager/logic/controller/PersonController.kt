@@ -1,14 +1,16 @@
 package org.olk90.inventorymanager.logic.controller
 
-import javafx.scene.control.TableView
+import javafx.scene.control.TextField
 import org.olk90.inventorymanager.model.Person
 import org.olk90.inventorymanager.model.PersonModel
 import tornadofx.*
 
 class PersonController : Controller() {
 
-    var personTable: TableView<Person> by singleAssign()
-    val model = PersonModel(Person())
+    var model = PersonModel(Person())
+
+    private val filteredData = SortedFilteredList(ObjectStore.persons)
+    val tableItems = mutableListOf<Person>().asObservable()
 
     fun save() {
         model.commit()
@@ -23,10 +25,32 @@ class PersonController : Controller() {
     }
 
     fun add() {
-        model.commit()
         val person = Person(model.firstName.value, model.lastName.value, model.email.value)
-        ObjectStore.persons.add(person)
+        insertPerson(person)
         getWorkspaceControllerInstance().writeDcFile()
     }
 
+    private fun insertPerson(person: Person) {
+        ObjectStore.persons.add(person)
+        tableItems.add(person)
+    }
+
+    fun configureFilterListener(textField: TextField) {
+        textField.textProperty().addListener { _, _, newValue ->
+            tableItems.clear()
+            filteredData.predicate = {
+                // If filter text is empty, display all persons.
+                val filterTextEmpty = newValue == null || newValue.isEmpty()
+
+                // Compare first name and last name of every person with filter text.
+                val lowerCaseFilter = newValue.toLowerCase()
+                val firstNameMatch = it.firstName.toLowerCase().indexOf(lowerCaseFilter) != -1
+                val lastNameMatch = it.lastName.toLowerCase().indexOf(lowerCaseFilter) != -1
+
+                filterTextEmpty || firstNameMatch || lastNameMatch
+            }
+            tableItems.addAll(filteredData)
+        }
+
+    }
 }
