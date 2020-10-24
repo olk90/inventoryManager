@@ -29,6 +29,7 @@ class InventoryView : View("Inventory Overview") {
                 tableview(controller.tableItems) {
                     table = this
                     fitToParentSize()
+                    multiSelect(true)
                     columnResizePolicy = SmartResize.POLICY
 
                     column("Name", InventoryItem::nameProperty).apply {

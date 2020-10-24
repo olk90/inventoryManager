@@ -95,11 +95,13 @@ class InventoryController : Controller() {
         getWorkspaceControllerInstance().writeDcFile()
     }
 
-    fun returnItem(item: InventoryItem) {
-        item.lender = -1
-        item.lendingDate = null
-        item.lendingDateString = null
-        item.available = true
+    fun returnItems(items: List<InventoryItem>) {
+        items.forEach {
+            it.lender = -1
+            it.lendingDate = null
+            it.lendingDateString = null
+            it.available = true
+        }
         getWorkspaceControllerInstance().writeDcFile()
     }
 

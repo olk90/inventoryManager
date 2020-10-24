@@ -20,10 +20,8 @@ class InventoryContextMenu(private val table: TableView<InventoryItem>) : Contex
         }
         item("Returned").apply {
             action {
-                val item = table.selectedItem
-                if (item != null) {
-                    controller.returnItem(item)
-                }
+                val items = table.selectionModel.selectedItems
+                controller.returnItems(items)
             }
         }
     }
