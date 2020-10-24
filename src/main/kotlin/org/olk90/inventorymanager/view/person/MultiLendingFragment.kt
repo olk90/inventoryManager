@@ -10,7 +10,7 @@ import org.olk90.inventorymanager.view.common.icon
 import tornadofx.*
 import java.time.format.DateTimeFormatter
 
-class MultiLendingFragment() : Fragment() {
+class MultiLendingFragment : Fragment() {
 
     private val controller = getInventoryControllerInstance()
 

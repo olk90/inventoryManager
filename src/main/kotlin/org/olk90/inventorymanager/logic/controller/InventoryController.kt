@@ -106,19 +106,20 @@ class InventoryController : Controller() {
     }
 
     fun lendMultipleItems() {
+        multiLendingModel.commit()
+
         val lender = multiLendingModel.lender.value
         val lendingDate = multiLendingModel.lendingDate.value
+        val lendingDateString = multiLendingModel.lendingDateString.value
 
         multiLendingModel.items.forEach {
             val item = ObjectStore.findInventoryById(it.id)!!
             item.lender = lender.id
             item.available = false
             item.lendingDate = lendingDate
+            item.lendingDateString = lendingDateString
             updateLenderNameProperty(item.lender, item)
         }
-
-        // no need to keep the data in the model
-        multiLendingModel.rollback()
 
         getWorkspaceControllerInstance().writeDcFile()
     }
