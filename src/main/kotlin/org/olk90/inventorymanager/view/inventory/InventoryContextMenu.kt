@@ -1,6 +1,5 @@
 package org.olk90.inventorymanager.view.inventory
 
-import javafx.beans.property.SimpleBooleanProperty
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.TableView
 import org.olk90.inventorymanager.logic.controller.getInventoryControllerInstance

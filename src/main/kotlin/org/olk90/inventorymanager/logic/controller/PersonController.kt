@@ -75,4 +75,23 @@ class PersonController : Controller() {
         }
         getWorkspaceControllerInstance().writeDcFile()
     }
+
+    fun emailTo(person: Person) {
+        val mailto = "mailto:" + person.email
+        var cmd = ""
+        val os = System.getProperty("os.name").toLowerCase()
+        if (os.contains("win")) {
+            cmd = "cmd.exe /c start $mailto"
+        } else if (os.contains("osx")) {
+            cmd = "open $mailto"
+        } else if (os.contains("nix") || os.contains("aix") || os.contains("nux")) {
+            // NOTE: this does cause an error in KDE environment
+            cmd = "xdg-open $mailto"
+        } else {
+            error("Cannot send Email", "Unknown operating system")
+        }
+        if (cmd.isNotEmpty()) {
+            Runtime.getRuntime().exec(cmd)
+        }
+    }
 }

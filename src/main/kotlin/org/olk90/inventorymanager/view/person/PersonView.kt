@@ -42,6 +42,8 @@ class PersonView : View("Person Overview") {
                         pctWidth(33.0)
                     }
 
+                    contextMenu = PersonContextMenu(this)
+
                     // Update the person inside the view model on selection change
                     controller.model.rebindOnChange(this) {
                         item = it ?: Person()

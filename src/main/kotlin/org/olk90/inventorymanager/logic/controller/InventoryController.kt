@@ -2,8 +2,7 @@ package org.olk90.inventorymanager.logic.controller
 
 import javafx.collections.ObservableList
 import javafx.scene.control.TextField
-import org.olk90.inventorymanager.model.InventoryItem
-import org.olk90.inventorymanager.model.InventoryItemModel
+import org.olk90.inventorymanager.model.*
 import tornadofx.*
 
 fun getInventoryControllerInstance(): InventoryController {
@@ -13,6 +12,8 @@ fun getInventoryControllerInstance(): InventoryController {
 class InventoryController : Controller() {
 
     val model = InventoryItemModel(InventoryItem())
+
+    val multiLendingModel = MultiLendingModel(MultiLending())
 
     private val filteredData = SortedFilteredList(ObjectStore.inventoryItems)
     val tableItems = mutableListOf<InventoryItem>().asObservable()
@@ -27,10 +28,7 @@ class InventoryController : Controller() {
             i.lender = item.lender
             i.lendingDate = item.lendingDate
             val lenderId = item.lender
-            if (lenderId > -1) {
-                val lender = ObjectStore.persons.find { it.id == lenderId }
-                i.lenderNameProperty.value = lender!!.getFullName()
-            }
+            updateLenderNameProperty(lenderId, i)
         } else {
             i.name = item.name
             i.available = item.available
@@ -38,6 +36,15 @@ class InventoryController : Controller() {
 
 
         getWorkspaceControllerInstance().writeDcFile()
+    }
+
+    private fun updateLenderNameProperty(lenderId: Int, item: InventoryItem) {
+        if (lenderId > -1) {
+            val lender = ObjectStore.persons.find { it.id == lenderId }
+            item.lenderNameProperty.value = lender!!.getFullName()
+        } else {
+            item.lenderNameProperty.value = ""
+        }
     }
 
     fun add() {
@@ -93,6 +100,24 @@ class InventoryController : Controller() {
         item.lendingDate = null
         item.lendingDateString = null
         item.available = true
+        getWorkspaceControllerInstance().writeDcFile()
+    }
+
+    fun lendMultipleItems() {
+        val lender = multiLendingModel.lender.value
+        val lendingDate = multiLendingModel.lendingDate.value
+
+        multiLendingModel.items.forEach {
+            val item = ObjectStore.findInventoryById(it.id)!!
+            item.lender = lender.id
+            item.available = false
+            item.lendingDate = lendingDate
+            updateLenderNameProperty(item.lender, item)
+        }
+
+        // no need to keep the data in the model
+        multiLendingModel.rollback()
+
         getWorkspaceControllerInstance().writeDcFile()
     }
 }
