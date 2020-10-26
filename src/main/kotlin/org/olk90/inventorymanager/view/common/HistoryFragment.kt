@@ -6,8 +6,9 @@ import javafx.scene.control.ListView
 import org.olk90.inventorymanager.logic.HistoryEntry
 import org.olk90.inventorymanager.logic.controller.WorkspaceController
 import tornadofx.*
+import tornadofx.FX.Companion.messages
 
-class HistoryFragment : Fragment("Recently used data containers") {
+class HistoryFragment : Fragment(messages["label.usedContainers"]) {
 
     private val controller: WorkspaceController by inject()
     private var listView: ListView<HistoryEntry> by singleAssign()
@@ -36,7 +37,7 @@ class HistoryFragment : Fragment("Recently used data containers") {
         bottom {
             buttonbar {
                 button {
-                    tooltip("Open selected file")
+                    tooltip(messages["tooltip.openFile"])
                     addClass("icon-only")
                     graphic = icon(OctIcon.CHECK)
                     enableWhen(listView.selectionModel.selectedItemProperty().isNotNull)
@@ -48,7 +49,7 @@ class HistoryFragment : Fragment("Recently used data containers") {
                     }
                 }
                 button {
-                    tooltip("Cancel")
+                    tooltip(messages["tooltip.cancel"])
                     addClass("icon-only")
                     graphic = icon(OctIcon.X)
                     action {

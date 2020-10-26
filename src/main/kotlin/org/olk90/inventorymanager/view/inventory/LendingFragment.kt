@@ -18,7 +18,7 @@ class LendingFragment(private val table: TableView<InventoryItem>) : Fragment() 
         center {
             form {
                 fieldset {
-                    field("Lending date") {
+                    field(messages["inventoryItem.lendingDate"]) {
                         datepicker(controller.model.lendingDate) {
                             setOnAction {
                                 if (value != null) {
@@ -29,7 +29,7 @@ class LendingFragment(private val table: TableView<InventoryItem>) : Fragment() 
                             }
                         }
                     }
-                    field("Lender") {
+                    field(messages["inventoryItem.lender"]) {
                         choicebox(controller.model.lender, ObjectStore.persons.map { it.id }.asObservable()) {
                             converter = PersonConverter()
                             fitToParentWidth()
@@ -39,7 +39,7 @@ class LendingFragment(private val table: TableView<InventoryItem>) : Fragment() 
                 fieldset {
                     buttonbar {
                         button {
-                            tooltip("Save")
+                            tooltip(messages["tooltip.save"])
                             addClass("icon-only")
                             graphic = icon(OctIcon.CHECK)
                             enableWhen(controller.model.dirty)
@@ -48,12 +48,12 @@ class LendingFragment(private val table: TableView<InventoryItem>) : Fragment() 
                                     controller.save(true)
                                     close()
                                 } else {
-                                    error("No item selected")
+                                    error(messages["error.header.device"])
                                 }
                             }
                         }
                         button {
-                            tooltip("Reset")
+                            tooltip(messages["tooltip.reset"])
                             addClass("icon-only")
                             graphic = icon(OctIcon.X)
                             enableWhen(controller.model.dirty)

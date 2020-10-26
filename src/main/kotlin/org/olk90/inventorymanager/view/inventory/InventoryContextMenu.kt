@@ -6,19 +6,20 @@ import org.olk90.inventorymanager.logic.controller.getInventoryControllerInstanc
 import org.olk90.inventorymanager.logic.controller.getWorkspaceControllerInstance
 import org.olk90.inventorymanager.model.InventoryItem
 import tornadofx.*
+import tornadofx.FX.Companion.messages
 
 class InventoryContextMenu(private val table: TableView<InventoryItem>) : ContextMenu() {
 
     private val controller = getInventoryControllerInstance()
 
     init {
-        item("Lend").apply {
+        item(messages["contextmenu.lend"]).apply {
             action {
                 val fragment = LendingFragment(table)
                 getWorkspaceControllerInstance().getWorkspace().openInternalWindow(fragment, closeButton = false)
             }
         }
-        item("Returned").apply {
+        item(messages["contextmenu.returned"]).apply {
             action {
                 val items = table.selectionModel.selectedItems
                 controller.returnItems(items)

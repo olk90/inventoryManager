@@ -12,12 +12,12 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
     override val root = borderpane {
         center {
             form {
-                val title = if (create) "Add item" else "Edit item"
+                val title = if (create) messages["label.addItem"] else messages["label.editItem"]
                 fieldset(title) {
-                    field("Name") {
+                    field(messages["inventoryItem.name"]) {
                         textfield(controller.model.name)
                     }
-                    field("Available") {
+                    field(messages["inventoryItem.available"]) {
                         checkbox(property = controller.model.available)
                     }
                 }
@@ -25,7 +25,7 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                 fieldset {
                     buttonbar {
                         button {
-                            tooltip("Save")
+                            tooltip(messages["tooltip.save"])
                             addClass("icon-only")
                             graphic = icon(OctIcon.CHECK)
                             enableWhen(controller.model.dirty)
@@ -39,7 +39,7 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                             }
                         }
                         button {
-                            tooltip("Reset")
+                            tooltip(messages["tooltip.reset"])
                             addClass("icon-only")
                             graphic = icon(OctIcon.X)
                             enableWhen(controller.model.dirty)

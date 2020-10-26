@@ -12,15 +12,15 @@ class PersonDataFragment(private val create: Boolean = false) : Fragment() {
     override val root = borderpane {
         center {
             form {
-                val title = if (create) "Add user" else "Edit user"
+                val title = if (create) messages["label.addUser"] else messages["label.editUser"]
                 fieldset(title) {
-                    field("First name") {
+                    field(messages["person.firstName"]) {
                         textfield(controller.model.firstName)
                     }
-                    field("Last name") {
+                    field(messages["person.lastName"]) {
                         textfield(controller.model.lastName)
                     }
-                    field("Email") {
+                    field(messages["person.email"]) {
                         textfield(controller.model.email)
                     }
                 }
@@ -28,7 +28,7 @@ class PersonDataFragment(private val create: Boolean = false) : Fragment() {
                 fieldset {
                     buttonbar {
                         button {
-                            tooltip("Save")
+                            tooltip(messages["tooltip.save"])
                             addClass("icon-only")
                             graphic = icon(OctIcon.CHECK)
                             enableWhen(controller.model.dirty)
@@ -42,7 +42,7 @@ class PersonDataFragment(private val create: Boolean = false) : Fragment() {
                             }
                         }
                         button {
-                            tooltip("Reset")
+                            tooltip(messages["tooltip.reset"])
                             addClass("icon-only")
                             graphic = icon(OctIcon.X)
                             enableWhen(controller.model.dirty)

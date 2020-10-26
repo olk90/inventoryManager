@@ -64,9 +64,9 @@ class PersonController : Controller() {
             val items = ObjectStore.inventoryItems.filter { item -> item.lender == it.id }
             if (items.isNotEmpty()) {
                 if (items.size > 1) {
-                    error("Cannot delete data", "${it.getFullName()} still has ${items.size} items lent")
+                    error(messages["error.header.delete"], "${it.getFullName()} still has ${items.size} items lent")
                 } else {
-                    error("Cannot delete data", "${it.getFullName()} still has one item lent")
+                    error(messages["error.header.delete"], "${it.getFullName()} still has one item lent")
                 }
             } else {
                 ObjectStore.persons.remove(it)
@@ -88,7 +88,7 @@ class PersonController : Controller() {
             // NOTE: this does cause an error in KDE environment
             cmd = "xdg-open $mailto"
         } else {
-            error("Cannot send Email", "Unknown operating system")
+            error(messages["error.header.email"], "Unknown operating system")
         }
         if (cmd.isNotEmpty()) {
             Runtime.getRuntime().exec(cmd)

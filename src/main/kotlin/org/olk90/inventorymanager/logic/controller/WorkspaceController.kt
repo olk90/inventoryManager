@@ -50,7 +50,7 @@ class WorkspaceController : Controller() {
                 getInventoryControllerInstance().delete(selectedItems)
             }
             else -> {
-                error("Cannot delete data", "Please open the view that shall be addressed")
+                error(messages["error.header.delete"], "Please open the view that shall be addressed")
             }
         }
     }
@@ -64,7 +64,7 @@ class WorkspaceController : Controller() {
                 workspace.openInternalWindow(InventoryDataFragment(true), closeButton = false)
             }
             else -> {
-                error("Cannot add data", "Please open the view that shall be addressed")
+                error(messages["error.header.add"], "Please open the view that shall be addressed")
             }
         }
     }
@@ -84,10 +84,10 @@ class WorkspaceController : Controller() {
                 ObjectStore.fillStore(dc.persons, dc.items)
                 updateHistory(documentPath)
             } else {
-                error("Cannot open data container", "Please check file $documentPath")
+                error(messages["error.header.open"], "Please check file $documentPath")
             }
         } catch (e: KlaxonException) {
-            error("Something went terribly wrong", e.stackTraceToString())
+            error(messages["error.header.exception"], e.stackTraceToString())
         }
     }
 

@@ -20,7 +20,7 @@ class MultiLendingFragment : Fragment() {
         center {
             form {
                 fieldset {
-                    field("Lending date") {
+                    field(messages["inventoryItem.lendingDate"]) {
                         datepicker(controller.multiLendingModel.lendingDate) {
                             setOnAction {
                                 if (value != null) {
@@ -31,7 +31,7 @@ class MultiLendingFragment : Fragment() {
                             }
                         }
                     }
-                    field("Items") {
+                    field(messages["label.devices"]) {
                         listview(ObjectStore.inventoryItems.filter { it.available }.asObservable()) {
                             listView = this
                             multiSelect(true)
@@ -49,7 +49,7 @@ class MultiLendingFragment : Fragment() {
                 fieldset {
                     buttonbar {
                         button {
-                            tooltip("Save")
+                            tooltip(messages["tooltip.save"])
                             addClass("icon-only")
                             graphic = icon(OctIcon.CHECK)
                             enableWhen(controller.multiLendingModel.dirty)
@@ -59,12 +59,12 @@ class MultiLendingFragment : Fragment() {
                                     controller.lendMultipleItems()
                                     close()
                                 } else {
-                                    error("No item selected")
+                                    error(messages["error.header.device"])
                                 }
                             }
                         }
                         button {
-                            tooltip("Reset")
+                            tooltip(messages["tooltip.reset"])
                             addClass("icon-only")
                             graphic = icon(OctIcon.X)
                             enableWhen(controller.multiLendingModel.dirty)
