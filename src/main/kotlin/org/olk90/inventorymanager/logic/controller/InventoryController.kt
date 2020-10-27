@@ -2,7 +2,10 @@ package org.olk90.inventorymanager.logic.controller
 
 import javafx.collections.ObservableList
 import javafx.scene.control.TextField
-import org.olk90.inventorymanager.model.*
+import org.olk90.inventorymanager.model.InventoryItem
+import org.olk90.inventorymanager.model.InventoryItemModel
+import org.olk90.inventorymanager.model.MultiLending
+import org.olk90.inventorymanager.model.MultiLendingModel
 import tornadofx.*
 
 fun getInventoryControllerInstance(): InventoryController {

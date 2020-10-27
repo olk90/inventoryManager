@@ -4,6 +4,7 @@ import javafx.collections.ObservableList
 import javafx.scene.control.TextField
 import org.olk90.inventorymanager.model.Person
 import org.olk90.inventorymanager.model.PersonModel
+import org.olk90.inventorymanager.view.common.messages
 import tornadofx.*
 
 fun getPersonControllerInstance(): PersonController {
@@ -64,9 +65,9 @@ class PersonController : Controller() {
             val items = ObjectStore.inventoryItems.filter { item -> item.lender == it.id }
             if (items.isNotEmpty()) {
                 if (items.size > 1) {
-                    error(messages["error.header.delete"], "${it.getFullName()} still has ${items.size} items lent")
+                    error(messages("error.header.delete"), messages("error.content.multipleItemsLent", it.getFullName(), items.size))
                 } else {
-                    error(messages["error.header.delete"], "${it.getFullName()} still has one item lent")
+                    error(messages("error.header.delete"), messages("error.content.singleItemLent", it.getFullName()))
                 }
             } else {
                 ObjectStore.persons.remove(it)
@@ -88,7 +89,7 @@ class PersonController : Controller() {
             // NOTE: this does cause an error in KDE environment
             cmd = "xdg-open $mailto"
         } else {
-            error(messages["error.header.email"], "Unknown operating system")
+            error(messages("error.header.email"), messages("error.content.osUnknown"))
         }
         if (cmd.isNotEmpty()) {
             Runtime.getRuntime().exec(cmd)

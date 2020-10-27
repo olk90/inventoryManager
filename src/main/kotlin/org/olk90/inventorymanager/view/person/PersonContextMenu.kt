@@ -6,15 +6,15 @@ import org.olk90.inventorymanager.logic.controller.getInventoryControllerInstanc
 import org.olk90.inventorymanager.logic.controller.getPersonControllerInstance
 import org.olk90.inventorymanager.logic.controller.getWorkspaceControllerInstance
 import org.olk90.inventorymanager.model.Person
+import org.olk90.inventorymanager.view.common.messages
 import tornadofx.*
-import tornadofx.FX.Companion.messages
 
 class PersonContextMenu(private val table: TableView<Person>) : ContextMenu() {
 
     private val controller = getPersonControllerInstance()
 
     init {
-        item(messages["contextmenu.lendDevices"]).apply {
+        item(messages("contextmenu.lendDevices")).apply {
             action {
                 val fragment = MultiLendingFragment()
                 getInventoryControllerInstance().multiLendingModel.lender.value = table.selectedItem!!
@@ -22,7 +22,7 @@ class PersonContextMenu(private val table: TableView<Person>) : ContextMenu() {
             }
             disableWhen(table.selectionModel.selectedItemProperty().isNull)
         }
-        item(messages["contextmenu.emailTo"]).apply {
+        item(messages("contextmenu.emailTo")).apply {
             action {
                 val person = table.selectedItem
                 if (person != null) {

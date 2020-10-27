@@ -1,11 +1,7 @@
 package org.olk90.inventorymanager.logic
 
-import com.beust.klaxon.Klaxon
-import com.beust.klaxon.KlaxonException
-import com.beust.klaxon.json
 import javafx.beans.property.SimpleStringProperty
 import javafx.stage.FileChooser
-import org.olk90.inventorymanager.logic.controller.getWorkspaceControllerInstance
 import org.olk90.inventorymanager.model.FileExtension
 import org.olk90.inventorymanager.view.common.WorkspaceViewModel
 import java.io.File

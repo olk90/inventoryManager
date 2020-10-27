@@ -7,6 +7,7 @@ import org.olk90.inventorymanager.logic.controller.getInventoryControllerInstanc
 import org.olk90.inventorymanager.model.InventoryItem
 import org.olk90.inventorymanager.view.common.ItemListCell
 import org.olk90.inventorymanager.view.common.icon
+import org.olk90.inventorymanager.view.common.messages
 import tornadofx.*
 import java.time.format.DateTimeFormatter
 
@@ -20,7 +21,7 @@ class MultiLendingFragment : Fragment() {
         center {
             form {
                 fieldset {
-                    field(messages["inventoryItem.lendingDate"]) {
+                    field(messages("inventoryItem.lendingDate")) {
                         datepicker(controller.multiLendingModel.lendingDate) {
                             setOnAction {
                                 if (value != null) {
@@ -31,7 +32,7 @@ class MultiLendingFragment : Fragment() {
                             }
                         }
                     }
-                    field(messages["label.devices"]) {
+                    field(messages("label.devices")) {
                         listview(ObjectStore.inventoryItems.filter { it.available }.asObservable()) {
                             listView = this
                             multiSelect(true)
@@ -49,7 +50,7 @@ class MultiLendingFragment : Fragment() {
                 fieldset {
                     buttonbar {
                         button {
-                            tooltip(messages["tooltip.save"])
+                            tooltip(messages("tooltip.save"))
                             addClass("icon-only")
                             graphic = icon(OctIcon.CHECK)
                             enableWhen(controller.multiLendingModel.dirty)
@@ -59,12 +60,12 @@ class MultiLendingFragment : Fragment() {
                                     controller.lendMultipleItems()
                                     close()
                                 } else {
-                                    error(messages["error.header.device"])
+                                    error(messages("error.header.device"))
                                 }
                             }
                         }
                         button {
-                            tooltip(messages["tooltip.reset"])
+                            tooltip(messages("tooltip.reset"))
                             addClass("icon-only")
                             graphic = icon(OctIcon.X)
                             enableWhen(controller.multiLendingModel.dirty)

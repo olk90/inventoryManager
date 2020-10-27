@@ -6,8 +6,6 @@ import org.olk90.inventorymanager.logic.controller.WorkspaceController
 import org.olk90.inventorymanager.view.common.InventoryWorkspace
 import org.olk90.inventorymanager.view.person.PersonView
 import tornadofx.*
-import tornadofx.FX.Companion.messages
-import java.lang.Exception
 import java.util.*
 
 class InventoryManagerApp : App(InventoryWorkspace::class) {
@@ -15,7 +13,7 @@ class InventoryManagerApp : App(InventoryWorkspace::class) {
     private val controller: WorkspaceController by inject()
 
     init {
-        messages = ResourceBundle.getBundle("Messages")
+        FX.locale = Locale.GERMAN
     }
 
     override fun start(stage: Stage) {

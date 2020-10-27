@@ -19,14 +19,14 @@ class InventoryWorkspace : Workspace() {
         saveButton.hide()
 
         createButton.apply {
-            tooltip(messages["tooltip.insertData"])
+            tooltip(messages("tooltip.insertData"))
             action {
                 controller.openCreateDialog()
             }
         }
 
         deleteButton.apply {
-            tooltip(messages["tooltip.deleteData"])
+            tooltip(messages("tooltip.deleteData"))
             action {
                 controller.deleteEntry(dockedComponent)
             }
@@ -34,7 +34,7 @@ class InventoryWorkspace : Workspace() {
 
         // custom buttons
         button {
-            tooltip(messages["tooltip.usedContainers"])
+            tooltip(messages("tooltip.usedContainers"))
             addClass("icon-only")
             graphic = icon(OctIcon.HISTORY)
             action {
@@ -43,7 +43,7 @@ class InventoryWorkspace : Workspace() {
         }
 
         button {
-            tooltip(messages["tooltip.newContainer"])
+            tooltip(messages("tooltip.newContainer"))
             addClass("icon-only")
             graphic = icon(OctIcon.DATABASE)
             action {
@@ -52,7 +52,7 @@ class InventoryWorkspace : Workspace() {
         }
 
         button {
-            tooltip(messages["tooltip.personOverview"])
+            tooltip(messages("tooltip.personOverview"))
             addClass("icon-only")
             graphic = icon(OctIcon.PERSON)
             action {
@@ -63,7 +63,7 @@ class InventoryWorkspace : Workspace() {
         }
 
         button {
-            tooltip(messages["tooltip.inventoryOverview"])
+            tooltip(messages("tooltip.inventoryOverview"))
             addClass("icon-only")
             graphic = icon(OctIcon.TOOLS)
             action {

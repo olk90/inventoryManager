@@ -15,6 +15,8 @@ import org.olk90.inventorymanager.logic.controller.ObjectStore
 import org.olk90.inventorymanager.model.GUIConstants
 import org.olk90.inventorymanager.model.InventoryItem
 import tornadofx.*
+import java.text.MessageFormat
+import java.util.*
 
 fun icon(icon: GlyphIcons, color: Color = c(GUIConstants.DEFAULT_COLOR.color), size: Int = 17): GlyphIcon<*> {
 
@@ -32,6 +34,11 @@ fun icon(icon: GlyphIcons, color: Color = c(GUIConstants.DEFAULT_COLOR.color), s
 
 fun TableColumn<out Any, out Any>.align(alignment: Pos) {
     this.style += "-fx-alignment: $alignment;"
+}
+
+fun messages(key: String, vararg args: Any?): String {
+    val bundle: ResourceBundle = ResourceBundle.getBundle("Messages", FX.locale)
+    return MessageFormat.format(bundle.getString(key), *args)
 }
 
 class PersonConverter : StringConverter<Number>() {
