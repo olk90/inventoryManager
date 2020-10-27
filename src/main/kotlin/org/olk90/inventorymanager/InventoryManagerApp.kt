@@ -6,7 +6,6 @@ import org.olk90.inventorymanager.logic.controller.WorkspaceController
 import org.olk90.inventorymanager.view.common.InventoryWorkspace
 import org.olk90.inventorymanager.view.person.PersonView
 import tornadofx.*
-import java.util.*
 
 class InventoryManagerApp : App(InventoryWorkspace::class) {
 
