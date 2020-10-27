@@ -8,11 +8,9 @@ import org.olk90.inventorymanager.model.DataContainer
 import org.olk90.inventorymanager.model.DataContainerModel
 import org.olk90.inventorymanager.model.FileExtension
 import tornadofx.*
-import tornadofx.FX.Companion.messages
 import java.io.File
-import java.util.*
 
-class DataContainerFragment : Fragment(messages["label.newContainer"]) {
+class DataContainerFragment : Fragment(messages("label.newContainer")) {
 
     private val controller: WorkspaceController by inject()
     val model = DataContainerModel(DataContainer())
@@ -21,7 +19,7 @@ class DataContainerFragment : Fragment(messages["label.newContainer"]) {
         center {
             form {
                 fieldset {
-                    field(messages["label.identifier"]) {
+                    field(messages("label.identifier")) {
                         textfield(model.identifier)
                     }
                 }
@@ -31,7 +29,7 @@ class DataContainerFragment : Fragment(messages["label.newContainer"]) {
         bottom {
             buttonbar {
                 button {
-                    tooltip(messages["tooltip.createContainer"])
+                    tooltip(messages("tooltip.createContainer"))
                     addClass("icon-only")
                     graphic = icon(OctIcon.CHECK)
                     action {
@@ -62,7 +60,7 @@ class DataContainerFragment : Fragment(messages["label.newContainer"]) {
                     }
                 }
                 button {
-                    tooltip(messages["tooltip.cancel"])
+                    tooltip(messages("tooltip.cancel"))
                     addClass("icon-only")
                     graphic = icon(OctIcon.X)
                     action {

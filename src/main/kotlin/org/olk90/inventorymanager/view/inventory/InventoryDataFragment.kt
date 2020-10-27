@@ -3,6 +3,7 @@ package org.olk90.inventorymanager.view.inventory
 import de.jensd.fx.glyphs.octicons.OctIcon
 import org.olk90.inventorymanager.logic.controller.InventoryController
 import org.olk90.inventorymanager.view.common.icon
+import org.olk90.inventorymanager.view.common.messages
 import tornadofx.*
 
 class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
@@ -12,12 +13,12 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
     override val root = borderpane {
         center {
             form {
-                val title = if (create) messages["label.addItem"] else messages["label.editItem"]
+                val title = if (create) messages("label.addItem") else messages("label.editItem")
                 fieldset(title) {
-                    field(messages["inventoryItem.name"]) {
+                    field(messages("inventoryItem.name")) {
                         textfield(controller.model.name)
                     }
-                    field(messages["inventoryItem.available"]) {
+                    field(messages("inventoryItem.available")) {
                         checkbox(property = controller.model.available)
                     }
                 }
@@ -25,7 +26,7 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                 fieldset {
                     buttonbar {
                         button {
-                            tooltip(messages["tooltip.save"])
+                            tooltip(messages("tooltip.save"))
                             addClass("icon-only")
                             graphic = icon(OctIcon.CHECK)
                             enableWhen(controller.model.dirty)
@@ -39,7 +40,7 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                             }
                         }
                         button {
-                            tooltip(messages["tooltip.reset"])
+                            tooltip(messages("tooltip.reset"))
                             addClass("icon-only")
                             graphic = icon(OctIcon.X)
                             enableWhen(controller.model.dirty)

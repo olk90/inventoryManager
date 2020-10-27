@@ -10,6 +10,7 @@ import org.olk90.inventorymanager.model.DataContainer
 import org.olk90.inventorymanager.model.InventoryItem
 import org.olk90.inventorymanager.model.Person
 import org.olk90.inventorymanager.view.common.InventoryWorkspace
+import org.olk90.inventorymanager.view.common.messages
 import org.olk90.inventorymanager.view.inventory.InventoryDataFragment
 import org.olk90.inventorymanager.view.inventory.InventoryView
 import org.olk90.inventorymanager.view.person.PersonDataFragment
@@ -50,7 +51,7 @@ class WorkspaceController : Controller() {
                 getInventoryControllerInstance().delete(selectedItems)
             }
             else -> {
-                error(messages["error.header.delete"], "Please open the view that shall be addressed")
+                error(messages("error.header.delete"), messages("error.content.view"))
             }
         }
     }
@@ -64,7 +65,7 @@ class WorkspaceController : Controller() {
                 workspace.openInternalWindow(InventoryDataFragment(true), closeButton = false)
             }
             else -> {
-                error(messages["error.header.add"], "Please open the view that shall be addressed")
+                error(messages("error.header.add"), messages("error.content.view"))
             }
         }
     }
@@ -84,10 +85,10 @@ class WorkspaceController : Controller() {
                 ObjectStore.fillStore(dc.persons, dc.items)
                 updateHistory(documentPath)
             } else {
-                error(messages["error.header.open"], "Please check file $documentPath")
+                error(messages("error.header.open"), messages("error.content.path", documentPath))
             }
         } catch (e: KlaxonException) {
-            error(messages["error.header.exception"], e.stackTraceToString())
+            error(messages("error.header.exception"), e.stackTraceToString())
         }
     }
 

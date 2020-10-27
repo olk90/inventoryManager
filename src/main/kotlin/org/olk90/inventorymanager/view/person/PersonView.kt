@@ -6,17 +6,15 @@ import org.olk90.inventorymanager.logic.controller.ObjectStore
 import org.olk90.inventorymanager.logic.controller.PersonController
 import org.olk90.inventorymanager.model.Person
 import org.olk90.inventorymanager.view.common.align
+import org.olk90.inventorymanager.view.common.messages
 import tornadofx.*
-import tornadofx.FX.Companion.messages
-import java.util.*
 
-class PersonView : View(messages["label.personOverview"]) {
+class PersonView : View(messages("label.personOverview")) {
 
     private val controller: PersonController by inject()
     lateinit var table: TableView<Person>
 
     init {
-        messages = ResourceBundle.getBundle("Messages")
         controller.tableItems.addAll(ObjectStore.persons)
     }
 
@@ -24,7 +22,7 @@ class PersonView : View(messages["label.personOverview"]) {
         center {
             vbox {
                 textfield {
-                    promptText = messages["label.search"]
+                    promptText = messages("label.search")
                     controller.configureFilterListener(this)
                 }
                 tableview(controller.tableItems) {
@@ -32,15 +30,15 @@ class PersonView : View(messages["label.personOverview"]) {
                     fitToParentSize()
                     columnResizePolicy = SmartResize.POLICY
 
-                    column(messages["person.firstName"], Person::firstNameProperty).apply {
+                    column(messages("person.firstName"), Person::firstNameProperty).apply {
                         align(Pos.CENTER)
                         pctWidth(33.0)
                     }
-                    column(messages["person.lastName"], Person::lastNameProperty).apply {
+                    column(messages("person.lastName"), Person::lastNameProperty).apply {
                         align(Pos.CENTER)
                         pctWidth(33.0)
                     }
-                    column(messages["person.email"], Person::emailProperty).apply {
+                    column(messages("person.email"), Person::emailProperty).apply {
                         align(Pos.CENTER)
                         pctWidth(33.0)
                     }

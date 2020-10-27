@@ -8,10 +8,10 @@ import org.olk90.inventorymanager.logic.controller.ObjectStore
 import org.olk90.inventorymanager.model.InventoryItem
 import org.olk90.inventorymanager.view.common.PersonConverter
 import org.olk90.inventorymanager.view.common.align
+import org.olk90.inventorymanager.view.common.messages
 import tornadofx.*
-import tornadofx.FX.Companion.messages
 
-class InventoryView : View(messages["label.inventoryOverview"]) {
+class InventoryView : View(messages("label.inventoryOverview")) {
 
     private val controller: InventoryController by inject()
     lateinit var table: TableView<InventoryItem>
@@ -24,7 +24,7 @@ class InventoryView : View(messages["label.inventoryOverview"]) {
         center {
             vbox {
                 textfield {
-                    promptText = messages["label.search"]
+                    promptText = messages("label.search")
                     controller.configureFilterListener(this)
                 }
                 tableview(controller.tableItems) {
@@ -33,20 +33,20 @@ class InventoryView : View(messages["label.inventoryOverview"]) {
                     multiSelect(true)
                     columnResizePolicy = SmartResize.POLICY
 
-                    column(messages["inventoryItem.name"], InventoryItem::nameProperty).apply {
+                    column(messages("inventoryItem.name"), InventoryItem::nameProperty).apply {
                         align(Pos.CENTER)
                         pctWidth(25.0)
                     }
-                    column(messages["inventoryItem.available"], InventoryItem::availableProperty).apply {
+                    column(messages("inventoryItem.available"), InventoryItem::availableProperty).apply {
                         align(Pos.CENTER)
                         pctWidth(25.0)
                         setCellFactory { CheckBoxTableCell() }
                     }
-                    column(messages["inventoryItem.lendingDate"], InventoryItem::lendingDateProperty).apply {
+                    column(messages("inventoryItem.lendingDate"), InventoryItem::lendingDateProperty).apply {
                         align(Pos.CENTER)
                         pctWidth(25.0)
                     }
-                    column(messages["inventoryItem.lender"], InventoryItem::lenderProperty).apply {
+                    column(messages("inventoryItem.lender"), InventoryItem::lenderProperty).apply {
                         converter(PersonConverter())
                         align(Pos.CENTER)
                         pctWidth(25.0)
