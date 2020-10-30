@@ -13,7 +13,9 @@ class InventoryItem(
         name: String? = null,
         available: Boolean = false,
         lendingDate: LocalDate? = null,
-        lendingDateString: String? = null
+        lendingDateString: String? = null,
+        nextMot: LocalDate? = null,
+        nextMotString: String? = null
 ) {
 
     @Json(ignored = true)
@@ -32,9 +34,16 @@ class InventoryItem(
     val lendingDateProperty = SimpleObjectProperty<LocalDate>(this, "lendingDate", lendingDate)
 
     @Json(ignored = true)
-    val lendingDateStringProperty = SimpleStringProperty(this, "lendingDate", lendingDateString)
+    val lendingDateStringProperty = SimpleStringProperty(this, "lendingDateString", lendingDateString)
+
+    @Json(ignored = true)
+    val nextMotProperty = SimpleObjectProperty<LocalDate>(this, "nextMot", nextMot)
+
+    @Json(ignored = true)
+    val nextMotStringProperty = SimpleStringProperty(this, "nextMotString", nextMotString)
 
     val id = ObjectStore.nextInventoryId()
+
     var name by nameProperty
     var available by availableProperty
     var lender by lenderProperty
@@ -45,13 +54,20 @@ class InventoryItem(
     @Json(name = "lendingDate")
     var lendingDateString by lendingDateStringProperty
 
+    @Json(ignored = true)
+    var nextMot by nextMotProperty
+
+    @Json(name = "nextMot")
+    var nextMotString by nextMotStringProperty
+
 }
 
 class InventoryItemModel(item: InventoryItem) : ItemViewModel<InventoryItem>(item) {
     val name = bind(InventoryItem::nameProperty)
     val available = bind(InventoryItem::availableProperty)
     val lender = bind(InventoryItem::lenderProperty)
-    val lenderName = bind(InventoryItem::lenderNameProperty)
     val lendingDate = bind(InventoryItem::lendingDateProperty)
     val lendingDateString = bind(InventoryItem::lendingDateStringProperty)
+    val nextMot = bind(InventoryItem::nextMotProperty)
+    val nextMotString = bind(InventoryItem::nextMotStringProperty)
 }

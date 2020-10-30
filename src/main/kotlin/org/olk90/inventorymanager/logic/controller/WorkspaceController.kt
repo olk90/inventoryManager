@@ -79,6 +79,11 @@ class WorkspaceController : Controller() {
                         val formatter = DateTimeFormatter.ISO_LOCAL_DATE
                         it.lendingDate = LocalDate.parse(it.lendingDateString, formatter)
                     }
+                    if (!it.nextMotString.isNullOrEmpty()) {
+                        val formatter = DateTimeFormatter.ISO_LOCAL_DATE
+                        it.nextMot = LocalDate.parse(it.nextMotString, formatter)
+                    }
+
                 }
                 Config.model.identifierProperty.value = dc.identifier
                 Config.model.pathProperty.value = documentPath

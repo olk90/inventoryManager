@@ -21,6 +21,7 @@ class LendingFragment(private val table: TableView<InventoryItem>) : Fragment() 
                 fieldset {
                     field(messages("inventoryItem.lendingDate")) {
                         datepicker(controller.model.lendingDate) {
+                            showWeekNumbersProperty().value = true
                             setOnAction {
                                 if (value != null) {
                                     controller.model.lendingDateString.value = value.format(DateTimeFormatter.ISO_LOCAL_DATE)

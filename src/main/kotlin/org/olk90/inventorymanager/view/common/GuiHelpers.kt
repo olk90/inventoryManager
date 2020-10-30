@@ -8,6 +8,7 @@ import de.jensd.fx.glyphs.octicons.OctIcon
 import de.jensd.fx.glyphs.octicons.OctIconView
 import javafx.geometry.Pos
 import javafx.scene.control.ListCell
+import javafx.scene.control.SpinnerValueFactory
 import javafx.scene.control.TableColumn
 import javafx.scene.paint.Color
 import javafx.util.StringConverter
@@ -16,7 +17,11 @@ import org.olk90.inventorymanager.model.GUIConstants
 import org.olk90.inventorymanager.model.InventoryItem
 import tornadofx.*
 import java.text.MessageFormat
+import java.time.LocalDate
+import java.time.Month
+import java.time.format.DateTimeFormatter
 import java.util.*
+
 
 fun icon(icon: GlyphIcons, color: Color = c(GUIConstants.DEFAULT_COLOR.color), size: Int = 17): GlyphIcon<*> {
 

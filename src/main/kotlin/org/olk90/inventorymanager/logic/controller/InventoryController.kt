@@ -35,8 +35,8 @@ class InventoryController : Controller() {
         } else {
             i.name = item.name
             i.available = item.available
+            i.nextMot = item.nextMot
         }
-
 
         getWorkspaceControllerInstance().writeDcFile()
     }
@@ -51,7 +51,12 @@ class InventoryController : Controller() {
     }
 
     fun add() {
-        val item = InventoryItem(model.name.value, model.available.value, model.lendingDate.value)
+        val item = InventoryItem(
+                name = model.name.value,
+                available = model.available.value,
+                lendingDate = model.lendingDate.value,
+                nextMot = model.nextMot.value
+        )
         insertItem(item)
         getWorkspaceControllerInstance().writeDcFile()
     }
@@ -82,8 +87,13 @@ class InventoryController : Controller() {
                 } else {
                     false
                 }
+                val nextMotMatch = if (it.nextMotString != null) {
+                    it.nextMotString.toLowerCase().indexOf(lowerCaseFilter) != -1
+                } else {
+                    false
+                }
 
-                filterTextEmpty || nameMatch || lenderMatch || lendingDateMatch
+                filterTextEmpty || nameMatch || lenderMatch || lendingDateMatch || nextMotMatch
             }
             tableItems.addAll(filteredData)
         }

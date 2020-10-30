@@ -21,6 +21,13 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                     field(messages("inventoryItem.available")) {
                         checkbox(property = controller.model.available)
                     }
+                    field(messages("inventoryItem.nextMot")) {
+                        spinner(property = controller.model.nextMot, enableScroll = true, editable = true) {
+                            val factory = NextMotSpinnerValueFactory()
+                            factory.converter = MotConverter()
+                            valueFactory = factory
+                        }
+                    }
                 }
 
                 fieldset {

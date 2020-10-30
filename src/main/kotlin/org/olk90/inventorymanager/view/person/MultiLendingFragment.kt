@@ -23,6 +23,7 @@ class MultiLendingFragment : Fragment() {
                 fieldset {
                     field(messages("inventoryItem.lendingDate")) {
                         datepicker(controller.multiLendingModel.lendingDate) {
+                            showWeekNumbersProperty().value = true
                             setOnAction {
                                 if (value != null) {
                                     controller.multiLendingModel.lendingDateString.value = value.format(DateTimeFormatter.ISO_LOCAL_DATE)

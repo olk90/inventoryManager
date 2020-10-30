@@ -5,7 +5,9 @@ import javafx.beans.property.ObjectProperty
 import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.control.SpinnerValueFactory
+import org.olk90.inventorymanager.logic.controller.getInventoryControllerInstance
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalUnit
 
@@ -13,6 +15,17 @@ import java.time.temporal.TemporalUnit
  * This implementation is based on SpinnerValueFactory.LocalDateValueFactory
  */
 class NextMotSpinnerValueFactory : SpinnerValueFactory<LocalDate>() {
+
+    init {
+        val controller = getInventoryControllerInstance()
+        valueProperty().addListener { _, _, _ ->
+            if (value != null) {
+                controller.model.nextMotString.value = value.format(DateTimeFormatter.ISO_LOCAL_DATE)
+            } else {
+                controller.model.nextMotString.value = ""
+            }
+        }
+    }
 
     private val min = SimpleObjectProperty(this, "min", LocalDate.now())
     private val max = SimpleObjectProperty(this, "max", LocalDate.MAX)
@@ -57,4 +70,5 @@ class NextMotSpinnerValueFactory : SpinnerValueFactory<LocalDate>() {
         }
         value = newValue
     }
+
 }
