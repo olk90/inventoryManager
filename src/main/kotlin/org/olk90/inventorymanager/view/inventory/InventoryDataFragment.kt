@@ -11,6 +11,10 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
     val controller: InventoryController by inject()
 
     override val root = borderpane {
+
+        maxWidth = 400.0
+        minWidth = 400.0
+
         center {
             form {
                 val title = if (create) messages("label.addItem") else messages("label.editItem")
@@ -23,10 +27,14 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                     }
                     field(messages("inventoryItem.nextMot")) {
                         spinner(property = controller.model.nextMot, enableScroll = true, editable = true) {
+                            fitToParentSize()
                             val factory = NextMotSpinnerValueFactory()
                             factory.converter = MotConverter()
                             valueFactory = factory
                         }
+                    }
+                    field(messages("inventoryItem.info")) {
+                        textarea(controller.model.info)
                     }
                 }
 

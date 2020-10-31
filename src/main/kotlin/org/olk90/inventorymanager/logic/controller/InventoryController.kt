@@ -87,13 +87,20 @@ class InventoryController : Controller() {
                 } else {
                     false
                 }
+
                 val nextMotMatch = if (it.nextMotString != null) {
                     it.nextMotString.toLowerCase().indexOf(lowerCaseFilter) != -1
                 } else {
                     false
                 }
 
-                filterTextEmpty || nameMatch || lenderMatch || lendingDateMatch || nextMotMatch
+                val infoMatch = if (it.info != null) {
+                    it.info.toLowerCase().indexOf(lowerCaseFilter) != -1
+                } else {
+                    false
+                }
+
+                filterTextEmpty || nameMatch || lenderMatch || lendingDateMatch || nextMotMatch || infoMatch
             }
             tableItems.addAll(filteredData)
         }

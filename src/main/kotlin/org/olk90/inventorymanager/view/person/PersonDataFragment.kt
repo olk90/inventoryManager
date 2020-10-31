@@ -11,6 +11,10 @@ class PersonDataFragment(private val create: Boolean = false) : Fragment() {
     val controller: PersonController by inject()
 
     override val root = borderpane {
+
+        maxWidth = 400.0
+        minWidth = 400.0
+
         center {
             form {
                 val title = if (create) messages("label.addUser") else messages("label.editUser")

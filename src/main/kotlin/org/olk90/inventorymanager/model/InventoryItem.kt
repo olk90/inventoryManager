@@ -14,6 +14,7 @@ class InventoryItem(
         available: Boolean = false,
         lendingDate: LocalDate? = null,
         lendingDateString: String? = null,
+        info: String? = null,
         nextMot: LocalDate? = null,
         nextMotString: String? = null
 ) {
@@ -37,6 +38,9 @@ class InventoryItem(
     val lendingDateStringProperty = SimpleStringProperty(this, "lendingDateString", lendingDateString)
 
     @Json(ignored = true)
+    val infoProperty = SimpleStringProperty(this, "info", info)
+
+    @Json(ignored = true)
     val nextMotProperty = SimpleObjectProperty<LocalDate>(this, "nextMot", nextMot)
 
     @Json(ignored = true)
@@ -47,6 +51,9 @@ class InventoryItem(
     var name by nameProperty
     var available by availableProperty
     var lender by lenderProperty
+
+    @Json(name = "info")
+    var info by infoProperty
 
     @Json(ignored = true)
     var lendingDate by lendingDateProperty
@@ -68,6 +75,7 @@ class InventoryItemModel(item: InventoryItem) : ItemViewModel<InventoryItem>(ite
     val lender = bind(InventoryItem::lenderProperty)
     val lendingDate = bind(InventoryItem::lendingDateProperty)
     val lendingDateString = bind(InventoryItem::lendingDateStringProperty)
+    val info = bind(InventoryItem::infoProperty)
     val nextMot = bind(InventoryItem::nextMotProperty)
     val nextMotString = bind(InventoryItem::nextMotStringProperty)
 }
