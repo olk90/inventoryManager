@@ -33,6 +33,11 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                             valueFactory = factory
                         }
                     }
+                    field(messages("inventoryItem.category")) {
+                        val textField = CategoryTextField()
+                        add(textField)
+//                        textfield(controller.model.category)
+                    }
                     field(messages("inventoryItem.info")) {
                         textarea(controller.model.info)
                     }

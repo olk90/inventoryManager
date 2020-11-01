@@ -28,6 +28,11 @@ class PersonView : View(messages("label.personOverview")) {
                 tableview(controller.tableItems) {
                     table = this
                     fitToParentSize()
+                    makeIndexColumn("#").apply {
+                        align(Pos.CENTER)
+                    }
+
+                    tableMenuButtonVisibleProperty().set(true)
                     columnResizePolicy = SmartResize.POLICY
 
                     column(messages("person.firstName"), Person::firstNameProperty).apply {

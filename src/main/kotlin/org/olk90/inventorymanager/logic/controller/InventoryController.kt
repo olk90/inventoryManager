@@ -1,5 +1,6 @@
 package org.olk90.inventorymanager.logic.controller
 
+import impl.org.controlsfx.autocompletion.SuggestionProvider
 import javafx.collections.ObservableList
 import javafx.scene.control.TextField
 import org.olk90.inventorymanager.model.InventoryItem
@@ -21,6 +22,8 @@ class InventoryController : Controller() {
     private val filteredData = SortedFilteredList(ObjectStore.inventoryItems)
     val tableItems = mutableListOf<InventoryItem>().asObservable()
 
+    val provider: SuggestionProvider<String> = SuggestionProvider.create(ObjectStore.categories)
+
     fun save(lendItem: Boolean = false) {
         model.commit()
 
@@ -36,6 +39,8 @@ class InventoryController : Controller() {
             i.name = item.name
             i.available = item.available
             i.nextMot = item.nextMot
+            i.category = item.category
+            ObjectStore.updateCategories()
         }
 
         getWorkspaceControllerInstance().writeDcFile()
@@ -55,6 +60,8 @@ class InventoryController : Controller() {
                 name = model.name.value,
                 available = model.available.value,
                 lendingDate = model.lendingDate.value,
+                info = model.info.value,
+                category = model.category.value,
                 nextMot = model.nextMot.value
         )
         insertItem(item)
@@ -63,6 +70,7 @@ class InventoryController : Controller() {
 
     private fun insertItem(item: InventoryItem) {
         ObjectStore.inventoryItems.add(item)
+        ObjectStore.updateCategories()
         tableItems.add(item)
     }
 
@@ -100,7 +108,13 @@ class InventoryController : Controller() {
                     false
                 }
 
-                filterTextEmpty || nameMatch || lenderMatch || lendingDateMatch || nextMotMatch || infoMatch
+                val categoryMatch = if (it.category != null) {
+                    it.category.toLowerCase().indexOf(lowerCaseFilter) != -1
+                } else {
+                    false
+                }
+
+                filterTextEmpty || nameMatch || lenderMatch || lendingDateMatch || nextMotMatch || infoMatch || categoryMatch
             }
             tableItems.addAll(filteredData)
         }
@@ -142,5 +156,10 @@ class InventoryController : Controller() {
         }
 
         getWorkspaceControllerInstance().writeDcFile()
+    }
+
+    fun updateProvider() {
+        provider.clearSuggestions()
+        provider.addPossibleSuggestions(ObjectStore.categories)
     }
 }

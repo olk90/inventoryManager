@@ -22,6 +22,7 @@ dependencies {
     compile group: 'no.tornado', name: 'tornadofx', version: '1.7.20'
     compile group: 'no.tornado', name: 'tornadofx-controls', version: '1.0.6'
     compile group: 'de.jensd', name: 'fontawesomefx', version: '8.9'
+    compile group: 'org.controlsfx', name: 'controlsfx', version: '8.40.17'
 
     // https://mvnrepository.com/artifact/com.beust/klaxon
     compile group: 'com.beust', name: 'klaxon', version: '5.4'

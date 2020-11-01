@@ -37,8 +37,17 @@ class InventoryView : View(messages("label.inventoryOverview")) {
                     table = this
                     fitToParentSize()
                     multiSelect(true)
+                    makeIndexColumn("#").apply {
+                        align(Pos.CENTER)
+                    }
+
+                    tableMenuButtonVisibleProperty().set(true)
                     columnResizePolicy = SmartResize.POLICY
 
+                    column(messages("inventoryItem.category"), InventoryItem::categoryProperty).apply {
+                        align(Pos.CENTER)
+                        pctWidth(20.0)
+                    }
                     column(messages("inventoryItem.name"), InventoryItem::nameProperty).apply {
                         align(Pos.CENTER)
                         pctWidth(20.0)

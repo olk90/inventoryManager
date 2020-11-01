@@ -8,6 +8,7 @@ object ObjectStore {
 
     val persons = mutableListOf<Person>().asObservable()
     val inventoryItems = mutableListOf<InventoryItem>().asObservable()
+    val categories = mutableListOf<String>().asObservable()
 
     fun nextPersonId(): Int {
         return if (persons.isEmpty()) {
@@ -38,5 +39,15 @@ object ObjectStore {
         inventoryItems.clear()
         persons.addAll(p)
         inventoryItems.addAll(i)
+        updateCategories()
+    }
+
+    fun updateCategories() {
+        categories.clear()
+        // map to set in order to eliminate duplicates
+        val c = inventoryItems.map { it.category }.toSet()
+        categories.addAll(c)
+        // provide updated values to the suggestions in text field
+        getInventoryControllerInstance().updateProvider()
     }
 }
