@@ -1,13 +1,18 @@
 package de.olk90.inventorymanager.logic.controller
 
 import de.olk90.inventorymanager.model.InventoryItem
+import de.olk90.inventorymanager.model.LendingHistoryRecord
 import de.olk90.inventorymanager.model.Person
 import tornadofx.*
 
 object ObjectStore {
 
+    // data structures
     val persons = mutableListOf<Person>().asObservable()
     val inventoryItems = mutableListOf<InventoryItem>().asObservable()
+    val history = mutableListOf<LendingHistoryRecord>().asObservable()
+
+    // UI
     val categories = mutableListOf<String>().asObservable()
 
     fun nextPersonId(): Int {
@@ -34,11 +39,14 @@ object ObjectStore {
         return inventoryItems.find { it.id == id }
     }
 
-    fun fillStore(p: List<Person>, i: List<InventoryItem>) {
+    fun fillStore(p: List<Person>, i: List<InventoryItem>, h: List<LendingHistoryRecord>) {
         persons.clear()
         inventoryItems.clear()
+        history.clear()
+
         persons.addAll(p)
         inventoryItems.addAll(i)
+        history.addAll(h)
         updateCategories()
     }
 
@@ -49,5 +57,9 @@ object ObjectStore {
         categories.addAll(c)
         // provide updated values to the suggestions in text field
         getInventoryControllerInstance().updateProvider()
+    }
+
+    fun getHistoryOfItem(item: InventoryItem): List<LendingHistoryRecord> {
+        return history.filter { it.item == item.id }.sortedByDescending { it.lendingDate }.toList()
     }
 }

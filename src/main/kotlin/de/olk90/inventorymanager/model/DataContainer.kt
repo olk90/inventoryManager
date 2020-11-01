@@ -7,7 +7,8 @@ import tornadofx.*
 class DataContainer(
         identifier: String? = null,
         val persons: List<Person> = mutableListOf(),
-        val items: List<InventoryItem> = mutableListOf()
+        val items: List<InventoryItem> = mutableListOf(),
+        val history: List<LendingHistoryRecord> = mutableListOf()
 ) {
 
     @Json(ignored = true)

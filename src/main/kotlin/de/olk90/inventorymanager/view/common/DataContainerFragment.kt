@@ -47,6 +47,7 @@ class DataContainerFragment : Fragment(messages("label.newContainer")) {
                                 val content = controller.buildDcFile(
                                         model.identifier.value,
                                         emptyList(),
+                                        emptyList(),
                                         emptyList()
                                 )
                                 Config.model.pathProperty.value = file.absolutePath

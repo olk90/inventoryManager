@@ -1,13 +1,12 @@
 package de.olk90.inventorymanager.logic.controller
 
+import de.olk90.inventorymanager.model.*
+import de.olk90.inventorymanager.view.inventory.HistoryView
 import impl.org.controlsfx.autocompletion.SuggestionProvider
 import javafx.collections.ObservableList
 import javafx.scene.control.TextField
-import de.olk90.inventorymanager.model.InventoryItem
-import de.olk90.inventorymanager.model.InventoryItemModel
-import de.olk90.inventorymanager.model.MultiLending
-import de.olk90.inventorymanager.model.MultiLendingModel
 import tornadofx.*
+import java.time.LocalDate
 
 fun getInventoryControllerInstance(): InventoryController {
     return find(InventoryController::class)
@@ -21,6 +20,7 @@ class InventoryController : Controller() {
 
     private val filteredData = SortedFilteredList(ObjectStore.inventoryItems)
     val tableItems = mutableListOf<InventoryItem>().asObservable()
+    val historyItems = mutableListOf<LendingHistoryRecord>().asObservable()
 
     val provider: SuggestionProvider<String> = SuggestionProvider.create(ObjectStore.categories)
 
@@ -131,12 +131,25 @@ class InventoryController : Controller() {
 
     fun returnItems(items: List<InventoryItem>) {
         items.forEach {
+            createLendingRecord(it)
             it.lender = -1
             it.lendingDate = null
             it.lendingDateString = null
             it.available = true
         }
         getWorkspaceControllerInstance().writeDcFile()
+    }
+
+    private fun createLendingRecord(item: InventoryItem) {
+        val record = LendingHistoryRecord(
+                lendingDate = item.lendingDate,
+                returnDate = LocalDate.now()
+        )
+        record.lender = item.lender
+        record.item = item.id
+        record.lendingDateString = record.lendingDate.toString()
+        record.returnDateString = record.returnDate.toString()
+        ObjectStore.history.add(record)
     }
 
     fun lendMultipleItems() {
@@ -161,5 +174,12 @@ class InventoryController : Controller() {
     fun updateProvider() {
         provider.clearSuggestions()
         provider.addPossibleSuggestions(ObjectStore.categories)
+    }
+
+    fun setupView(item: InventoryItem): HistoryView {
+        historyItems.clear()
+        val records = ObjectStore.getHistoryOfItem(item)
+        historyItems.addAll(records)
+        return HistoryView(item)
     }
 }

@@ -8,6 +8,7 @@ import de.olk90.inventorymanager.logic.History
 import de.olk90.inventorymanager.logic.HistoryEntry
 import de.olk90.inventorymanager.model.DataContainer
 import de.olk90.inventorymanager.model.InventoryItem
+import de.olk90.inventorymanager.model.LendingHistoryRecord
 import de.olk90.inventorymanager.model.Person
 import de.olk90.inventorymanager.view.common.InventoryWorkspace
 import de.olk90.inventorymanager.view.common.messages
@@ -85,9 +86,19 @@ class WorkspaceController : Controller() {
                     }
 
                 }
+                dc.history.forEach {
+                    if (!it.lendingDateString.isNullOrEmpty()) {
+                        val formatter = DateTimeFormatter.ISO_LOCAL_DATE
+                        it.lendingDate = LocalDate.parse(it.lendingDateString, formatter)
+                    }
+                    if (!it.returnDateString.isNullOrEmpty()) {
+                        val formatter = DateTimeFormatter.ISO_LOCAL_DATE
+                        it.returnDate = LocalDate.parse(it.returnDateString, formatter)
+                    }
+                }
                 Config.model.identifierProperty.value = dc.identifier
                 Config.model.pathProperty.value = documentPath
-                ObjectStore.fillStore(dc.persons, dc.items)
+                ObjectStore.fillStore(dc.persons, dc.items, dc.history)
                 updateHistory(documentPath)
             } else {
                 error(messages("error.header.open"), messages("error.content.path", documentPath))
@@ -98,12 +109,13 @@ class WorkspaceController : Controller() {
     }
 
     @Throws(KlaxonException::class)
-    fun buildDcFile(identifier: String, persons: List<Person>, items: List<InventoryItem>): String {
+    fun buildDcFile(identifier: String, persons: List<Person>, items: List<InventoryItem>, history: List<LendingHistoryRecord>): String {
         return json {
             obj(
                     "identifier" to identifier,
                     "persons" to array(persons),
-                    "items" to array(items)
+                    "items" to array(items),
+                    "history" to array(history)
             )
         }.toJsonString(prettyPrint = true)
     }
@@ -112,7 +124,8 @@ class WorkspaceController : Controller() {
         val fileContent = buildDcFile(
                 Config.model.identifierProperty.value,
                 ObjectStore.persons,
-                ObjectStore.inventoryItems
+                ObjectStore.inventoryItems,
+                ObjectStore.history
         )
         File(Config.model.pathProperty.value).writeText(fileContent)
     }

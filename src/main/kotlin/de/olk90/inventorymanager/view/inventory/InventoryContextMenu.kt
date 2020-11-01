@@ -18,12 +18,24 @@ class InventoryContextMenu(private val table: TableView<InventoryItem>) : Contex
                 val fragment = LendingFragment(table)
                 getWorkspaceControllerInstance().getWorkspace().openInternalWindow(fragment, closeButton = false)
             }
+//            disableWhen {
+//                val notAvailable = table.selectionModel.selectedItems.filter { !it.available }.asObservable()
+//                notAvailable.sizeProperty.greaterThan(0)
+//            }
         }
         item(messages("contextmenu.returned")).apply {
             action {
                 val items = table.selectionModel.selectedItems
                 controller.returnItems(items)
             }
+        }
+        item(messages("contextmenu.history")).apply {
+            action {
+                val view = controller.setupView(table.selectedItem!!)
+                view.openModal()
+//                getWorkspaceControllerInstance().getWorkspace().openInternalWindow(view, closeButton = true)
+            }
+            enableWhen(table.selectionModel.selectedItems.sizeProperty.eq(1))
         }
     }
 }
