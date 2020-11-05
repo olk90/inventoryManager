@@ -22,7 +22,7 @@ class MultiLending(
     val lendingDateStringProperty = SimpleStringProperty(this, "lendingDate", lendingDateString)
     var lendingDateString by lendingDateStringProperty
 
-    val itemsProperty = SimpleListProperty<InventoryItem>(this, "items", items)
+    val itemsProperty = SimpleListProperty(this, "items", items)
     var items by itemsProperty
 }
 

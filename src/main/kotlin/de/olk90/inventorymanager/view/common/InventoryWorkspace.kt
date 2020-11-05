@@ -5,11 +5,15 @@ import de.olk90.inventorymanager.logic.Config
 import de.olk90.inventorymanager.logic.controller.WorkspaceController
 import de.olk90.inventorymanager.view.inventory.InventoryView
 import de.olk90.inventorymanager.view.person.PersonView
+import javafx.beans.property.SimpleBooleanProperty
 import tornadofx.*
 
 class InventoryWorkspace : Workspace() {
 
     val controller:  WorkspaceController by inject()
+
+    private val enablePersonView = SimpleBooleanProperty(dockedComponent !is PersonView)
+    private val enableInventoryView = SimpleBooleanProperty(dockedComponent !is InventoryView)
 
     init {
         // remove obsolete buttons
@@ -58,8 +62,11 @@ class InventoryWorkspace : Workspace() {
             action {
                 if (dockedComponent !is PersonView) {
                     dock<PersonView>()
+                    enablePersonView.set(false)
+                    enableInventoryView.set(true)
                 }
             }
+            enableWhen(enablePersonView)
         }
 
         button {
@@ -69,8 +76,11 @@ class InventoryWorkspace : Workspace() {
             action {
                 if (dockedComponent !is InventoryView) {
                     dock<InventoryView>()
+                    enablePersonView.set(true)
+                    enableInventoryView.set(false)
                 }
             }
+            enableWhen(enableInventoryView)
         }
 
         label(Config.model.identifierProperty)

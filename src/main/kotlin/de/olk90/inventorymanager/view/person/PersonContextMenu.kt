@@ -7,11 +7,14 @@ import de.olk90.inventorymanager.logic.controller.getPersonControllerInstance
 import de.olk90.inventorymanager.logic.controller.getWorkspaceControllerInstance
 import de.olk90.inventorymanager.model.Person
 import de.olk90.inventorymanager.view.common.messages
+import javafx.beans.property.SimpleBooleanProperty
 import tornadofx.*
 
 class PersonContextMenu(private val table: TableView<Person>) : ContextMenu() {
 
     private val controller = getPersonControllerInstance()
+
+    val enableEmail = SimpleBooleanProperty(false)
 
     init {
         item(messages("contextmenu.lendDevices")).apply {
@@ -29,6 +32,7 @@ class PersonContextMenu(private val table: TableView<Person>) : ContextMenu() {
                     controller.emailTo(person)
                 }
             }
+            enableWhen(enableEmail)
         }
     }
 }

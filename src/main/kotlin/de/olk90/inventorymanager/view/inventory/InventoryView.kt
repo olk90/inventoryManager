@@ -74,15 +74,23 @@ class InventoryView : View(messages("label.inventoryOverview")) {
                                 alignment = Pos.CENTER
                                 text = it.format(DateTimeFormatter.ofPattern("MMM/yyyy"))
                                 when {
-                                    period.months == 2 -> {
+                                    period.months <= 12 && period.months > 6 -> {
+                                        backgroundColor += Color.DARKGREEN
+                                        textFill = Color.WHITE
+                                    }
+                                    period.months <= 6 && period.months > 3 -> {
                                         backgroundColor += Color.YELLOW
                                         textFill = Color.BLACK
                                     }
-                                    period.months == 1 -> {
+                                    period.months <= 3 && period.months > 1 -> {
                                         backgroundColor += Color.ORANGE
                                         textFill = Color.BLACK
                                     }
-                                    period.months == 0 -> {
+                                    period.months == 1 -> {
+                                        backgroundColor += Color.ORANGERED
+                                        textFill = Color.BLACK
+                                    }
+                                    period.months <= 0 -> {
                                         backgroundColor += Color.DARKRED
                                         textFill = Color.WHITE
                                     }
@@ -96,6 +104,12 @@ class InventoryView : View(messages("label.inventoryOverview")) {
                     }
 
                     contextMenu = InventoryContextMenu(this)
+
+                    onSelectionChange {
+                        if (it != null) {
+                            (contextMenu as InventoryContextMenu).selectedItemAvailable.set(it.available)
+                        }
+                    }
 
                     // Update the person inside the view model on selection change
                     controller.model.rebindOnChange(this) {

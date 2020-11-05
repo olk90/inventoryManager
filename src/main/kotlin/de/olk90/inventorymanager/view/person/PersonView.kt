@@ -50,6 +50,12 @@ class PersonView : View(messages("label.personOverview")) {
 
                     contextMenu = PersonContextMenu(this)
 
+                    onSelectionChange {
+                        if (it != null) {
+                            (contextMenu as PersonContextMenu).enableEmail.set(it.email.isNotEmpty())
+                        }
+                    }
+
                     // Update the person inside the view model on selection change
                     controller.model.rebindOnChange(this) {
                         item = it ?: Person()

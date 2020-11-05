@@ -6,9 +6,9 @@ import de.olk90.inventorymanager.logic.controller.ObjectStore
 import tornadofx.*
 
 class Person(
-        firstName: String? = null,
-        lastName: String? = null,
-        email: String? = null
+        firstName: String = "",
+        lastName: String = "",
+        email: String = ""
 ) {
 
     @Json(ignored = true)

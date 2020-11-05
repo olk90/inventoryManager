@@ -6,36 +6,37 @@ import de.olk90.inventorymanager.logic.controller.getInventoryControllerInstance
 import de.olk90.inventorymanager.logic.controller.getWorkspaceControllerInstance
 import de.olk90.inventorymanager.model.InventoryItem
 import de.olk90.inventorymanager.view.common.messages
+import javafx.beans.property.SimpleBooleanProperty
 import tornadofx.*
 
 class InventoryContextMenu(private val table: TableView<InventoryItem>) : ContextMenu() {
 
     private val controller = getInventoryControllerInstance()
 
+    val selectedItemAvailable = SimpleBooleanProperty(false)
+
     init {
+        val selectionModel = table.selectionModel
         item(messages("contextmenu.lend")).apply {
             action {
                 val fragment = LendingFragment(table)
                 getWorkspaceControllerInstance().getWorkspace().openInternalWindow(fragment, closeButton = false)
             }
-//            disableWhen {
-//                val notAvailable = table.selectionModel.selectedItems.filter { !it.available }.asObservable()
-//                notAvailable.sizeProperty.greaterThan(0)
-//            }
+            enableWhen(selectionModel.selectedItems.sizeProperty.eq(1).and(selectedItemAvailable))
         }
         item(messages("contextmenu.returned")).apply {
             action {
-                val items = table.selectionModel.selectedItems
+                val items = selectionModel.selectedItems
                 controller.returnItems(items)
             }
+            enableWhen(selectionModel.selectedItems.sizeProperty.eq(1).and(selectedItemAvailable.not()))
         }
         item(messages("contextmenu.history")).apply {
             action {
                 val view = controller.setupView(table.selectedItem!!)
                 view.openModal()
-//                getWorkspaceControllerInstance().getWorkspace().openInternalWindow(view, closeButton = true)
             }
-            enableWhen(table.selectionModel.selectedItems.sizeProperty.eq(1))
+            enableWhen(selectionModel.selectedItems.sizeProperty.eq(1))
         }
     }
 }
