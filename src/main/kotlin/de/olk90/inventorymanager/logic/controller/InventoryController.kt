@@ -188,4 +188,9 @@ class InventoryController : Controller() {
         historyItems.addAll(records)
         return HistoryView(item)
     }
+
+    fun reloadTableItems() {
+        tableItems.clear()
+        tableItems.addAll(ObjectStore.inventoryItems)
+    }
 }

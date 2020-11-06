@@ -21,7 +21,7 @@ class InventoryView : View(messages("label.inventoryOverview")) {
     lateinit var table: TableView<InventoryItem>
 
     init {
-        controller.tableItems.addAll(ObjectStore.inventoryItems)
+        controller.reloadTableItems()
     }
 
     override val root = borderpane {

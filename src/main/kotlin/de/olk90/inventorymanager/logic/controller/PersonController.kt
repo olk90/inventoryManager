@@ -95,4 +95,9 @@ class PersonController : Controller() {
             Runtime.getRuntime().exec(cmd)
         }
     }
+
+    fun reloadTableItems() {
+        tableItems.clear()
+        tableItems.addAll(ObjectStore.persons)
+    }
 }

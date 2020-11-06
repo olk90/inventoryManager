@@ -1,12 +1,11 @@
 package de.olk90.inventorymanager.view.person
 
-import javafx.geometry.Pos
-import javafx.scene.control.TableView
-import de.olk90.inventorymanager.logic.controller.ObjectStore
 import de.olk90.inventorymanager.logic.controller.PersonController
 import de.olk90.inventorymanager.model.Person
 import de.olk90.inventorymanager.view.common.align
 import de.olk90.inventorymanager.view.common.messages
+import javafx.geometry.Pos
+import javafx.scene.control.TableView
 import tornadofx.*
 
 class PersonView : View(messages("label.personOverview")) {
@@ -15,7 +14,7 @@ class PersonView : View(messages("label.personOverview")) {
     lateinit var table: TableView<Person>
 
     init {
-        controller.tableItems.addAll(ObjectStore.persons)
+        controller.reloadTableItems()
     }
 
     override val root = borderpane {

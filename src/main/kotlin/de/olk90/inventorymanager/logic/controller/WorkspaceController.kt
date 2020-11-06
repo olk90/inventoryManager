@@ -103,6 +103,10 @@ class WorkspaceController : Controller() {
                 Config.model.pathProperty.value = documentPath
                 ObjectStore.fillStore(dc.persons, dc.items, dc.history)
                 updateHistory(documentPath)
+
+                // reload table contents, otherwise there will be issues when loading another container from history
+                getPersonControllerInstance().reloadTableItems()
+                getInventoryControllerInstance().reloadTableItems()
             } else {
                 error(messages("error.header.open"), messages("error.content.path", documentPath))
             }
