@@ -12,8 +12,8 @@ class InventoryWorkspace : Workspace() {
 
     val controller:  WorkspaceController by inject()
 
-    private val enablePersonView = SimpleBooleanProperty(dockedComponent !is PersonView)
-    private val enableInventoryView = SimpleBooleanProperty(dockedComponent !is InventoryView)
+    val enablePersonView = SimpleBooleanProperty(true)
+    private val enableInventoryView = SimpleBooleanProperty(true)
 
     init {
         // remove obsolete buttons

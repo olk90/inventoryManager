@@ -107,7 +107,7 @@ class InventoryView : View(messages("label.inventoryOverview")) {
 
                     onSelectionChange {
                         if (it != null) {
-                            (contextMenu as InventoryContextMenu).selectedItemAvailable.set(it.available)
+                            controller.selectedItemAvailable.set(it.available)
                         }
                     }
 

@@ -32,5 +32,6 @@ class InventoryManagerApp : App(InventoryWorkspace::class) {
 
     override fun onBeforeShow(view: UIComponent) {
         workspace.dock<PersonView>()
+        (workspace as InventoryWorkspace).enablePersonView.set(false)
     }
 }

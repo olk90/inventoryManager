@@ -72,6 +72,7 @@ class MultiLendingFragment : Fragment() {
                             enableWhen(controller.multiLendingModel.dirty)
                             action {
                                 controller.multiLendingModel.rollback()
+                                close()
                             }
                         }
                     }

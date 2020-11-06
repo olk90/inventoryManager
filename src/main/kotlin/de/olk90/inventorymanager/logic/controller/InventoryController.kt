@@ -3,6 +3,7 @@ package de.olk90.inventorymanager.logic.controller
 import de.olk90.inventorymanager.model.*
 import de.olk90.inventorymanager.view.inventory.HistoryView
 import impl.org.controlsfx.autocompletion.SuggestionProvider
+import javafx.beans.property.SimpleBooleanProperty
 import javafx.collections.ObservableList
 import javafx.scene.control.TextField
 import tornadofx.*
@@ -17,6 +18,9 @@ class InventoryController : Controller() {
     val model = InventoryItemModel(InventoryItem())
 
     val multiLendingModel = MultiLendingModel(MultiLending())
+
+    // used in InventoryContextMenu
+    val selectedItemAvailable = SimpleBooleanProperty(false)
 
     private val filteredData = SortedFilteredList(ObjectStore.inventoryItems)
     val tableItems = mutableListOf<InventoryItem>().asObservable()
@@ -35,6 +39,7 @@ class InventoryController : Controller() {
             i.lendingDate = item.lendingDate
             val lenderId = item.lender
             updateLenderNameProperty(lenderId, i)
+            selectedItemAvailable.set(i.available)
         } else {
             i.name = item.name
             i.available = item.available
@@ -136,6 +141,7 @@ class InventoryController : Controller() {
             it.lendingDate = null
             it.lendingDateString = null
             it.available = true
+            selectedItemAvailable.set(true)
         }
         getWorkspaceControllerInstance().writeDcFile()
     }
