@@ -33,7 +33,10 @@ class WorkspaceController : Controller() {
 
     private fun setHistory(h: History) {
         history.clear()
-        history.addAll(h.history)
+        // remove all entries whose files were deleted
+        val existingEntries = h.history.filter { File(it.filePath).exists() }
+        history.addAll(existingEntries)
+
         history.sortByDescending { it.lastAccessTime }
         if (history.isNotEmpty()) {
             Config.pathProperty.value = history.first().filePath
