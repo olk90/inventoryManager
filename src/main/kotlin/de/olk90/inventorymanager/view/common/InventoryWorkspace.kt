@@ -1,5 +1,6 @@
 package de.olk90.inventorymanager.view.common
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon
 import de.jensd.fx.glyphs.octicons.OctIcon
 import de.olk90.inventorymanager.logic.Config
 import de.olk90.inventorymanager.logic.controller.WorkspaceController
@@ -16,24 +17,34 @@ class InventoryWorkspace : Workspace() {
     private val enableInventoryView = SimpleBooleanProperty(true)
 
     init {
-        // remove obsolete buttons
+        // remove default buttons
         forwardButton.hide()
         backButton.hide()
         refreshButton.hide()
         saveButton.hide()
 
-        createButton.apply {
+        // enable/disable does not work -> implement ohn buttons
+        createButton.hide()
+        deleteButton.hide()
+
+        button {
+            addClass("icon-only")
+            graphic = icon(FontAwesomeIcon.PLUS_CIRCLE)
             tooltip(messages("tooltip.insertData"))
             action {
                 controller.openCreateDialog()
             }
+            enableWhen(controller.dataContainerOpen)
         }
 
-        deleteButton.apply {
+        button {
+            addClass("icon-only")
+            graphic = icon(FontAwesomeIcon.MINUS_CIRCLE)
             tooltip(messages("tooltip.deleteData"))
             action {
                 controller.deleteEntry(dockedComponent)
             }
+            enableWhen(controller.dataContainerOpen)
         }
 
         // custom buttons
@@ -44,6 +55,7 @@ class InventoryWorkspace : Workspace() {
             action {
                 openInternalWindow(HistoryFragment::class, closeButton = false)
             }
+            disableWhen(controller.history.sizeProperty.eq(0))
         }
 
         button {

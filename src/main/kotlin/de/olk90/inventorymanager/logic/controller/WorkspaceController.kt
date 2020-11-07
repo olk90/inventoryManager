@@ -16,6 +16,7 @@ import de.olk90.inventorymanager.view.inventory.InventoryDataFragment
 import de.olk90.inventorymanager.view.inventory.InventoryView
 import de.olk90.inventorymanager.view.person.PersonDataFragment
 import de.olk90.inventorymanager.view.person.PersonView
+import javafx.beans.property.SimpleBooleanProperty
 import tornadofx.*
 import java.io.File
 import java.nio.file.Paths
@@ -27,6 +28,9 @@ fun getWorkspaceControllerInstance(): WorkspaceController {
 }
 
 class WorkspaceController : Controller() {
+
+    // disable add/delete button when no file is opened
+    val dataContainerOpen: SimpleBooleanProperty = SimpleBooleanProperty(false)
 
     // used for managing data containers
     val history = mutableListOf<HistoryEntry>().asObservable()
@@ -104,6 +108,8 @@ class WorkspaceController : Controller() {
                 ObjectStore.fillStore(dc.persons, dc.items, dc.history)
                 updateHistory(documentPath)
 
+                getWorkspaceControllerInstance().dataContainerOpen.set(true)
+
                 // reload table contents, otherwise there will be issues when loading another container from history
                 getPersonControllerInstance().reloadTableItems()
                 getInventoryControllerInstance().reloadTableItems()
@@ -168,7 +174,7 @@ class WorkspaceController : Controller() {
         configFile.writeText(fileContent)
     }
 
-    fun updateHistory(filePath: String) {
+    private fun updateHistory(filePath: String) {
         val entry = history.find { it.filePath == filePath }
         if (entry != null) {
             entry.lastAccessTime = System.currentTimeMillis()
