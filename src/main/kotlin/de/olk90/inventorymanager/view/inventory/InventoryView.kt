@@ -69,28 +69,27 @@ class InventoryView : View(messages("label.inventoryOverview")) {
                         pctWidth(20.0)
                         cellFormat {
                             style {
-
-                                val period = Period.between(LocalDate.now(), it)
                                 alignment = Pos.CENTER
                                 text = it.format(DateTimeFormatter.ofPattern("MMM/yyyy"))
+                                val totalMonths = Period.between(LocalDate.now(), it).toTotalMonths()
                                 when {
-                                    period.months <= 12 && period.months > 6 -> {
+                                    totalMonths <= 12L && totalMonths > 6L -> {
                                         backgroundColor += Color.DARKGREEN
                                         textFill = Color.WHITE
                                     }
-                                    period.months <= 6 && period.months > 3 -> {
+                                    totalMonths <= 6L && totalMonths > 3L -> {
                                         backgroundColor += Color.YELLOW
                                         textFill = Color.BLACK
                                     }
-                                    period.months <= 3 && period.months > 1 -> {
+                                    totalMonths <= 3L && totalMonths > 1L -> {
                                         backgroundColor += Color.ORANGE
                                         textFill = Color.BLACK
                                     }
-                                    period.months == 1 -> {
+                                    totalMonths == 1L -> {
                                         backgroundColor += Color.ORANGERED
                                         textFill = Color.BLACK
                                     }
-                                    period.months <= 0 -> {
+                                    totalMonths <= 0L -> {
                                         backgroundColor += Color.DARKRED
                                         textFill = Color.WHITE
                                     }
