@@ -17,6 +17,7 @@ import de.olk90.inventorymanager.view.inventory.InventoryView
 import de.olk90.inventorymanager.view.person.PersonDataFragment
 import de.olk90.inventorymanager.view.person.PersonView
 import javafx.beans.property.SimpleBooleanProperty
+import javafx.scene.control.ButtonBar
 import tornadofx.*
 import java.io.File
 import java.nio.file.Paths
@@ -49,17 +50,21 @@ class WorkspaceController : Controller() {
     }
 
     fun deleteEntry(dockedComponent: UIComponent?) {
-        when (dockedComponent) {
-            is PersonView -> {
-                val selectedItems = dockedComponent.table.selectionModel.selectedItems
-                getPersonControllerInstance().delete(selectedItems)
-            }
-            is InventoryView -> {
-                val selectedItems = dockedComponent.table.selectionModel.selectedItems
-                getInventoryControllerInstance().delete(selectedItems)
-            }
-            else -> {
-                error(messages("error.header.delete"), messages("error.content.view"))
+        confirmation(messages("confirmation.delete.header"), messages("confirmation.delete.body")) {
+            if (result.buttonData == ButtonBar.ButtonData.OK_DONE) {
+                when (dockedComponent) {
+                    is PersonView -> {
+                        val selectedItems = dockedComponent.table.selectionModel.selectedItems
+                        getPersonControllerInstance().delete(selectedItems)
+                    }
+                    is InventoryView -> {
+                        val selectedItems = dockedComponent.table.selectionModel.selectedItems
+                        getInventoryControllerInstance().delete(selectedItems)
+                    }
+                    else -> {
+                        error(messages("error.header.delete"), messages("error.content.view"))
+                    }
+                }
             }
         }
     }
