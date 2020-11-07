@@ -15,12 +15,15 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
         maxWidth = 400.0
         minWidth = 400.0
 
+
         center {
             form {
                 val title = if (create) messages("label.addItem") else messages("label.editItem")
                 fieldset(title) {
                     field(messages("inventoryItem.name")) {
-                        textfield(controller.model.name)
+                        textfield(controller.model.name).validator {
+                            if (it.isNullOrBlank()) error(messages("error.validation.name")) else null
+                        }
                     }
                     field(messages("inventoryItem.available")) {
                         checkbox(property = controller.model.available)
@@ -36,7 +39,6 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                     field(messages("inventoryItem.category")) {
                         val textField = CategoryTextField()
                         add(textField)
-//                        textfield(controller.model.category)
                     }
                     field(messages("inventoryItem.info")) {
                         textarea(controller.model.info)
@@ -49,7 +51,7 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                             tooltip(messages("tooltip.save"))
                             addClass("icon-only")
                             graphic = icon(OctIcon.CHECK)
-                            enableWhen(controller.model.dirty)
+                            enableWhen(controller.model.dirty.and(controller.model.validationContext.valid))
                             action {
                                 if (create) {
                                     controller.add()
@@ -71,6 +73,8 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                     }
                 }
             }
+
+            controller.model.validate()
         }
 
     }

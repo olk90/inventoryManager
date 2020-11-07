@@ -29,6 +29,9 @@ class LendingFragment(private val table: TableView<InventoryItem>) : Fragment() 
                                     controller.model.lendingDateString.value = ""
                                 }
                             }
+                            validator {
+                                if (it == null) error(messages("error.validation.lendingDate")) else null
+                            }
                         }
                     }
                     field(messages("inventoryItem.lender")) {
@@ -44,7 +47,7 @@ class LendingFragment(private val table: TableView<InventoryItem>) : Fragment() 
                             tooltip(messages("tooltip.save"))
                             addClass("icon-only")
                             graphic = icon(OctIcon.CHECK)
-                            enableWhen(controller.model.dirty)
+                            enableWhen(controller.model.dirty.and(controller.model.validationContext.valid))
                             action {
                                 if (table.selectedItem != null) {
                                     controller.save(true)
@@ -66,6 +69,8 @@ class LendingFragment(private val table: TableView<InventoryItem>) : Fragment() 
                     }
                 }
             }
+
+            controller.model.validate()
         }
     }
 }

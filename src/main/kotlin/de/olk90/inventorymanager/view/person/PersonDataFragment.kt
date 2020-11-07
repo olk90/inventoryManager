@@ -20,10 +20,14 @@ class PersonDataFragment(private val create: Boolean = false) : Fragment() {
                 val title = if (create) messages("label.addUser") else messages("label.editUser")
                 fieldset(title) {
                     field(messages("person.firstName")) {
-                        textfield(controller.model.firstName)
+                        textfield(controller.model.firstName).validator {
+                            if (it.isNullOrBlank()) error(messages("error.validation.firstName")) else null
+                        }
                     }
                     field(messages("person.lastName")) {
-                        textfield(controller.model.lastName)
+                        textfield(controller.model.lastName).validator {
+                            if (it.isNullOrBlank()) error(messages("error.validation.lastName")) else null
+                        }
                     }
                     field(messages("person.email")) {
                         textfield(controller.model.email)
@@ -36,7 +40,7 @@ class PersonDataFragment(private val create: Boolean = false) : Fragment() {
                             tooltip(messages("tooltip.save"))
                             addClass("icon-only")
                             graphic = icon(OctIcon.CHECK)
-                            enableWhen(controller.model.dirty)
+                            enableWhen(controller.model.dirty.and(controller.model.validationContext.valid))
                             action {
                                 if (create) {
                                     controller.add()
@@ -53,12 +57,16 @@ class PersonDataFragment(private val create: Boolean = false) : Fragment() {
                             enableWhen(controller.model.dirty)
                             action {
                                 controller.model.rollback()
+                                if (create) {
+                                    close()
+                                }
                             }
                         }
                     }
                 }
             }
 
+            controller.model.validate()
         }
 
     }
