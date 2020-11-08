@@ -5,6 +5,7 @@ import de.olk90.inventorymanager.logic.Config
 import de.olk90.inventorymanager.logic.controller.WorkspaceController
 import de.olk90.inventorymanager.view.common.InventoryWorkspace
 import de.olk90.inventorymanager.view.person.PersonView
+import javafx.scene.image.Image
 import tornadofx.*
 
 class InventoryManagerApp : App(InventoryWorkspace::class) {
@@ -24,6 +25,7 @@ class InventoryManagerApp : App(InventoryWorkspace::class) {
             }
 
             super.start(stage)
+            stage.icons.add(Image("icon.png"))
 
         } catch (e: Exception) {
             e.printStackTrace()
