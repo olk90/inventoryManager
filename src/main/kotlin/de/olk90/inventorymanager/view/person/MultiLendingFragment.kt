@@ -31,6 +31,9 @@ class MultiLendingFragment : Fragment() {
                                     controller.multiLendingModel.lendingDateString.value = ""
                                 }
                             }
+                            validator {
+                                if (it == null) error(messages("error.validation.lendingDate")) else null
+                            }
                         }
                     }
                     field(messages("label.devices")) {
@@ -54,7 +57,7 @@ class MultiLendingFragment : Fragment() {
                             tooltip(messages("tooltip.save"))
                             addClass("icon-only")
                             graphic = icon(OctIcon.CHECK)
-                            enableWhen(controller.multiLendingModel.dirty)
+                            enableWhen(controller.multiLendingModel.dirty.and(controller.multiLendingModel.validationContext.valid))
                             action {
                                 val selectedItems = listView.selectionModel.selectedItems
                                 if (!selectedItems.isNullOrEmpty()) {
@@ -78,6 +81,7 @@ class MultiLendingFragment : Fragment() {
                     }
                 }
             }
+            controller.multiLendingModel.validate()
         }
     }
 }

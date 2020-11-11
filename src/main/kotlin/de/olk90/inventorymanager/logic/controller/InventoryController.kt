@@ -171,6 +171,7 @@ class InventoryController : Controller() {
             item.available = false
             item.lendingDate = lendingDate
             item.lendingDateString = lendingDateString
+            selectedItemAvailable.set(item.available)
             updateLenderNameProperty(item.lender, item)
         }
 
