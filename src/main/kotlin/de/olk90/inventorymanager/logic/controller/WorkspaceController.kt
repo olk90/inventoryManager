@@ -87,7 +87,12 @@ class WorkspaceController : Controller() {
         try {
             val dc = Klaxon().parse<DataContainer>(File(documentPath))
             if (dc != null) {
+                dc.persons.forEach {
+                    it.firstName = findAndReplaceCodePoints(it.firstName)
+                    it.lastName = findAndReplaceCodePoints(it.lastName)
+                }
                 dc.items.forEach {
+                    it.name = findAndReplaceCodePoints(it.name)
                     if (!it.lendingDateString.isNullOrEmpty()) {
                         val formatter = DateTimeFormatter.ISO_LOCAL_DATE
                         it.lendingDate = LocalDate.parse(it.lendingDateString, formatter)
@@ -139,12 +144,16 @@ class WorkspaceController : Controller() {
     }
 
     fun writeDcFile() {
-        val fileContent = buildDcFile(
+        val text = buildDcFile(
                 Config.model.identifierProperty.value,
                 ObjectStore.persons,
                 ObjectStore.inventoryItems,
                 ObjectStore.history
         )
+
+        // replace special chars to avoid mess in Windows
+        val fileContent = stringToCodePoint(text)
+
         File(Config.model.pathProperty.value).writeText(fileContent)
     }
 
@@ -173,9 +182,12 @@ class WorkspaceController : Controller() {
 
     private fun writeHistory(entries: List<HistoryEntry> = emptyList()) {
         val configFile = Paths.get(System.getProperty("user.home"), ".inventoryManager", "config.json").toFile()
-        val fileContent = json {
+        val text = json {
             obj("history" to array(entries))
         }.toJsonString(prettyPrint = true)
+
+        // replace special chars to avoid mess in Windows
+        val fileContent = stringToCodePoint(text)
         configFile.writeText(fileContent)
     }
 
@@ -188,6 +200,51 @@ class WorkspaceController : Controller() {
         }
         writeHistory(history)
 
+    }
+
+    //Kindly supported by Stack Overflow
+    private fun stringToCodePoint(s: String): String {
+        val builder = StringBuilder()
+        var index = 0
+        while (index < s.length) {
+            val cp = Character.codePointAt(s, index)
+            val charCount = Character.charCount(cp)
+            if (charCount > 1) {
+                index += charCount - 1
+                require(index < s.length) { "truncated unexpectedly" }
+            }
+            if (cp < 128) {
+                builder.appendCodePoint(cp)
+            } else {
+                builder.append(String.format("\\u%04X", cp))
+            }
+            index++
+        }
+        return builder.toString()
+    }
+
+    private fun findAndReplaceCodePoints(s: String): String {
+        val cpRegex = "\\\\u[0-9A-F]{4}".toRegex()
+        val find = cpRegex.findAll(s)
+        var result = s
+        find.forEach {
+            val hexValue = it.value.substring(2)
+            val char = codePointToString(Integer.parseInt(hexValue, 16))
+            result = result.replace(it.value, char)
+        }
+        return result
+    }
+
+    private fun codePointToString(cp: Int): String {
+        val builder = StringBuilder()
+        when {
+            Character.isBmpCodePoint(cp) -> builder.append(cp.toChar())
+            Character.isValidCodePoint(cp) -> {
+                builder.append(Character.highSurrogate(cp))
+                builder.append(Character.lowSurrogate(cp))
+            }
+        }
+        return builder.toString()
     }
 
     fun getWorkspace(): InventoryWorkspace {

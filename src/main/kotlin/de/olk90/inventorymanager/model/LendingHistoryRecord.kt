@@ -48,11 +48,3 @@ class LendingHistoryRecord(
     var item by itemProperty
 
 }
-
-//class LendingHistoryRecordModel(record: LendingHistoryRecord) : ItemViewModel<LendingHistoryRecord>(record) {
-//    val lender = bind(LendingHistoryRecord::lenderProperty)
-//    val lendingDate = bind(LendingHistoryRecord::lendingDateProperty)
-//    val lendingDateString = bind(LendingHistoryRecord::lendingDateStringProperty)
-//    val returnDate = bind(LendingHistoryRecord::returnDateProperty)
-//    val returnDateString = bind(LendingHistoryRecord::returnDateStringProperty)
-//}
