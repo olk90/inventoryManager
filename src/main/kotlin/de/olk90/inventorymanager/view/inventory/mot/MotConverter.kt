@@ -1,4 +1,4 @@
-package de.olk90.inventorymanager.view.inventory
+package de.olk90.inventorymanager.view.inventory.mot
 
 import javafx.util.StringConverter
 import java.time.LocalDate

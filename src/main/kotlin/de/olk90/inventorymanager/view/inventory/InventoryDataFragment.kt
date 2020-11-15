@@ -4,6 +4,9 @@ import de.jensd.fx.glyphs.octicons.OctIcon
 import de.olk90.inventorymanager.logic.controller.InventoryController
 import de.olk90.inventorymanager.view.common.icon
 import de.olk90.inventorymanager.view.common.messages
+import de.olk90.inventorymanager.view.inventory.mot.MotContextMenu
+import de.olk90.inventorymanager.view.inventory.mot.MotConverter
+import de.olk90.inventorymanager.view.inventory.mot.NextMotSpinnerValueFactory
 import tornadofx.*
 
 class InventoryDataFragment(private val create: Boolean = false) : Fragment() {

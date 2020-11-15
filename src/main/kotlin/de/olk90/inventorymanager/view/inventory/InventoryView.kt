@@ -5,6 +5,7 @@ import de.olk90.inventorymanager.model.InventoryItem
 import de.olk90.inventorymanager.view.common.PersonConverter
 import de.olk90.inventorymanager.view.common.align
 import de.olk90.inventorymanager.view.common.messages
+import de.olk90.inventorymanager.view.inventory.mot.MotConverter
 import javafx.geometry.Pos
 import javafx.scene.control.TableView
 import javafx.scene.control.cell.CheckBoxTableCell
@@ -70,6 +71,12 @@ class InventoryView : View(messages("label.inventoryOverview")) {
                             style {
                                 alignment = Pos.CENTER
                                 text = it.format(DateTimeFormatter.ofPattern("MMM/yyyy"))
+                                borderColor += box(
+                                        top = Color.GRAY,
+                                        right = Color.GRAY,
+                                        left = Color.GRAY,
+                                        bottom = Color.GRAY
+                                )
                                 val totalMonths = Period.between(LocalDate.now(), it).toTotalMonths()
                                 when {
                                     totalMonths <= 12L && totalMonths > 6L -> {

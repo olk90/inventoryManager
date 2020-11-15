@@ -1,4 +1,4 @@
-package de.olk90.inventorymanager.view.inventory
+package de.olk90.inventorymanager.view.inventory.mot
 
 import de.olk90.inventorymanager.logic.controller.getInventoryControllerInstance
 import javafx.beans.property.LongProperty
