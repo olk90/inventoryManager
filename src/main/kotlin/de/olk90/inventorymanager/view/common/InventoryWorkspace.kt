@@ -31,6 +31,7 @@ class InventoryWorkspace : Workspace() {
             addClass("icon-only")
             graphic = icon(FontAwesomeIcon.PLUS_CIRCLE)
             tooltip(messages("tooltip.insertData"))
+            shortcut(ADD)
             action {
                 controller.openCreateDialog()
             }
@@ -41,6 +42,7 @@ class InventoryWorkspace : Workspace() {
             addClass("icon-only")
             graphic = icon(FontAwesomeIcon.MINUS_CIRCLE)
             tooltip(messages("tooltip.deleteData"))
+            shortcut(DELETE)
             action {
                 controller.deleteEntry(dockedComponent)
             }
@@ -52,6 +54,7 @@ class InventoryWorkspace : Workspace() {
             tooltip(messages("tooltip.usedContainers"))
             addClass("icon-only")
             graphic = icon(OctIcon.HISTORY)
+            shortcut(HISTORY)
             action {
                 openInternalWindow(HistoryFragment::class, closeButton = false)
             }
@@ -62,6 +65,7 @@ class InventoryWorkspace : Workspace() {
             tooltip(messages("tooltip.newContainer"))
             addClass("icon-only")
             graphic = icon(OctIcon.DATABASE)
+            shortcut(NEW_CONTAINER)
             action {
                 openInternalWindow(DataContainerFragment::class, closeButton = false)
             }
@@ -71,6 +75,7 @@ class InventoryWorkspace : Workspace() {
             tooltip(messages("tooltip.personOverview"))
             addClass("icon-only")
             graphic = icon(OctIcon.PERSON)
+            shortcut(PERSON)
             action {
                 if (dockedComponent !is PersonView) {
                     dock<PersonView>()
@@ -85,6 +90,7 @@ class InventoryWorkspace : Workspace() {
             tooltip(messages("tooltip.inventoryOverview"))
             addClass("icon-only")
             graphic = icon(OctIcon.TOOLS)
+            shortcut(INVENTORY)
             action {
                 if (dockedComponent !is InventoryView) {
                     dock<InventoryView>()

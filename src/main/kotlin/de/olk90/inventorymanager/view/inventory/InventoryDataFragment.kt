@@ -2,6 +2,9 @@ package de.olk90.inventorymanager.view.inventory
 
 import de.jensd.fx.glyphs.octicons.OctIcon
 import de.olk90.inventorymanager.logic.controller.InventoryController
+import de.olk90.inventorymanager.model.InventoryItem
+import de.olk90.inventorymanager.model.InventoryItemModel
+import de.olk90.inventorymanager.view.common.SAVE
 import de.olk90.inventorymanager.view.common.icon
 import de.olk90.inventorymanager.view.common.messages
 import de.olk90.inventorymanager.view.inventory.mot.MotContextMenu
@@ -12,6 +15,12 @@ import tornadofx.*
 class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
 
     val controller: InventoryController by inject()
+
+    init {
+        if (create) {
+            controller.model = InventoryItemModel(InventoryItem())
+        }
+    }
 
     override val root = borderpane {
 
@@ -33,7 +42,7 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                     }
                     field(messages("inventoryItem.nextMot")) {
                         label.contextMenu = MotContextMenu(controller.model)
-                        spinner(property = controller.model.nextMot, enableScroll = true, editable = true) {
+                        spinner(property = controller.model.nextMot, enableScroll = true) {
                             fitToParentSize()
                             val factory = NextMotSpinnerValueFactory()
                             factory.converter = MotConverter()
@@ -58,6 +67,7 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                             addClass("icon-only")
                             graphic = icon(OctIcon.CHECK)
                             enableWhen(controller.model.dirty.and(controller.model.validationContext.valid))
+                            shortcut(SAVE)
                             action {
                                 if (create) {
                                     controller.add()

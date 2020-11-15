@@ -15,7 +15,7 @@ fun getInventoryControllerInstance(): InventoryController {
 
 class InventoryController : Controller() {
 
-    val model = InventoryItemModel(InventoryItem())
+    var model = InventoryItemModel(InventoryItem())
 
     val multiLendingModel = MultiLendingModel(MultiLending())
 

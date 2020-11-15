@@ -2,16 +2,20 @@ package de.olk90.inventorymanager.view.person
 
 import de.olk90.inventorymanager.logic.controller.PersonController
 import de.olk90.inventorymanager.model.Person
+import de.olk90.inventorymanager.view.common.SEARCH
 import de.olk90.inventorymanager.view.common.align
 import de.olk90.inventorymanager.view.common.messages
 import javafx.geometry.Pos
 import javafx.scene.control.TableView
+import javafx.scene.control.TextField
+import javafx.scene.input.KeyCombination
 import tornadofx.*
 
 class PersonView : View(messages("label.personOverview")) {
 
     private val controller: PersonController by inject()
     lateinit var table: TableView<Person>
+    lateinit var search: TextField
 
     init {
         controller.reloadTableItems()
@@ -21,6 +25,7 @@ class PersonView : View(messages("label.personOverview")) {
         center {
             vbox {
                 textfield {
+                    search = this
                     promptText = messages("label.search")
                     controller.configureFilterListener(this)
                 }
@@ -66,6 +71,8 @@ class PersonView : View(messages("label.personOverview")) {
         right {
             add(PersonDataFragment())
         }
+
+        shortcut(KeyCombination.valueOf(SEARCH), search::requestFocus)
     }
 
 }

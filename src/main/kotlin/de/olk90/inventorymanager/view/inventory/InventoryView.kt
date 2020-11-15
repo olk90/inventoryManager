@@ -3,12 +3,15 @@ package de.olk90.inventorymanager.view.inventory
 import de.olk90.inventorymanager.logic.controller.InventoryController
 import de.olk90.inventorymanager.model.InventoryItem
 import de.olk90.inventorymanager.view.common.PersonConverter
+import de.olk90.inventorymanager.view.common.SEARCH
 import de.olk90.inventorymanager.view.common.align
 import de.olk90.inventorymanager.view.common.messages
 import de.olk90.inventorymanager.view.inventory.mot.MotConverter
 import javafx.geometry.Pos
 import javafx.scene.control.TableView
+import javafx.scene.control.TextField
 import javafx.scene.control.cell.CheckBoxTableCell
+import javafx.scene.input.KeyCombination
 import javafx.scene.paint.Color
 import tornadofx.*
 import java.time.LocalDate
@@ -19,6 +22,7 @@ class InventoryView : View(messages("label.inventoryOverview")) {
 
     private val controller: InventoryController by inject()
     lateinit var table: TableView<InventoryItem>
+    lateinit var search: TextField
 
     init {
         controller.reloadTableItems()
@@ -28,6 +32,7 @@ class InventoryView : View(messages("label.inventoryOverview")) {
         center {
             vbox {
                 textfield {
+                    search = this
                     promptText = messages("label.search")
                     controller.configureFilterListener(this)
                 }
@@ -126,6 +131,8 @@ class InventoryView : View(messages("label.inventoryOverview")) {
         right {
             add(InventoryDataFragment())
         }
+
+        shortcut(KeyCombination.valueOf(SEARCH), search::requestFocus)
     }
 
 }
