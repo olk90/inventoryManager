@@ -16,7 +16,7 @@ class InventoryItem(
         lendingDateString: String? = null,
         info: String? = null,
         category: String? = null,
-        motRequired: Boolean = false,
+        motRequired: Boolean = true,
         nextMot: LocalDate? = null,
         nextMotString: String? = null
 ) {
