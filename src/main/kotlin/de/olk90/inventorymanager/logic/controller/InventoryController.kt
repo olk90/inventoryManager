@@ -43,6 +43,7 @@ class InventoryController : Controller() {
         } else {
             i.name = item.name
             i.available = item.available
+            i.motRequired = item.motRequired
             i.nextMot = item.nextMot
             i.category = item.category
             ObjectStore.updateCategories()
@@ -67,6 +68,7 @@ class InventoryController : Controller() {
                 lendingDate = model.lendingDate.value,
                 info = model.info.value,
                 category = model.category.value,
+                motRequired = model.motRequired.value,
                 nextMot = model.nextMot.value
         )
         insertItem(item)
@@ -193,5 +195,15 @@ class InventoryController : Controller() {
     fun reloadTableItems() {
         tableItems.clear()
         tableItems.addAll(ObjectStore.inventoryItems)
+    }
+
+    fun enableMot() {
+        model.motRequired.set(true)
+    }
+
+    fun disableMot() {
+        model.motRequired.set(false)
+        model.nextMot.set(null)
+        model.nextMotString.set("")
     }
 }

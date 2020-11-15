@@ -1,11 +1,11 @@
 package de.olk90.inventorymanager.model
 
 import com.beust.klaxon.Json
+import de.olk90.inventorymanager.logic.controller.ObjectStore
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
-import de.olk90.inventorymanager.logic.controller.ObjectStore
 import tornadofx.*
 import java.time.LocalDate
 
@@ -16,6 +16,7 @@ class InventoryItem(
         lendingDateString: String? = null,
         info: String? = null,
         category: String? = null,
+        motRequired: Boolean = false,
         nextMot: LocalDate? = null,
         nextMotString: String? = null
 ) {
@@ -45,6 +46,9 @@ class InventoryItem(
     val categoryProperty = SimpleStringProperty(this, "category", category)
 
     @Json(ignored = true)
+    val motRequiredProperty = SimpleBooleanProperty(this, "motRequired", motRequired)
+
+    @Json(ignored = true)
     val nextMotProperty = SimpleObjectProperty<LocalDate>(this, "nextMot", nextMot)
 
     @Json(ignored = true)
@@ -68,6 +72,8 @@ class InventoryItem(
     @Json(name = "lendingDate")
     var lendingDateString by lendingDateStringProperty
 
+    var motRequired by motRequiredProperty
+
     @Json(ignored = true)
     var nextMot by nextMotProperty
 
@@ -84,6 +90,7 @@ class InventoryItemModel(item: InventoryItem) : ItemViewModel<InventoryItem>(ite
     val lendingDateString = bind(InventoryItem::lendingDateStringProperty)
     val info = bind(InventoryItem::infoProperty)
     val category = bind(InventoryItem::categoryProperty)
+    val motRequired = bind(InventoryItem::motRequiredProperty)
     val nextMot = bind(InventoryItem::nextMotProperty)
     val nextMotString = bind(InventoryItem::nextMotStringProperty)
 }

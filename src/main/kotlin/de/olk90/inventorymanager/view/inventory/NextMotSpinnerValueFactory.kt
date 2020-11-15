@@ -1,11 +1,11 @@
 package de.olk90.inventorymanager.view.inventory
 
+import de.olk90.inventorymanager.logic.controller.getInventoryControllerInstance
 import javafx.beans.property.LongProperty
 import javafx.beans.property.ObjectProperty
 import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.scene.control.SpinnerValueFactory
-import de.olk90.inventorymanager.logic.controller.getInventoryControllerInstance
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -20,9 +20,9 @@ class NextMotSpinnerValueFactory : SpinnerValueFactory<LocalDate>() {
         val controller = getInventoryControllerInstance()
         valueProperty().addListener { _, _, _ ->
             if (value != null) {
-                controller.model.nextMotString.value = value.format(DateTimeFormatter.ISO_LOCAL_DATE)
+                controller.model.nextMotString.set(value.format(DateTimeFormatter.ISO_LOCAL_DATE))
             } else {
-                controller.model.nextMotString.value = ""
+                controller.model.nextMotString.set("")
             }
         }
     }

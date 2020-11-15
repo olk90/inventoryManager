@@ -29,11 +29,14 @@ class InventoryDataFragment(private val create: Boolean = false) : Fragment() {
                         checkbox(property = controller.model.available)
                     }
                     field(messages("inventoryItem.nextMot")) {
+                        label.contextMenu = MotContextMenu(controller.model)
                         spinner(property = controller.model.nextMot, enableScroll = true, editable = true) {
                             fitToParentSize()
                             val factory = NextMotSpinnerValueFactory()
                             factory.converter = MotConverter()
                             valueFactory = factory
+
+                            enableWhen(controller.model.motRequired)
                         }
                     }
                     field(messages("inventoryItem.category")) {
