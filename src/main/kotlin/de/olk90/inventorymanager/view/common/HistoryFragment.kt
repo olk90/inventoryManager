@@ -1,10 +1,10 @@
 package de.olk90.inventorymanager.view.common
 
 import de.jensd.fx.glyphs.octicons.OctIcon
-import javafx.scene.control.ListCell
-import javafx.scene.control.ListView
 import de.olk90.inventorymanager.logic.HistoryEntry
 import de.olk90.inventorymanager.logic.controller.WorkspaceController
+import javafx.scene.control.ListCell
+import javafx.scene.control.ListView
 import tornadofx.*
 
 class HistoryFragment : Fragment(messages("label.usedContainers")) {

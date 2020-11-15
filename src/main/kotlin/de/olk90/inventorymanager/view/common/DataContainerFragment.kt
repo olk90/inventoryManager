@@ -1,12 +1,12 @@
 package de.olk90.inventorymanager.view.common
 
 import de.jensd.fx.glyphs.octicons.OctIcon
-import javafx.stage.FileChooser
 import de.olk90.inventorymanager.logic.Config
 import de.olk90.inventorymanager.logic.controller.WorkspaceController
 import de.olk90.inventorymanager.model.DataContainer
 import de.olk90.inventorymanager.model.DataContainerModel
 import de.olk90.inventorymanager.model.FileExtension
+import javafx.stage.FileChooser
 import tornadofx.*
 import java.io.File
 

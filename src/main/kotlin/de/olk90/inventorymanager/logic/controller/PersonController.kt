@@ -1,10 +1,10 @@
 package de.olk90.inventorymanager.logic.controller
 
-import javafx.collections.ObservableList
-import javafx.scene.control.TextField
 import de.olk90.inventorymanager.model.Person
 import de.olk90.inventorymanager.model.PersonModel
 import de.olk90.inventorymanager.view.common.messages
+import javafx.collections.ObservableList
+import javafx.scene.control.TextField
 import tornadofx.*
 
 fun getPersonControllerInstance(): PersonController {

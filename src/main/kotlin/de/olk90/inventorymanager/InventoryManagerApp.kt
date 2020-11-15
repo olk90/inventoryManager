@@ -1,11 +1,11 @@
 package de.olk90.inventorymanager
 
-import javafx.stage.Stage
 import de.olk90.inventorymanager.logic.Config
 import de.olk90.inventorymanager.logic.controller.WorkspaceController
 import de.olk90.inventorymanager.view.common.InventoryWorkspace
 import de.olk90.inventorymanager.view.person.PersonView
 import javafx.scene.image.Image
+import javafx.stage.Stage
 import tornadofx.*
 
 class InventoryManagerApp : App(InventoryWorkspace::class) {

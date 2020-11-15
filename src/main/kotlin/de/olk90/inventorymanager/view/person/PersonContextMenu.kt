@@ -1,13 +1,13 @@
 package de.olk90.inventorymanager.view.person
 
-import javafx.scene.control.ContextMenu
-import javafx.scene.control.TableView
 import de.olk90.inventorymanager.logic.controller.getInventoryControllerInstance
 import de.olk90.inventorymanager.logic.controller.getPersonControllerInstance
 import de.olk90.inventorymanager.logic.controller.getWorkspaceControllerInstance
 import de.olk90.inventorymanager.model.Person
 import de.olk90.inventorymanager.view.common.messages
 import javafx.beans.property.SimpleBooleanProperty
+import javafx.scene.control.ContextMenu
+import javafx.scene.control.TableView
 import tornadofx.*
 
 class PersonContextMenu(private val table: TableView<Person>) : ContextMenu() {

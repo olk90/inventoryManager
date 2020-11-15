@@ -1,15 +1,14 @@
 package de.olk90.inventorymanager.view.inventory
 
-import javafx.geometry.Pos
-import javafx.scene.control.TableView
-import javafx.scene.control.cell.CheckBoxTableCell
-import javafx.scene.paint.Color
 import de.olk90.inventorymanager.logic.controller.InventoryController
-import de.olk90.inventorymanager.logic.controller.ObjectStore
 import de.olk90.inventorymanager.model.InventoryItem
 import de.olk90.inventorymanager.view.common.PersonConverter
 import de.olk90.inventorymanager.view.common.align
 import de.olk90.inventorymanager.view.common.messages
+import javafx.geometry.Pos
+import javafx.scene.control.TableView
+import javafx.scene.control.cell.CheckBoxTableCell
+import javafx.scene.paint.Color
 import tornadofx.*
 import java.time.LocalDate
 import java.time.Period

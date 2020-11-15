@@ -1,9 +1,9 @@
 package de.olk90.inventorymanager.logic
 
-import javafx.beans.property.SimpleStringProperty
-import javafx.stage.FileChooser
 import de.olk90.inventorymanager.model.FileExtension
 import de.olk90.inventorymanager.view.common.WorkspaceViewModel
+import javafx.beans.property.SimpleStringProperty
+import javafx.stage.FileChooser
 import java.io.File
 import java.nio.file.Paths
 

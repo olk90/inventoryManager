@@ -1,13 +1,13 @@
 package de.olk90.inventorymanager.view.inventory
 
 import de.jensd.fx.glyphs.octicons.OctIcon
-import javafx.scene.control.TableView
 import de.olk90.inventorymanager.logic.controller.InventoryController
 import de.olk90.inventorymanager.logic.controller.ObjectStore
 import de.olk90.inventorymanager.model.InventoryItem
 import de.olk90.inventorymanager.view.common.PersonConverter
 import de.olk90.inventorymanager.view.common.icon
 import de.olk90.inventorymanager.view.common.messages
+import javafx.scene.control.TableView
 import tornadofx.*
 import java.time.format.DateTimeFormatter
 

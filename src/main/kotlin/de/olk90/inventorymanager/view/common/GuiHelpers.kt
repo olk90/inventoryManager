@@ -6,14 +6,14 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView
 import de.jensd.fx.glyphs.octicons.OctIcon
 import de.jensd.fx.glyphs.octicons.OctIconView
+import de.olk90.inventorymanager.logic.controller.ObjectStore
+import de.olk90.inventorymanager.model.GUIConstants
+import de.olk90.inventorymanager.model.InventoryItem
 import javafx.geometry.Pos
 import javafx.scene.control.ListCell
 import javafx.scene.control.TableColumn
 import javafx.scene.paint.Color
 import javafx.util.StringConverter
-import de.olk90.inventorymanager.logic.controller.ObjectStore
-import de.olk90.inventorymanager.model.GUIConstants
-import de.olk90.inventorymanager.model.InventoryItem
 import tornadofx.*
 import java.text.MessageFormat
 import java.util.*

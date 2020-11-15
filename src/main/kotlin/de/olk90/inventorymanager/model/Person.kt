@@ -1,8 +1,8 @@
 package de.olk90.inventorymanager.model
 
 import com.beust.klaxon.Json
-import javafx.beans.property.SimpleStringProperty
 import de.olk90.inventorymanager.logic.controller.ObjectStore
+import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
 
 class Person(
