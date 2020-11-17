@@ -76,12 +76,6 @@ class InventoryView : View(messages("label.inventoryOverview")) {
                             style {
                                 alignment = Pos.CENTER
                                 text = it.format(DateTimeFormatter.ofPattern("MMM/yyyy"))
-                                borderColor += box(
-                                        top = Color.GRAY,
-                                        right = Color.GRAY,
-                                        left = Color.GRAY,
-                                        bottom = Color.GRAY
-                                )
                                 val totalMonths = Period.between(LocalDate.now(), it).toTotalMonths()
                                 when {
                                     totalMonths <= 12L && totalMonths > 6L -> {

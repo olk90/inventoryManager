@@ -2,8 +2,6 @@ package de.olk90.inventorymanager.view.person
 
 import de.jensd.fx.glyphs.octicons.OctIcon
 import de.olk90.inventorymanager.logic.controller.PersonController
-import de.olk90.inventorymanager.model.Person
-import de.olk90.inventorymanager.model.PersonModel
 import de.olk90.inventorymanager.view.common.SAVE
 import de.olk90.inventorymanager.view.common.icon
 import de.olk90.inventorymanager.view.common.messages
@@ -12,12 +10,6 @@ import tornadofx.*
 class PersonDataFragment(private val create: Boolean = false) : Fragment() {
 
     val controller: PersonController by inject()
-
-    init {
-        if (create) {
-            controller.model = PersonModel(Person())
-        }
-    }
 
     override val root = borderpane {
 
