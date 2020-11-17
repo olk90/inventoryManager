@@ -7,7 +7,7 @@ apply plugin: 'application'
 mainClassName = 'de.olk90.inventorymanager.InventoryManagerApp'
 
 group 'de.olk90'
-version '1.0'
+version '1.1'
 
 repositories {
     mavenCentral()
