@@ -1,13 +1,16 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.5.10'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
 }
 
-apply plugin: 'application'
-mainClassName = 'de.olk90.inventorymanager.InventoryManagerApp'
+mainClassName = 'de.olk90.inventorymanager.jfx.MainApp'
 
 group 'de.olk90'
 version '1.1'
+
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -18,24 +21,26 @@ test {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.4.10"
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
-    // GUI framework
-    compile group: 'no.tornado', name: 'tornadofx', version: '1.7.20'
-    compile group: 'no.tornado', name: 'tornadofx-controls', version: '1.0.6'
-    compile group: 'de.jensd', name: 'fontawesomefx', version: '8.9'
-    compile group: 'org.controlsfx', name: 'controlsfx', version: '8.40.17'
+    // https://mvnrepository.com/artifact/org.openjfx/javafx
+    implementation('org.openjfx:javafx:16')
+
+    // https://mvnrepository.com/artifact/org.controlsfx/controlsfx
+    implementation("org.controlsfx:controlsfx:11.1.0")
 
     // https://mvnrepository.com/artifact/com.beust/klaxon
     compile group: 'com.beust', name: 'klaxon', version: '5.4'
+}
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.10"
+javafx {
+    version = "11"
+    modules = ['javafx.controls', 'javafx.fxml']
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "16"
 }
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "16"
 }
