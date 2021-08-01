@@ -5,37 +5,24 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.10'
 }
 
-mainClassName = 'de.olk90.inventorymanager.jfx.MainApp'
+mainClassName = 'de.olk90.inventorymanager.InventoryManagerApp'
 
 group 'de.olk90'
 version '1.1'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.16
 
 repositories {
     mavenCentral()
 }
 
-test {
-    useJUnitPlatform()
-}
-
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-
-    // https://mvnrepository.com/artifact/org.openjfx/javafx
-    implementation('org.openjfx:javafx:16')
-
-    // https://mvnrepository.com/artifact/org.controlsfx/controlsfx
-    implementation("org.controlsfx:controlsfx:11.1.0")
-    compile('de.jensd:fontawesomefx:8.9')
-
-    // https://mvnrepository.com/artifact/com.beust/klaxon
-    compile group: 'com.beust', name: 'klaxon', version: '5.4'
+//    // https://mvnrepository.com/artifact/com.beust/klaxon
+//    compile group: 'com.beust', name: 'klaxon', version: '5.4'
 }
 
 javafx {
-    version = "11"
+    version = "16"
     modules = ['javafx.controls', 'javafx.fxml']
 }
 
