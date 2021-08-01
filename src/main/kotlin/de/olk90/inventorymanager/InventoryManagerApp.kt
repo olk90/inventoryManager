@@ -11,7 +11,7 @@ class InventoryManagerApp : Application() {
     override fun start(primaryStage: Stage) {
         primaryStage.title = "Inventory Manager"
 
-        val resource = javaClass.getResource("fxml/mainView.fxml")
+        val resource = javaClass.classLoader.getResource("fxml/mainView.fxml")
         val root = FXMLLoader.load<Parent>(resource)
 
         primaryStage.scene = Scene(root, 1600.0, 900.0)
