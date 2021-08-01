@@ -28,6 +28,7 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.controlsfx/controlsfx
     implementation("org.controlsfx:controlsfx:11.1.0")
+    compile('de.jensd:fontawesomefx:8.9')
 
     // https://mvnrepository.com/artifact/com.beust/klaxon
     compile group: 'com.beust', name: 'klaxon', version: '5.4'
