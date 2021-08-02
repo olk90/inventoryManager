@@ -17,20 +17,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox prefHeight="860.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.olk90.inventorymanager.logic.controller.MainController">
+<HBox prefHeight="860.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.olk90.inventorymanager.logic.controller.InventoryController">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
          <children>
-            <TextField promptText="Search ..." />
-            <TableView prefHeight="473.0" prefWidth="133.0" VBox.vgrow="ALWAYS">
+            <TextField promptText="%label.search" />
+            <TableView fx:id="inventoryTable" prefHeight="473.0" prefWidth="133.0" VBox.vgrow="ALWAYS">
               <columns>
-                <TableColumn editable="false" prefWidth="75.0" text="Category" />
-                <TableColumn editable="false" prefWidth="75.0" text="Device" />
-                  <TableColumn editable="false" prefWidth="75.0" text="Available" />
-                  <TableColumn editable="false" prefWidth="75.0" text="Lending Date" />
-                  <TableColumn editable="false" prefWidth="75.0" text="Lend to" />
-                  <TableColumn editable="false" prefWidth="75.0" text="Next MOT" />
+                  <TableColumn editable="false" prefWidth="38.0" sortable="false" text="#" />
+                <TableColumn editable="false" prefWidth="304.0" text="%inventoryItem.category" />
+                <TableColumn editable="false" prefWidth="75.0" text="%inventoryItem.name" />
+                  <TableColumn editable="false" prefWidth="75.0" text="%inventoryItem.available" />
+                  <TableColumn editable="false" prefWidth="75.0" text="%inventoryItem.lendingDate" />
+                  <TableColumn editable="false" prefWidth="75.0" text="%inventoryItem.lender" />
+                  <TableColumn editable="false" prefWidth="75.0" text="%inventoryItem.nextMot" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -40,7 +40,7 @@
       </VBox>
       <VBox maxWidth="-Infinity" minWidth="-Infinity" prefWidth="400.0">
          <children>
-            <Label prefHeight="28.0" prefWidth="220.0" text="Edit Device" wrapText="true">
+            <Label prefHeight="28.0" prefWidth="220.0" text="%label.editItem" wrapText="true">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -61,17 +61,17 @@
                   <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="0.0" prefHeight="180.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label text="Device">
+                  <Label text="%inventoryItem.name">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" />
                      </padding>
                   </Label>
-                  <Label text="Available" GridPane.rowIndex="1">
+                  <Label text="%inventoryItem.available" GridPane.rowIndex="1">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" />
                      </padding>
                   </Label>
-                  <Label text="Next MOT" GridPane.rowIndex="2">
+                  <Label text="%inventoryItem.nextMot" GridPane.rowIndex="2">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" />
                      </padding>
@@ -86,12 +86,12 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </CheckBox>
-                  <Label text="Category" GridPane.rowIndex="3">
+                  <Label text="%inventoryItem.category" GridPane.rowIndex="3">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" />
                      </padding>
                   </Label>
-                  <Label text="Info" GridPane.rowIndex="4">
+                  <Label text="%inventoryItem.info" GridPane.rowIndex="4">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" />
                      </padding>
