@@ -1,16 +1,19 @@
 package de.olk90.inventorymanager.model
 
+import de.olk90.inventorymanager.logic.controller.ObjectStore
 import java.time.LocalDate
 
 class InventoryItem(
-    name: String? = null,
-    available: Boolean = false,
-    lendingDate: LocalDate? = null,
-    lendingDateString: String? = null,
-    info: String? = null,
-    category: String? = null,
-    motRequired: Boolean = true,
-    nextMot: LocalDate? = null,
-    nextMotString: String? = null
+    var name: String = "",
+    var available: Boolean = false,
+    var lendingDate: LocalDate? = null,
+    var lendingDateString: String? = null,
+    var info: String? = null,
+    var category: String? = null,
+    var motRequired: Boolean = true,
+    var nextMot: LocalDate? = null,
+    var nextMotString: String? = null
 ) {
+
+    val id = ObjectStore.nextInventoryId()
 }

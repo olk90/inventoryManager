@@ -1,21 +1,42 @@
 package de.olk90.inventorymanager
 
+import de.olk90.inventorymanager.logic.Config
+import de.olk90.inventorymanager.logic.controller.WorkspaceController
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
+import javafx.scene.image.Image
 import javafx.stage.Stage
 
 
 class InventoryManagerApp : Application() {
+
     override fun start(primaryStage: Stage) {
         primaryStage.title = "Inventory Manager"
+        primaryStage.icons.add(Image("icon.png"))
 
-        val resource = javaClass.classLoader.getResource("fxml/mainView.fxml")
-        val root = FXMLLoader.load<Parent>(resource)
+        try {
+            val resource = javaClass.classLoader.getResource("fxml/mainView.fxml")
+            val loader = FXMLLoader(resource)
+            val root = loader.load<Parent>()
 
-        primaryStage.scene = Scene(root, 1600.0, 900.0)
-        primaryStage.show()
+            val controller = loader.getController<WorkspaceController>()
+
+            // load or create config.json to setup history
+            controller.loadConfigFile()
+            // if the history was updated properly, open the last file again
+            if (controller.pathProperty.value != Config.userHome.absolutePath) {
+                controller.openDataContainer(controller.pathProperty.value)
+            }
+
+            primaryStage.scene = Scene(root, 1600.0, 900.0)
+            primaryStage.show()
+
+        } catch (e : Exception) {
+            e.printStackTrace()
+        }
+
     }
 
     companion object {

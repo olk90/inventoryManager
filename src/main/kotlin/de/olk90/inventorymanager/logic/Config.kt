@@ -1,13 +1,10 @@
 package de.olk90.inventorymanager.logic
 
-import javafx.beans.property.SimpleStringProperty
+import de.olk90.inventorymanager.model.FileExtension
 import javafx.stage.FileChooser
 import java.io.File
 import java.nio.file.Paths
-
-import de.olk90.inventorymanager.model.FileExtension
 import java.util.*
-import kotlin.collections.ArrayList
 
 object Config {
 
@@ -16,8 +13,6 @@ object Config {
     )
 
     val userHome = File(System.getProperty("user.home"))
-    val pathProperty = SimpleStringProperty(this, "path", userHome.toString())
-    val identifierProperty = SimpleStringProperty(this, "identifier", "")
 //    var model = WorkspaceViewModel()
 
     val configDirectory: File = Paths.get(System.getProperty("user.home"), ".inventoryManager").toFile()
