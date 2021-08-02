@@ -26,24 +26,21 @@ fun errorDialog(header: String, content: String) {
     alert.showAndWait()
 }
 
-fun exceptionDialog(header: String, content: String, ex: Exception) {
+fun exceptionDialog(header: String, ex: Exception) {
     val alert = Alert(AlertType.ERROR)
     alert.headerText = header
-    alert.contentText = "Bla"
 
     val sw = StringWriter()
     val pw = PrintWriter(sw)
     ex.printStackTrace(pw)
     val exceptionText = sw.toString()
 
-    val label = Label("The exception stacktrace was:")
+    val label = Label(messages("error.content.stacktrace"))
 
     val textArea = TextArea(exceptionText)
     textArea.isEditable = false
     textArea.isWrapText = true
 
-//    textArea.maxWidth = Double.MAX_VALUE
-//    textArea.maxHeight = Double.MAX_VALUE
     GridPane.setVgrow(textArea, Priority.ALWAYS)
     GridPane.setHgrow(textArea, Priority.ALWAYS)
 

@@ -195,7 +195,7 @@ class WorkspaceController {
                 errorDialog(messages("error.header.open"), messages("error.content.path", documentPath))
             }
         } catch (e: KlaxonException) {
-            exceptionDialog(messages("error.header.exception"), e.stackTraceToString(), e)
+            exceptionDialog(messages("error.header.exception"), e)
         }
     }
 
