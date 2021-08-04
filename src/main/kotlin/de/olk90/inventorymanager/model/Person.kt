@@ -1,6 +1,6 @@
 package de.olk90.inventorymanager.model
 
-import de.olk90.inventorymanager.logic.controller.ObjectStore
+import de.olk90.inventorymanager.logic.shared.ObjectStore
 
 class Person(
     var firstName: String = "",

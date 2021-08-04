@@ -1,16 +1,20 @@
 package de.olk90.inventorymanager.logic.controller
 
-import de.olk90.inventorymanager.logic.Config
+import de.olk90.inventorymanager.logic.shared.Config
 import de.olk90.inventorymanager.model.FileExtension
 import javafx.event.ActionEvent
 import javafx.fxml.FXML
 import javafx.scene.Node
 import javafx.scene.control.TextField
+import javafx.scene.layout.BorderPane
 import javafx.stage.FileChooser
 import javafx.stage.Window
 import java.io.File
 
 class DatabaseController {
+
+    @FXML
+    lateinit var newDbDialog: BorderPane
 
     @FXML
     lateinit var identifierField: TextField
@@ -42,6 +46,10 @@ class DatabaseController {
                 e.printStackTrace()
             }
         }
+    }
+
+    fun cancel() {
+        newDbDialog.scene.window.hide()
     }
 
     private fun getCurrentWindow(event: ActionEvent): Window {

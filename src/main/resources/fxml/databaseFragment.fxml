@@ -5,13 +5,16 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="170.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.olk90.inventorymanager.logic.controller.DatabaseController">
-   <children>
-      <Label alignment="CENTER" text="%label.newContainer" />
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+
+<BorderPane fx:id="newDbDialog" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.olk90.inventorymanager.logic.controller.DatabaseController">
+   <top>
+      <Label alignment="CENTER" text="%label.newContainer" BorderPane.alignment="CENTER" />
+   </top>
+   <center>
+      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" BorderPane.alignment="CENTER">
          <children>
             <Label maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="%label.identifier">
                <padding>
@@ -28,14 +31,16 @@
             <Insets right="5.0" />
          </opaqueInsets>
       </HBox>
-      <ButtonBar prefHeight="40.0" prefWidth="200.0">
+   </center>
+   <bottom>
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
-          <Button mnemonicParsing="false" text="Cancel" />
+          <Button mnemonicParsing="false" onAction="#cancel" text="Cancel" />
             <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#writeFile" text="OK" />
         </buttons>
          <padding>
             <Insets right="5.0" />
          </padding>
       </ButtonBar>
-   </children>
-</VBox>
+   </bottom>
+</BorderPane>

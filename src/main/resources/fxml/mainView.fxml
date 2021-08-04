@@ -8,8 +8,6 @@
    <top>
       <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <items>
-          <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="120.0" text="Add" />
-            <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="120.0" text="Remove" />
             <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="120.0" text="History" />
             <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openNewDatabase" prefWidth="120.0" text="New Database" />
             <Button maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#openPersonsView" prefWidth="120.0" text="Persons" />

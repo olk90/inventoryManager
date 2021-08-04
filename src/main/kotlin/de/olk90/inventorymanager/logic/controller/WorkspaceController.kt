@@ -3,9 +3,10 @@ package de.olk90.inventorymanager.logic.controller
 import com.beust.klaxon.Klaxon
 import com.beust.klaxon.KlaxonException
 import com.beust.klaxon.json
-import de.olk90.inventorymanager.logic.Config
-import de.olk90.inventorymanager.logic.History
-import de.olk90.inventorymanager.logic.HistoryEntry
+import de.olk90.inventorymanager.logic.shared.Config
+import de.olk90.inventorymanager.logic.shared.History
+import de.olk90.inventorymanager.logic.shared.HistoryEntry
+import de.olk90.inventorymanager.logic.shared.ObjectStore
 import de.olk90.inventorymanager.model.DataContainer
 import de.olk90.inventorymanager.view.errorDialog
 import de.olk90.inventorymanager.view.exceptionDialog
@@ -18,6 +19,7 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.layout.BorderPane
+import javafx.stage.Modality
 import javafx.stage.Stage
 import java.io.File
 import java.nio.file.Paths
@@ -42,9 +44,12 @@ class WorkspaceController {
         val fragment = FXMLLoader.load<Parent>(resource, Config.getResourceBundle())
         val secondaryScene = Scene(fragment, 300.0, 170.0)
 
-        val newWindow = Stage()
-        newWindow.scene = secondaryScene
-        newWindow.show()
+        val parent = mainView.scene.window
+        val dialog = Stage()
+        dialog.initOwner(parent)
+        dialog.scene = secondaryScene
+        dialog.initModality(Modality.APPLICATION_MODAL)
+        dialog.show()
     }
 
     fun openPersonsView() {

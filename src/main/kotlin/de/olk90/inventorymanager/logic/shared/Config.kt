@@ -1,4 +1,4 @@
-package de.olk90.inventorymanager.logic
+package de.olk90.inventorymanager.logic.shared
 
 import de.olk90.inventorymanager.model.FileExtension
 import javafx.stage.FileChooser
