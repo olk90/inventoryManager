@@ -5,7 +5,7 @@ plugins {
     id 'org.openjfx.javafxplugin' version '0.0.10'
 }
 
-mainClassName = 'de.olk90.inventorymanager.InventoryManagerApp'
+mainClassName = 'de.olk90.inventorymanager.InventoryManagerAppKt'
 
 group 'de.olk90'
 version '2.0'

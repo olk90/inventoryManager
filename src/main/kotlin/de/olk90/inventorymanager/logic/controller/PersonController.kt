@@ -1,16 +1,15 @@
 package de.olk90.inventorymanager.logic.controller
 
-import javafx.fxml.FXMLLoader
-
-fun getPersonControllerInstance(classLoader: ClassLoader): PersonController {
-    val resource = classLoader.getResource("fxml/personsView.fxml")
-    val loader = FXMLLoader(resource)
-    return loader.getController()
-}
+import javafx.fxml.FXML
 
 class PersonController {
 
-    fun reloadTableItems() {
+    @FXML
+    fun initialize() {
+        reloadTableItems()
+    }
+
+    private fun reloadTableItems() {
         println("Not yet implemented")
     }
 

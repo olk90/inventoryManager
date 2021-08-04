@@ -1,9 +1,9 @@
 package de.olk90.inventorymanager.logic.controller
 
-import de.olk90.inventorymanager.logic.HistoryEntry
 import de.olk90.inventorymanager.model.InventoryItem
 import de.olk90.inventorymanager.model.LendingHistoryRecord
 import de.olk90.inventorymanager.model.Person
+import impl.org.controlsfx.autocompletion.SuggestionProvider
 import javafx.collections.FXCollections
 
 object ObjectStore {
@@ -13,6 +13,8 @@ object ObjectStore {
     val history = FXCollections.observableArrayList<LendingHistoryRecord>()
 
     val categories = FXCollections.observableArrayList<String>()
+    val categoryProvider: SuggestionProvider<String> = SuggestionProvider.create(categories)
+
 
     fun nextPersonId(): Int {
         return if (persons.isEmpty()) {
@@ -59,7 +61,12 @@ object ObjectStore {
         val c = inventoryItems.map { it.category }.toSet()
         categories.addAll(c)
         // provide updated values to the suggestions in text field
-        getInventoryControllerInstance(javaClass.classLoader).updateProvider()
+        updateProvider()
+    }
+
+    private fun updateProvider() {
+        categoryProvider.clearSuggestions()
+        categoryProvider.addPossibleSuggestions(categories)
     }
 
     fun getHistoryOfItem(item: InventoryItem): List<LendingHistoryRecord> {

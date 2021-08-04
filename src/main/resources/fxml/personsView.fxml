@@ -21,7 +21,7 @@
             <TextField promptText="%label.search" />
             <TableView prefHeight="335.0" prefWidth="344.0" VBox.vgrow="SOMETIMES">
                <columns>
-                  <TableColumn editable="false" prefWidth="75.0" sortable="false" text="#" />
+                  <TableColumn editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" text="#" />
                   <TableColumn editable="false" prefWidth="75.0" text="%person.firstName" />
                   <TableColumn editable="false" prefWidth="75.0" text="%person.lastName" />
                   <TableColumn editable="false" prefWidth="75.0" text="%person.email" />

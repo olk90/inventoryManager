@@ -24,7 +24,7 @@
             <TextField promptText="%label.search" />
             <TableView fx:id="inventoryTable" prefHeight="473.0" prefWidth="133.0" VBox.vgrow="ALWAYS">
               <columns>
-                  <TableColumn editable="false" prefWidth="38.0" sortable="false" text="#" />
+                  <TableColumn editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" text="#" />
                 <TableColumn editable="false" prefWidth="304.0" text="%inventoryItem.category" />
                 <TableColumn editable="false" prefWidth="75.0" text="%inventoryItem.name" />
                   <TableColumn editable="false" prefWidth="75.0" text="%inventoryItem.available" />

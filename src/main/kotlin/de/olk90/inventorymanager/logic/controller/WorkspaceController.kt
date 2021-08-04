@@ -170,11 +170,11 @@ class WorkspaceController {
 
                 }
                 dc.history.forEach {
-                    if (!it.lendingDateString.isNullOrEmpty()) {
+                    if (it.lendingDateString.isNotEmpty()) {
                         val formatter = DateTimeFormatter.ISO_LOCAL_DATE
                         it.lendingDate = LocalDate.parse(it.lendingDateString, formatter)
                     }
-                    if (!it.returnDateString.isNullOrEmpty()) {
+                    if (it.returnDateString.isNotEmpty()) {
                         val formatter = DateTimeFormatter.ISO_LOCAL_DATE
                         it.returnDate = LocalDate.parse(it.returnDateString, formatter)
                     }
@@ -186,10 +186,6 @@ class WorkspaceController {
                 updateHistory(documentPath)
 
                 dataContainerOpen.set(true)
-
-                // reload table contents, otherwise there will be issues when loading another container from history
-                getPersonControllerInstance(javaClass.classLoader).reloadTableItems()
-                getInventoryControllerInstance(javaClass.classLoader).reloadTableItems()
 
             } else {
                 errorDialog(messages("error.header.open"), messages("error.content.path", documentPath))

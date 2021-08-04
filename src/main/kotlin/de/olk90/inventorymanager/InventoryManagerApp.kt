@@ -33,7 +33,7 @@ class InventoryManagerApp : Application() {
             primaryStage.scene = Scene(root, 1600.0, 900.0)
             primaryStage.show()
 
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             e.printStackTrace()
         }
 
@@ -45,4 +45,15 @@ class InventoryManagerApp : Application() {
             launch(InventoryManagerApp::class.java)
         }
     }
+}
+
+/*
+ * workaround necessary to run app outside gradle
+ * (s. https://github.com/javafxports/openjdk-jfx/issues/236)
+ *
+ * As of version 16 a warning is received, if the module is not
+ * named (s. https://stackoverflow.com/a/67854230)
+ */
+fun main(args: Array<String>) {
+    InventoryManagerApp.main(args)
 }
