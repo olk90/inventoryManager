@@ -20,12 +20,12 @@
       <VBox HBox.hgrow="ALWAYS">
          <children>
             <TextField promptText="%label.search" />
-            <TableView prefHeight="335.0" prefWidth="344.0" VBox.vgrow="SOMETIMES">
+            <TableView fx:id="personTable" prefHeight="335.0" prefWidth="344.0" VBox.vgrow="SOMETIMES">
                <columns>
-                  <TableColumn editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" text="#" />
-                  <TableColumn editable="false" prefWidth="75.0" text="%person.firstName" />
-                  <TableColumn editable="false" prefWidth="75.0" text="%person.lastName" />
-                  <TableColumn editable="false" prefWidth="75.0" text="%person.email" />
+                  <TableColumn editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" style="-fx-alignment: CENTER;" text="#" />
+                  <TableColumn fx:id="firstNameCol" editable="false" prefWidth="75.0" style="-fx-alignment: CENTER;" text="%person.firstName" />
+                  <TableColumn fx:id="lastNameCol" editable="false" prefWidth="75.0" style="-fx-alignment: CENTER;" text="%person.lastName" />
+                  <TableColumn fx:id="emailCol" editable="false" prefWidth="75.0" style="-fx-alignment: CENTER;" text="%person.email" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

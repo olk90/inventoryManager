@@ -1,16 +1,40 @@
 package de.olk90.inventorymanager.logic.controller
 
+import de.olk90.inventorymanager.logic.shared.ObjectStore
+import de.olk90.inventorymanager.model.Person
 import javafx.fxml.FXML
+import javafx.scene.control.TableColumn
+import javafx.scene.control.TableView
+import javafx.scene.control.cell.PropertyValueFactory
+
 
 class PersonController {
 
     @FXML
+    lateinit var personTable: TableView<Person>
+
+    @FXML
+    lateinit var firstNameCol: TableColumn<Person, String>
+
+    @FXML
+    lateinit var lastNameCol: TableColumn<Person, String>
+
+    @FXML
+    lateinit var emailCol: TableColumn<Person, String>
+
     fun initialize() {
+        initializeColumns()
         reloadTableItems()
     }
 
+    private fun initializeColumns() {
+        firstNameCol.cellValueFactory = PropertyValueFactory("firstName")
+        lastNameCol.cellValueFactory = PropertyValueFactory("lastName")
+        emailCol.cellValueFactory = PropertyValueFactory("email")
+    }
+
     private fun reloadTableItems() {
-        println("Not yet implemented")
+        personTable.items = ObjectStore.persons
     }
 
 }
