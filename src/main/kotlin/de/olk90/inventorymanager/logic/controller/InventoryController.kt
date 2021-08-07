@@ -63,6 +63,7 @@ class InventoryController {
             Locale.getDefault(),
             "MMM/yyyy"
         )
+        yearMonthPicker.maxWidth = Double.MAX_VALUE
         editorGrid.add(yearMonthPicker, 1, 2)
     }
 
