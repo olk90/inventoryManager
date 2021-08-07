@@ -1,8 +1,12 @@
 package de.olk90.inventorymanager.logic.controller
 
+import de.olk90.inventorymanager.logic.datahelpers.LendingDate
+import de.olk90.inventorymanager.logic.datahelpers.MotDate
 import de.olk90.inventorymanager.logic.datahelpers.ObjectStore
 import de.olk90.inventorymanager.model.InventoryItem
 import de.olk90.inventorymanager.model.Person
+import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
@@ -31,13 +35,13 @@ class InventoryController {
     lateinit var availableCol: TableColumn<InventoryItem, String>
 
     @FXML
-    lateinit var lendingDateCol: TableColumn<InventoryItem, Date>
+    lateinit var lendingDateCol: TableColumn<InventoryItem, LendingDate>
 
     @FXML
     lateinit var lenderCol: TableColumn<InventoryItem, Person>
 
     @FXML
-    lateinit var nextMotCol: TableColumn<InventoryItem, Date>
+    lateinit var nextMotCol: TableColumn<InventoryItem, MotDate>
 
     fun initialize() {
         initializeColumns()
@@ -47,11 +51,27 @@ class InventoryController {
 
     private fun initializeColumns() {
         categoryCol.cellValueFactory = PropertyValueFactory("category")
+
         nameCol.cellValueFactory = PropertyValueFactory("name")
         availableCol.cellValueFactory = PropertyValueFactory("available")
-        lendingDateCol.cellValueFactory = PropertyValueFactory("lendingDate")
-        lenderCol.cellValueFactory = PropertyValueFactory("lender")
-        nextMotCol.cellValueFactory = PropertyValueFactory("nextMot")
+        lendingDateCol.setCellValueFactory {
+            val lendingDate = it.value.lendingDate
+            SimpleObjectProperty(lendingDate)
+        }
+
+        lenderCol.setCellValueFactory {
+            val lender = ObjectStore.persons.firstOrNull { p -> p.id == it.value.lender }
+            if (lender != null) {
+                SimpleObjectProperty(lender)
+            } else {
+                SimpleObjectProperty(Person())
+            }
+        }
+
+        nextMotCol.setCellValueFactory {
+            val nextMot = it.value.nextMot
+            SimpleObjectProperty(nextMot)
+        }
     }
 
     private fun initializeEditor() {

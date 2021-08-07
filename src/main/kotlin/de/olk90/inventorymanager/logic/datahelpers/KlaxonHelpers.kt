@@ -11,8 +11,17 @@ annotation class IsoDate
 
 class LendingDate @JvmOverloads constructor(
     @IsoDate
-    val date: LocalDate = LocalDate.of(2000, 1, 1)
-)
+    val date: LocalDate = LocalDate.of(1970, 1, 1)
+) {
+    override fun toString(): String {
+        val isDummy = date.year == 1970
+        return if (isDummy) {
+            ""
+        } else {
+            date.toString()
+        }
+    }
+}
 
 val lendingDateConverter = object : Converter {
 
@@ -35,8 +44,17 @@ annotation class MonthYearDate
 
 class MotDate @JvmOverloads constructor(
     @MonthYearDate
-    val date: LocalDate = LocalDate.of(2000, 1, 1)
-)
+    val date: LocalDate = LocalDate.of(1970, 1, 1)
+) {
+    override fun toString(): String {
+        val isDummy = date.year == 1970
+        return if (isDummy) {
+            ""
+        } else {
+            date.toString()
+        }
+    }
+}
 
 val motDateConverter = object : Converter {
 
