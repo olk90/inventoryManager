@@ -7,6 +7,9 @@ import javafx.fxml.FXML
 import javafx.scene.control.TableColumn
 import javafx.scene.control.TableView
 import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.layout.GridPane
+import se.alipsa.ymp.YearMonthPickerCombo
+import java.time.YearMonth
 import java.util.*
 
 
@@ -14,6 +17,9 @@ class InventoryController {
 
     @FXML
     lateinit var inventoryTable: TableView<InventoryItem>
+
+    @FXML
+    lateinit var editorGrid: GridPane
 
     @FXML
     lateinit var categoryCol: TableColumn<InventoryItem, String>
@@ -35,6 +41,7 @@ class InventoryController {
 
     fun initialize() {
         initializeColumns()
+        initializeEditor()
         reloadTableItems()
     }
 
@@ -45,6 +52,18 @@ class InventoryController {
         lendingDateCol.cellValueFactory = PropertyValueFactory("lendingDate")
         lenderCol.cellValueFactory = PropertyValueFactory("lender")
         nextMotCol.cellValueFactory = PropertyValueFactory("nextMot")
+    }
+
+    private fun initializeEditor() {
+        val initial = YearMonth.now()
+        val yearMonthPicker = YearMonthPickerCombo(
+            initial,
+            initial.plusYears(6),
+            initial,
+            Locale.getDefault(),
+            "MMM/yyyy"
+        )
+        editorGrid.add(yearMonthPicker, 1, 2)
     }
 
     private fun reloadTableItems() {

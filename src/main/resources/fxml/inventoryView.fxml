@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -55,7 +54,7 @@
                   <Insets left="5.0" />
                </padding>
             </Label>
-            <GridPane>
+            <GridPane fx:id="editorGrid">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -104,7 +103,6 @@
                      </padding>
                   </Label>
                   <TextArea maxHeight="-Infinity" minHeight="-Infinity" prefHeight="180.0" prefWidth="213.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <DatePicker minWidth="-Infinity" prefHeight="24.0" prefWidth="290.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
                <padding>
