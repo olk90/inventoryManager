@@ -1,6 +1,6 @@
 package de.olk90.inventorymanager.logic.controller
 
-import de.olk90.inventorymanager.logic.shared.Config
+import de.olk90.inventorymanager.logic.datahelpers.Config
 import de.olk90.inventorymanager.model.FileExtension
 import javafx.event.ActionEvent
 import javafx.fxml.FXML

@@ -1,6 +1,6 @@
 package de.olk90.inventorymanager.logic.controller
 
-import de.olk90.inventorymanager.logic.shared.ObjectStore
+import de.olk90.inventorymanager.logic.datahelpers.ObjectStore
 import de.olk90.inventorymanager.model.Person
 import javafx.fxml.FXML
 import javafx.scene.control.TableColumn

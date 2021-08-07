@@ -1,4 +1,4 @@
-package de.olk90.inventorymanager.logic.shared
+package de.olk90.inventorymanager.logic.datahelpers
 
 import de.olk90.inventorymanager.model.InventoryItem
 import de.olk90.inventorymanager.model.LendingHistoryRecord

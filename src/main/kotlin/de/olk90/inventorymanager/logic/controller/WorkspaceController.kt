@@ -3,10 +3,7 @@ package de.olk90.inventorymanager.logic.controller
 import com.beust.klaxon.Klaxon
 import com.beust.klaxon.KlaxonException
 import com.beust.klaxon.json
-import de.olk90.inventorymanager.logic.shared.Config
-import de.olk90.inventorymanager.logic.shared.History
-import de.olk90.inventorymanager.logic.shared.HistoryEntry
-import de.olk90.inventorymanager.logic.shared.ObjectStore
+import de.olk90.inventorymanager.logic.datahelpers.*
 import de.olk90.inventorymanager.model.DataContainer
 import de.olk90.inventorymanager.view.errorDialog
 import de.olk90.inventorymanager.view.exceptionDialog
@@ -156,7 +153,10 @@ class WorkspaceController {
 
     fun openDataContainer(documentPath: String) {
         try {
-            val dc = Klaxon().parse<DataContainer>(File(documentPath))
+            val dc = Klaxon()
+                .fieldConverter(IsoDate::class, lendingDateConverter)
+                .fieldConverter(MonthYearDate::class, motDateConverter)
+                .parse<DataContainer>(File(documentPath))
             if (dc != null) {
                 dc.persons.forEach {
                     it.firstName = findAndReplaceCodePoints(it.firstName)
@@ -164,15 +164,6 @@ class WorkspaceController {
                 }
                 dc.items.forEach {
                     it.name = findAndReplaceCodePoints(it.name)
-                    if (!it.lendingDateString.isNullOrEmpty()) {
-                        val formatter = DateTimeFormatter.ISO_LOCAL_DATE
-                        it.lendingDate = LocalDate.parse(it.lendingDateString, formatter)
-                    }
-                    if (!it.nextMotString.isNullOrEmpty()) {
-                        val formatter = DateTimeFormatter.ISO_LOCAL_DATE
-                        it.nextMot = LocalDate.parse(it.nextMotString, formatter)
-                    }
-
                 }
                 dc.history.forEach {
                     if (it.lendingDateString.isNotEmpty()) {

@@ -1,7 +1,7 @@
 package de.olk90.inventorymanager.model
 
 import com.beust.klaxon.Json
-import de.olk90.inventorymanager.logic.shared.ObjectStore
+import de.olk90.inventorymanager.logic.datahelpers.ObjectStore
 import javafx.beans.property.SimpleStringProperty
 
 class Person(

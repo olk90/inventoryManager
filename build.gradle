@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     // https://mvnrepository.com/artifact/com.beust/klaxon
-    implementation("com.beust:klaxon:5.5")
+    implementation("com.beust:klaxon:5.4")
 
     // https://mvnrepository.com/artifact/org.controlsfx/controlsfx
     implementation("org.controlsfx:controlsfx:11.1.0")

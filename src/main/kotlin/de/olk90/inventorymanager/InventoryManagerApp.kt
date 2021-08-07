@@ -1,6 +1,6 @@
 package de.olk90.inventorymanager
 
-import de.olk90.inventorymanager.logic.shared.Config
+import de.olk90.inventorymanager.logic.datahelpers.Config
 import de.olk90.inventorymanager.logic.controller.WorkspaceController
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
