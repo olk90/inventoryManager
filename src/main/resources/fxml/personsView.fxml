@@ -74,17 +74,17 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" />
                      </padding>
                   </Label>
-                  <TextField GridPane.columnIndex="1">
+                  <TextField fx:id="firstNameTextField" GridPane.columnIndex="1">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" />
                      </padding>
                   </TextField>
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="lastNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" />
                      </padding>
                   </TextField>
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <TextField fx:id="emailTextField" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" />
                      </padding>
