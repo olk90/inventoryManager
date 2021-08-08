@@ -1,10 +1,7 @@
 package de.olk90.inventorymanager.logic.controller
 
-import de.olk90.inventorymanager.logic.datahelpers.LendingDate
-import de.olk90.inventorymanager.logic.datahelpers.MotDate
 import de.olk90.inventorymanager.logic.datahelpers.ObjectStore
 import de.olk90.inventorymanager.model.InventoryItem
-import de.olk90.inventorymanager.model.Person
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
@@ -14,6 +11,8 @@ import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.layout.GridPane
 import se.alipsa.ymp.YearMonthPickerCombo
 import java.time.YearMonth
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 
 
@@ -35,13 +34,13 @@ class InventoryController {
     lateinit var availableCol: TableColumn<InventoryItem, String>
 
     @FXML
-    lateinit var lendingDateCol: TableColumn<InventoryItem, LendingDate>
+    lateinit var lendingDateCol: TableColumn<InventoryItem, String>
 
     @FXML
-    lateinit var lenderCol: TableColumn<InventoryItem, Person>
+    lateinit var lenderCol: TableColumn<InventoryItem, String>
 
     @FXML
-    lateinit var nextMotCol: TableColumn<InventoryItem, MotDate>
+    lateinit var nextMotCol: TableColumn<InventoryItem, String>
 
     fun initialize() {
         initializeColumns()
@@ -50,27 +49,59 @@ class InventoryController {
     }
 
     private fun initializeColumns() {
-        categoryCol.cellValueFactory = PropertyValueFactory("category")
+        configureCategoryCol()
+        configureNameCol()
+        configureAvailableCol()
+        configureLendingDateCol()
+        configureLenderCol()
+        configureNextMotCol()
+    }
 
+    private fun configureCategoryCol() {
+        categoryCol.cellValueFactory = PropertyValueFactory("category")
+    }
+
+    private fun configureNameCol() {
         nameCol.cellValueFactory = PropertyValueFactory("name")
+    }
+
+    private fun configureAvailableCol() {
         availableCol.cellValueFactory = PropertyValueFactory("available")
+    }
+
+    private fun configureLendingDateCol() {
         lendingDateCol.setCellValueFactory {
             val lendingDate = it.value.lendingDate
-            SimpleObjectProperty(lendingDate)
+            val date = lendingDate.date
+            val dateString = if (date.year == 1970) {
+                ""
+            } else {
+                val localizedDate = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                date.format(localizedDate)
+            }
+            SimpleStringProperty(dateString)
         }
+    }
 
+    private fun configureLenderCol() {
         lenderCol.setCellValueFactory {
             val lender = ObjectStore.persons.firstOrNull { p -> p.id == it.value.lender }
-            if (lender != null) {
-                SimpleObjectProperty(lender)
-            } else {
-                SimpleObjectProperty(Person())
-            }
+            val lenderName = lender?.getFullName() ?: ""
+            SimpleStringProperty(lenderName)
         }
+    }
 
+    private fun configureNextMotCol() {
         nextMotCol.setCellValueFactory {
             val nextMot = it.value.nextMot
-            SimpleObjectProperty(nextMot)
+            val date = nextMot.date
+            val motString = if (date.year == 1970) {
+                ""
+            } else {
+                val formatter = DateTimeFormatter.ofPattern("MMM/yyyy")
+                date.format(formatter)
+            }
+            SimpleStringProperty(motString)
         }
     }
 

@@ -34,6 +34,6 @@ class Person(
         set(value) = emailProperty.set(value)
 
     fun getFullName(): String {
-        return "$firstNameProperty $lastNameProperty"
+        return "${firstNameProperty.value} ${lastNameProperty.value}"
     }
 }
