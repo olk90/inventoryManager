@@ -1,209 +1,127 @@
 package de.olk90.inventorymanager.logic.controller
 
-import de.olk90.inventorymanager.model.*
-import de.olk90.inventorymanager.view.inventory.HistoryView
-import impl.org.controlsfx.autocompletion.SuggestionProvider
-import javafx.beans.property.SimpleBooleanProperty
-import javafx.collections.ObservableList
-import javafx.scene.control.TextField
-import tornadofx.*
-import java.time.LocalDate
+import de.olk90.inventorymanager.logic.datahelpers.ObjectStore
+import de.olk90.inventorymanager.model.InventoryItem
+import de.olk90.inventorymanager.view.addIndexColumn
+import javafx.beans.property.SimpleStringProperty
+import javafx.fxml.FXML
+import javafx.scene.control.TableColumn
+import javafx.scene.control.TableView
+import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.layout.GridPane
+import se.alipsa.ymp.YearMonthPickerCombo
+import java.time.YearMonth
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.*
 
-fun getInventoryControllerInstance(): InventoryController {
-    return find(InventoryController::class)
-}
 
-class InventoryController : Controller() {
+class InventoryController {
 
-    var model = InventoryItemModel(InventoryItem())
+    @FXML
+    lateinit var inventoryTable: TableView<InventoryItem>
 
-    val multiLendingModel = MultiLendingModel(MultiLending())
+    @FXML
+    lateinit var editorGrid: GridPane
 
-    // used in InventoryContextMenu
-    val selectedItemAvailable = SimpleBooleanProperty(false)
+    @FXML
+    lateinit var categoryCol: TableColumn<InventoryItem, String>
 
-    private val filteredData = SortedFilteredList(ObjectStore.inventoryItems)
-    val tableItems = mutableListOf<InventoryItem>().asObservable()
-    val historyItems = mutableListOf<LendingHistoryRecord>().asObservable()
+    @FXML
+    lateinit var nameCol: TableColumn<InventoryItem, String>
 
-    val provider: SuggestionProvider<String> = SuggestionProvider.create(ObjectStore.categories)
+    @FXML
+    lateinit var availableCol: TableColumn<InventoryItem, String>
 
-    fun save(lendItem: Boolean = false) {
-        model.commit()
+    @FXML
+    lateinit var lendingDateCol: TableColumn<InventoryItem, String>
 
-        val item = model.item
-        val i = ObjectStore.findInventoryById(item.id)!!
-        if (lendItem) {
-            i.available = false
-            i.lender = item.lender
-            i.lendingDate = item.lendingDate
-            val lenderId = item.lender
-            updateLenderNameProperty(lenderId, i)
-            selectedItemAvailable.set(i.available)
-        } else {
-            i.name = item.name
-            i.available = item.available
-            i.motRequired = item.motRequired
-            i.nextMot = item.nextMot
-            i.category = item.category
-            ObjectStore.updateCategories()
-        }
+    @FXML
+    lateinit var lenderCol: TableColumn<InventoryItem, String>
 
-        getWorkspaceControllerInstance().writeDcFile()
+    @FXML
+    lateinit var nextMotCol: TableColumn<InventoryItem, String>
+
+    fun initialize() {
+        initializeColumns()
+        initializeEditor()
+        reloadTableItems()
     }
 
-    private fun updateLenderNameProperty(lenderId: Int, item: InventoryItem) {
-        if (lenderId > -1) {
-            val lender = ObjectStore.persons.find { it.id == lenderId }
-            item.lenderNameProperty.value = lender!!.getFullName()
-        } else {
-            item.lenderNameProperty.value = ""
-        }
+    private fun initializeColumns() {
+        inventoryTable.addIndexColumn()
+
+        configureCategoryCol()
+        configureNameCol()
+        configureAvailableCol()
+        configureLendingDateCol()
+        configureLenderCol()
+        configureNextMotCol()
     }
 
-    fun add() {
-        val item = InventoryItem(
-                name = model.name.value,
-                available = model.available.value,
-                lendingDate = model.lendingDate.value,
-                info = model.info.value,
-                category = model.category.value,
-                motRequired = model.motRequired.value,
-                nextMot = model.nextMot.value
-        )
-        insertItem(item)
-        getWorkspaceControllerInstance().writeDcFile()
+    private fun configureCategoryCol() {
+        categoryCol.cellValueFactory = PropertyValueFactory("category")
     }
 
-    private fun insertItem(item: InventoryItem) {
-        ObjectStore.inventoryItems.add(item)
-        ObjectStore.updateCategories()
-        tableItems.add(item)
+    private fun configureNameCol() {
+        nameCol.cellValueFactory = PropertyValueFactory("name")
     }
 
-    fun configureFilterListener(textField: TextField) {
-        textField.textProperty().addListener { _, _, newValue ->
-            tableItems.clear()
-            filteredData.predicate = {
-                val filterTextEmpty = newValue == null || newValue.isEmpty()
+    private fun configureAvailableCol() {
+        availableCol.cellValueFactory = PropertyValueFactory("available")
+    }
 
-                val lowerCaseFilter = newValue.toLowerCase()
-                val nameMatch = it.name.toLowerCase().indexOf(lowerCaseFilter) != -1
-
-                val lenderMatch = if (it.lender > -1) {
-                    val lender = ObjectStore.persons.first { p -> p.id == it.lender }
-                    lender.getFullName().toLowerCase().indexOf(lowerCaseFilter) != -1
-                } else {
-                    false
-                }
-
-                val lendingDateMatch = if (it.lendingDateString != null) {
-                    it.lendingDateString.toLowerCase().indexOf(lowerCaseFilter) != -1
-                } else {
-                    false
-                }
-
-                val nextMotMatch = if (it.nextMotString != null) {
-                    it.nextMotString.toLowerCase().indexOf(lowerCaseFilter) != -1
-                } else {
-                    false
-                }
-
-                val infoMatch = if (it.info != null) {
-                    it.info.toLowerCase().indexOf(lowerCaseFilter) != -1
-                } else {
-                    false
-                }
-
-                val categoryMatch = if (it.category != null) {
-                    it.category.toLowerCase().indexOf(lowerCaseFilter) != -1
-                } else {
-                    false
-                }
-
-                filterTextEmpty || nameMatch || lenderMatch || lendingDateMatch || nextMotMatch || infoMatch || categoryMatch
+    private fun configureLendingDateCol() {
+        lendingDateCol.setCellValueFactory {
+            val lendingDate = it.value.lendingDate
+            val date = lendingDate.date
+            val dateString = if (date.year == 1970) {
+                ""
+            } else {
+                val localizedDate = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+                date.format(localizedDate)
             }
-            tableItems.addAll(filteredData)
+            SimpleStringProperty(dateString)
         }
-
     }
 
-    fun delete(items: ObservableList<InventoryItem>) {
-        items.forEach {
-            ObjectStore.inventoryItems.remove(it)
-            tableItems.remove(it)
+    private fun configureLenderCol() {
+        lenderCol.setCellValueFactory {
+            val lender = ObjectStore.persons.firstOrNull { p -> p.id == it.value.lender }
+            val lenderName = lender?.getFullName() ?: ""
+            SimpleStringProperty(lenderName)
         }
-        getWorkspaceControllerInstance().writeDcFile()
     }
 
-    fun returnItems(items: List<InventoryItem>) {
-        items.forEach {
-            createLendingRecord(it)
-            it.lender = -1
-            it.lendingDate = null
-            it.lendingDateString = null
-            it.available = true
-            selectedItemAvailable.set(true)
+    private fun configureNextMotCol() {
+        nextMotCol.setCellValueFactory {
+            val nextMot = it.value.nextMot
+            val date = nextMot.date
+            val motString = if (date.year == 1970) {
+                ""
+            } else {
+                val formatter = DateTimeFormatter.ofPattern("MMM/yyyy")
+                date.format(formatter)
+            }
+            SimpleStringProperty(motString)
         }
-        getWorkspaceControllerInstance().writeDcFile()
     }
 
-    private fun createLendingRecord(item: InventoryItem) {
-        val record = LendingHistoryRecord(
-                lendingDate = item.lendingDate,
-                returnDate = LocalDate.now()
+    private fun initializeEditor() {
+        val initial = YearMonth.now()
+        val yearMonthPicker = YearMonthPickerCombo(
+            initial,
+            initial.plusYears(6),
+            initial,
+            Locale.getDefault(),
+            "MMM/yyyy"
         )
-        record.lender = item.lender
-        record.item = item.id
-        record.lendingDateString = record.lendingDate.toString()
-        record.returnDateString = record.returnDate.toString()
-        ObjectStore.history.add(record)
+        yearMonthPicker.maxWidth = Double.MAX_VALUE
+        editorGrid.add(yearMonthPicker, 1, 2)
     }
 
-    fun lendMultipleItems() {
-        multiLendingModel.commit()
-
-        val lender = multiLendingModel.lender.value
-        val lendingDate = multiLendingModel.lendingDate.value
-        val lendingDateString = multiLendingModel.lendingDateString.value
-
-        multiLendingModel.items.forEach {
-            val item = ObjectStore.findInventoryById(it.id)!!
-            item.lender = lender.id
-            item.available = false
-            item.lendingDate = lendingDate
-            item.lendingDateString = lendingDateString
-            selectedItemAvailable.set(item.available)
-            updateLenderNameProperty(item.lender, item)
-        }
-
-        getWorkspaceControllerInstance().writeDcFile()
+    private fun reloadTableItems() {
+        inventoryTable.items = ObjectStore.inventoryItems
     }
 
-    fun updateProvider() {
-        provider.clearSuggestions()
-        provider.addPossibleSuggestions(ObjectStore.categories)
-    }
-
-    fun setupView(item: InventoryItem): HistoryView {
-        historyItems.clear()
-        val records = ObjectStore.getHistoryOfItem(item)
-        historyItems.addAll(records)
-        return HistoryView(item)
-    }
-
-    fun reloadTableItems() {
-        tableItems.clear()
-        tableItems.addAll(ObjectStore.inventoryItems)
-    }
-
-    fun enableMot() {
-        model.motRequired.set(true)
-    }
-
-    fun disableMot() {
-        model.motRequired.set(false)
-        model.nextMot.set(null)
-        model.nextMotString.set("")
-    }
 }

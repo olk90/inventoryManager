@@ -1,25 +1,28 @@
-package de.olk90.inventorymanager.logic.controller
+package de.olk90.inventorymanager.logic.datahelpers
 
 import de.olk90.inventorymanager.model.InventoryItem
 import de.olk90.inventorymanager.model.LendingHistoryRecord
 import de.olk90.inventorymanager.model.Person
-import tornadofx.*
+import impl.org.controlsfx.autocompletion.SuggestionProvider
+import javafx.collections.FXCollections
 
 object ObjectStore {
 
-    // data structures
-    val persons = mutableListOf<Person>().asObservable()
-    val inventoryItems = mutableListOf<InventoryItem>().asObservable()
-    val history = mutableListOf<LendingHistoryRecord>().asObservable()
+    val persons = FXCollections.observableArrayList<Person>()
+    val inventoryItems = FXCollections.observableArrayList<InventoryItem>()
+    val history = FXCollections.observableArrayList<LendingHistoryRecord>()
 
-    // UI
-    val categories = mutableListOf<String>().asObservable()
+    val categories = FXCollections.observableArrayList<String>()
+    val categoryProvider: SuggestionProvider<String> = SuggestionProvider.create(categories)
+
 
     fun nextPersonId(): Int {
         return if (persons.isEmpty()) {
             0
         } else {
-            persons.maxOf { it.id } + 1
+            val personList = mutableListOf<Person>()
+            personList.addAll(persons)
+            personList.maxOf { it.id } + 1
         }
     }
 
@@ -31,7 +34,9 @@ object ObjectStore {
         return if (inventoryItems.isEmpty()) {
             0
         } else {
-            inventoryItems.maxOf { it.id } + 1
+            val inventoryList = mutableListOf<InventoryItem>()
+            inventoryList.addAll(inventoryItems)
+            inventoryList.maxOf { it.id } + 1
         }
     }
 
@@ -56,7 +61,12 @@ object ObjectStore {
         val c = inventoryItems.map { it.category }.toSet()
         categories.addAll(c)
         // provide updated values to the suggestions in text field
-        getInventoryControllerInstance().updateProvider()
+        updateProvider()
+    }
+
+    private fun updateProvider() {
+        categoryProvider.clearSuggestions()
+        categoryProvider.addPossibleSuggestions(categories)
     }
 
     fun getHistoryOfItem(item: InventoryItem): List<LendingHistoryRecord> {

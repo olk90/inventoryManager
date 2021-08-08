@@ -1,39 +1,59 @@
 package de.olk90.inventorymanager
 
-import de.olk90.inventorymanager.logic.Config
+import de.olk90.inventorymanager.logic.datahelpers.Config
 import de.olk90.inventorymanager.logic.controller.WorkspaceController
-import de.olk90.inventorymanager.view.common.InventoryWorkspace
-import de.olk90.inventorymanager.view.person.PersonView
+import javafx.application.Application
+import javafx.fxml.FXMLLoader
+import javafx.scene.Parent
+import javafx.scene.Scene
 import javafx.scene.image.Image
 import javafx.stage.Stage
-import tornadofx.*
 
-class InventoryManagerApp : App(InventoryWorkspace::class) {
 
-    private val controller: WorkspaceController by inject()
+class InventoryManagerApp : Application() {
 
-    override fun start(stage: Stage) {
-        stage.width = 1600.0
-        stage.height = 900.0
+    override fun start(primaryStage: Stage) {
+        primaryStage.title = "Inventory Manager"
+        primaryStage.icons.add(Image("icon.png"))
 
         try {
+            val resource = javaClass.classLoader.getResource("fxml/mainView.fxml")
+            val loader = FXMLLoader(resource)
+            val root = loader.load<Parent>()
+
+            val controller = loader.getController<WorkspaceController>()
+
             // load or create config.json to setup history
             controller.loadConfigFile()
             // if the history was updated properly, open the last file again
-            if (Config.pathProperty.value != Config.userHome.absolutePath) {
-                controller.openDataContainer(Config.pathProperty.value)
+            if (controller.pathProperty.value != Config.userHome.absolutePath) {
+                controller.openDataContainer(controller.pathProperty.value)
             }
 
-            super.start(stage)
-            stage.icons.add(Image("icon.png"))
+            primaryStage.scene = Scene(root, 1600.0, 900.0)
+            primaryStage.show()
 
         } catch (e: Exception) {
             e.printStackTrace()
         }
+
     }
 
-    override fun onBeforeShow(view: UIComponent) {
-        workspace.dock<PersonView>()
-        (workspace as InventoryWorkspace).enablePersonView.set(false)
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
+            launch(InventoryManagerApp::class.java)
+        }
     }
+}
+
+/*
+ * workaround necessary to run app outside gradle
+ * (s. https://github.com/javafxports/openjdk-jfx/issues/236)
+ *
+ * As of version 16 a warning is received, if the module is not
+ * named (s. https://stackoverflow.com/a/67854230)
+ */
+fun main(args: Array<String>) {
+    InventoryManagerApp.main(args)
 }

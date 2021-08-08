@@ -1,11 +1,10 @@
-package de.olk90.inventorymanager.logic
+package de.olk90.inventorymanager.logic.datahelpers
 
 import de.olk90.inventorymanager.model.FileExtension
-import de.olk90.inventorymanager.view.common.WorkspaceViewModel
-import javafx.beans.property.SimpleStringProperty
 import javafx.stage.FileChooser
 import java.io.File
 import java.nio.file.Paths
+import java.util.*
 
 object Config {
 
@@ -14,11 +13,14 @@ object Config {
     )
 
     val userHome = File(System.getProperty("user.home"))
-    val pathProperty = SimpleStringProperty(this, "path", userHome.toString())
-    val identifierProperty = SimpleStringProperty(this, "identifier", "")
-    var model = WorkspaceViewModel()
+//    var model = WorkspaceViewModel()
 
     val configDirectory: File = Paths.get(System.getProperty("user.home"), ".inventoryManager").toFile()
+
+    fun getResourceBundle(): ResourceBundle {
+        val locale = Locale.getDefault()
+        return ResourceBundle.getBundle("Messages", locale)
+    }
 }
 
 // helpers to keep track of the used data containers

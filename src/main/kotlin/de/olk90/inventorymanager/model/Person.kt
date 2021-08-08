@@ -1,36 +1,39 @@
 package de.olk90.inventorymanager.model
 
 import com.beust.klaxon.Json
-import de.olk90.inventorymanager.logic.controller.ObjectStore
+import de.olk90.inventorymanager.logic.datahelpers.ObjectStore
 import javafx.beans.property.SimpleStringProperty
-import tornadofx.*
 
 class Person(
-        firstName: String = "",
-        lastName: String = "",
-        email: String = ""
+    firstName: String = "",
+    lastName: String = "",
+    email: String = ""
 ) {
 
     @Json(ignored = true)
-    val firstNameProperty = SimpleStringProperty(this, "firstName", firstName)
+    val firstNameProperty = SimpleStringProperty(firstName)
+
     @Json(ignored = true)
-    val lastNameProperty = SimpleStringProperty(this, "lastName", lastName)
+    val lastNameProperty = SimpleStringProperty(lastName)
+
     @Json(ignored = true)
-    val emailProperty = SimpleStringProperty(this, "email", email)
+    val emailProperty = SimpleStringProperty(email)
 
     val id = ObjectStore.nextPersonId()
-    var firstName: String by firstNameProperty
-    var lastName: String by lastNameProperty
-    var email: String by emailProperty
+
+    var firstName: String
+        get() = firstNameProperty.value
+        set(value) = firstNameProperty.set(value)
+
+    var lastName: String
+        get() = lastNameProperty.value
+        set(value) = lastNameProperty.set(value)
+
+    var email: String
+        get() = emailProperty.value
+        set(value) = emailProperty.set(value)
 
     fun getFullName(): String {
-        return "$firstName $lastName"
+        return "${firstNameProperty.value} ${lastNameProperty.value}"
     }
-
-}
-
-class PersonModel(person: Person) : ItemViewModel<Person>(person) {
-    val firstName = bind(Person::firstNameProperty)
-    val lastName = bind(Person::lastNameProperty)
-    val email = bind(Person::emailProperty)
 }

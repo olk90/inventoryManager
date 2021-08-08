@@ -3,158 +3,60 @@ package de.olk90.inventorymanager.logic.controller
 import com.beust.klaxon.Klaxon
 import com.beust.klaxon.KlaxonException
 import com.beust.klaxon.json
-import de.olk90.inventorymanager.logic.Config
-import de.olk90.inventorymanager.logic.History
-import de.olk90.inventorymanager.logic.HistoryEntry
+import de.olk90.inventorymanager.logic.datahelpers.*
 import de.olk90.inventorymanager.model.DataContainer
-import de.olk90.inventorymanager.model.InventoryItem
-import de.olk90.inventorymanager.model.LendingHistoryRecord
-import de.olk90.inventorymanager.model.Person
-import de.olk90.inventorymanager.view.common.InventoryWorkspace
-import de.olk90.inventorymanager.view.common.messages
-import de.olk90.inventorymanager.view.inventory.InventoryDataFragment
-import de.olk90.inventorymanager.view.inventory.InventoryView
-import de.olk90.inventorymanager.view.person.PersonDataFragment
-import de.olk90.inventorymanager.view.person.PersonView
+import de.olk90.inventorymanager.view.errorDialog
+import de.olk90.inventorymanager.view.exceptionDialog
+import de.olk90.inventorymanager.view.messages
 import javafx.beans.property.SimpleBooleanProperty
-import javafx.scene.control.ButtonBar
-import tornadofx.*
+import javafx.beans.property.SimpleStringProperty
+import javafx.collections.FXCollections
+import javafx.fxml.FXML
+import javafx.fxml.FXMLLoader
+import javafx.scene.Parent
+import javafx.scene.Scene
+import javafx.scene.layout.BorderPane
+import javafx.stage.Modality
+import javafx.stage.Stage
 import java.io.File
 import java.nio.file.Paths
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-fun getWorkspaceControllerInstance(): WorkspaceController {
-    return find(WorkspaceController::class)
-}
+class WorkspaceController {
 
-class WorkspaceController : Controller() {
+    @FXML
+    lateinit var mainView: BorderPane
 
     // disable add/delete button when no file is opened
     val dataContainerOpen: SimpleBooleanProperty = SimpleBooleanProperty(false)
 
-    // used for managing data containers
-    val history = mutableListOf<HistoryEntry>().asObservable()
+    val pathProperty = SimpleStringProperty(this, "path", Config.userHome.toString())
+    val identifierProperty = SimpleStringProperty(this, "identifier", "")
 
-    private fun setHistory(h: History) {
-        history.clear()
-        // remove all entries whose files were deleted
-        val existingEntries = h.history.filter { File(it.filePath).exists() }
-        history.addAll(existingEntries)
+    val history = FXCollections.observableArrayList<HistoryEntry>()
 
-        history.sortByDescending { it.lastAccessTime }
-        if (history.isNotEmpty()) {
-            Config.pathProperty.value = history.first().filePath
-            writeHistory(history)
-        }
+    fun openNewDatabase() {
+        val resource = javaClass.classLoader.getResource("fxml/databaseFragment.fxml")
+        val fragment = FXMLLoader.load<Parent>(resource, Config.getResourceBundle())
+        val secondaryScene = Scene(fragment, 300.0, 170.0)
+
+        val parent = mainView.scene.window
+        val dialog = Stage()
+        dialog.initOwner(parent)
+        dialog.scene = secondaryScene
+        dialog.initModality(Modality.APPLICATION_MODAL)
+        dialog.show()
     }
 
-    fun deleteEntry(dockedComponent: UIComponent?) {
-        confirmation(messages("confirmation.delete.header"), messages("confirmation.delete.body")) {
-            if (result.buttonData == ButtonBar.ButtonData.OK_DONE) {
-                when (dockedComponent) {
-                    is PersonView -> {
-                        val selectedItems = dockedComponent.table.selectionModel.selectedItems
-                        getPersonControllerInstance().delete(selectedItems)
-                    }
-                    is InventoryView -> {
-                        val selectedItems = dockedComponent.table.selectionModel.selectedItems
-                        getInventoryControllerInstance().delete(selectedItems)
-                    }
-                    else -> {
-                        error(messages("error.header.delete"), messages("error.content.view"))
-                    }
-                }
-            }
-        }
+    fun openPersonsView() {
+        val resource = javaClass.classLoader.getResource("fxml/personsView.fxml")
+        mainView.center = FXMLLoader.load<Parent>(resource, Config.getResourceBundle())
     }
 
-    fun openCreateDialog() {
-        when (workspace.dockedComponent) {
-            is PersonView -> {
-                workspace.openInternalWindow(PersonDataFragment(true), closeButton = false)
-            }
-            is InventoryView -> {
-                workspace.openInternalWindow(InventoryDataFragment(true), closeButton = false)
-            }
-            else -> {
-                error(messages("error.header.add"), messages("error.content.view"))
-            }
-        }
-    }
-
-    fun openDataContainer(documentPath: String) {
-        try {
-            val dc = Klaxon().parse<DataContainer>(File(documentPath))
-            if (dc != null) {
-                dc.persons.forEach {
-                    it.firstName = findAndReplaceCodePoints(it.firstName)
-                    it.lastName = findAndReplaceCodePoints(it.lastName)
-                }
-                dc.items.forEach {
-                    it.name = findAndReplaceCodePoints(it.name)
-                    if (!it.lendingDateString.isNullOrEmpty()) {
-                        val formatter = DateTimeFormatter.ISO_LOCAL_DATE
-                        it.lendingDate = LocalDate.parse(it.lendingDateString, formatter)
-                    }
-                    if (!it.nextMotString.isNullOrEmpty()) {
-                        val formatter = DateTimeFormatter.ISO_LOCAL_DATE
-                        it.nextMot = LocalDate.parse(it.nextMotString, formatter)
-                    }
-
-                }
-                dc.history.forEach {
-                    if (!it.lendingDateString.isNullOrEmpty()) {
-                        val formatter = DateTimeFormatter.ISO_LOCAL_DATE
-                        it.lendingDate = LocalDate.parse(it.lendingDateString, formatter)
-                    }
-                    if (!it.returnDateString.isNullOrEmpty()) {
-                        val formatter = DateTimeFormatter.ISO_LOCAL_DATE
-                        it.returnDate = LocalDate.parse(it.returnDateString, formatter)
-                    }
-                }
-                Config.model.identifierProperty.value = dc.identifier
-                Config.model.pathProperty.value = documentPath
-                ObjectStore.fillStore(dc.persons, dc.items, dc.history)
-                updateHistory(documentPath)
-
-                getWorkspaceControllerInstance().dataContainerOpen.set(true)
-
-                // reload table contents, otherwise there will be issues when loading another container from history
-                getPersonControllerInstance().reloadTableItems()
-                getInventoryControllerInstance().reloadTableItems()
-            } else {
-                error(messages("error.header.open"), messages("error.content.path", documentPath))
-            }
-        } catch (e: KlaxonException) {
-            error(messages("error.header.exception"), e.stackTraceToString())
-        }
-    }
-
-    @Throws(KlaxonException::class)
-    fun buildDcFile(identifier: String, persons: List<Person>, items: List<InventoryItem>, history: List<LendingHistoryRecord>): String {
-        return json {
-            obj(
-                    "identifier" to identifier,
-                    "persons" to array(persons),
-                    "items" to array(items),
-                    "history" to array(history)
-            )
-        }.toJsonString(prettyPrint = true)
-    }
-
-    fun writeDcFile() {
-        val text = buildDcFile(
-                Config.model.identifierProperty.value,
-                ObjectStore.persons,
-                ObjectStore.inventoryItems,
-                ObjectStore.history
-        )
-
-        // replace special chars to avoid mess in Windows
-        val fileContent = stringToCodePoint(text)
-
-        File(Config.model.pathProperty.value).writeText(fileContent)
+    fun openInventoryView() {
+        val resource = javaClass.classLoader.getResource("fxml/inventoryView.fxml")
+        mainView.center = FXMLLoader.load<Parent>(resource, Config.getResourceBundle())
     }
 
     @Throws(KlaxonException::class)
@@ -191,15 +93,17 @@ class WorkspaceController : Controller() {
         configFile.writeText(fileContent)
     }
 
-    private fun updateHistory(filePath: String) {
-        val entry = history.find { it.filePath == filePath }
-        if (entry != null) {
-            entry.lastAccessTime = System.currentTimeMillis()
-        } else {
-            history.add(HistoryEntry(filePath, System.currentTimeMillis()))
-        }
-        writeHistory(history)
+    private fun setHistory(h: History) {
+        history.clear()
+        // remove all entries whose files were deleted
+        val existingEntries = h.history.filter { File(it.filePath).exists() }
+        history.addAll(existingEntries)
 
+        history.sortByDescending { it.lastAccessTime }
+        if (history.isNotEmpty()) {
+            pathProperty.value = history.first().filePath
+            writeHistory(history)
+        }
     }
 
     //Kindly supported by Stack Overflow
@@ -247,7 +151,54 @@ class WorkspaceController : Controller() {
         return builder.toString()
     }
 
-    fun getWorkspace(): InventoryWorkspace {
-        return workspace as InventoryWorkspace
+    fun openDataContainer(documentPath: String) {
+        try {
+            val dc = Klaxon()
+                .fieldConverter(IsoDate::class, lendingDateConverter)
+                .fieldConverter(MonthYearDate::class, motDateConverter)
+                .parse<DataContainer>(File(documentPath))
+            if (dc != null) {
+                dc.persons.forEach {
+                    it.firstName = findAndReplaceCodePoints(it.firstName)
+                    it.lastName = findAndReplaceCodePoints(it.lastName)
+                }
+                dc.items.forEach {
+                    it.name = findAndReplaceCodePoints(it.name)
+                }
+                dc.history.forEach {
+                    if (it.lendingDateString.isNotEmpty()) {
+                        val formatter = DateTimeFormatter.ISO_LOCAL_DATE
+                        it.lendingDate = LocalDate.parse(it.lendingDateString, formatter)
+                    }
+                    if (it.returnDateString.isNotEmpty()) {
+                        val formatter = DateTimeFormatter.ISO_LOCAL_DATE
+                        it.returnDate = LocalDate.parse(it.returnDateString, formatter)
+                    }
+                }
+
+                identifierProperty.value = dc.identifier
+                pathProperty.value = documentPath
+                ObjectStore.fillStore(dc.persons, dc.items, dc.history)
+                updateHistory(documentPath)
+
+                dataContainerOpen.set(true)
+
+            } else {
+                errorDialog(messages("error.header.open"), messages("error.content.path", documentPath))
+            }
+        } catch (e: KlaxonException) {
+            exceptionDialog(messages("error.header.exception"), e)
+        }
+    }
+
+    private fun updateHistory(filePath: String) {
+        val entry = history.find { it.filePath == filePath }
+        if (entry != null) {
+            entry.lastAccessTime = System.currentTimeMillis()
+        } else {
+            history.add(HistoryEntry(filePath, System.currentTimeMillis()))
+        }
+        writeHistory(history)
+
     }
 }
