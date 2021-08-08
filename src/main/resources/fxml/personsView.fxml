@@ -22,7 +22,6 @@
             <TextField promptText="%label.search" />
             <TableView fx:id="personTable" prefHeight="335.0" prefWidth="344.0" VBox.vgrow="SOMETIMES">
                <columns>
-                  <TableColumn editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" style="-fx-alignment: CENTER;" text="#" />
                   <TableColumn fx:id="firstNameCol" editable="false" prefWidth="75.0" style="-fx-alignment: CENTER;" text="%person.firstName" />
                   <TableColumn fx:id="lastNameCol" editable="false" prefWidth="75.0" style="-fx-alignment: CENTER;" text="%person.lastName" />
                   <TableColumn fx:id="emailCol" editable="false" prefWidth="75.0" style="-fx-alignment: CENTER;" text="%person.email" />

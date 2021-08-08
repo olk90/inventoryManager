@@ -24,7 +24,6 @@
             <TextField promptText="%label.search" />
             <TableView fx:id="inventoryTable" prefHeight="473.0" prefWidth="133.0" VBox.vgrow="ALWAYS">
                <columns>
-                  <TableColumn editable="false" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" style="-fx-alignment: CENTER;" text="#" />
                   <TableColumn fx:id="categoryCol" editable="false" prefWidth="304.0" style="-fx-alignment: CENTER;" text="%inventoryItem.category" />
                   <TableColumn fx:id="nameCol" editable="false" prefWidth="75.0" style="-fx-alignment: CENTER;" text="%inventoryItem.name" />
                   <TableColumn fx:id="availableCol" editable="false" prefWidth="75.0" style="-fx-alignment: CENTER;" text="%inventoryItem.available" />

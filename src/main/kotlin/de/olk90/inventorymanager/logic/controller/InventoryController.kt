@@ -2,7 +2,7 @@ package de.olk90.inventorymanager.logic.controller
 
 import de.olk90.inventorymanager.logic.datahelpers.ObjectStore
 import de.olk90.inventorymanager.model.InventoryItem
-import javafx.beans.property.SimpleObjectProperty
+import de.olk90.inventorymanager.view.addIndexColumn
 import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
 import javafx.scene.control.TableColumn
@@ -49,6 +49,8 @@ class InventoryController {
     }
 
     private fun initializeColumns() {
+        inventoryTable.addIndexColumn()
+
         configureCategoryCol()
         configureNameCol()
         configureAvailableCol()
