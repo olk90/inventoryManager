@@ -1,4 +1,4 @@
-package de.olk90.inventorymanager.logic.datahelpers
+package de.olk90.inventorymanager.logic
 
 import com.beust.klaxon.Converter
 import com.beust.klaxon.JsonValue
@@ -62,10 +62,10 @@ val motDateConverter = object : Converter {
 
     override fun fromJson(jv: JsonValue): Any? {
         return if (jv.string != null) {
-            val formatter = DateTimeFormatter.ofPattern("d/MMM/yyyy")
+            val formatter = DateTimeFormatter.ofPattern(Config.PERSISTENT_MOT_PATTERN)
             LocalDate.parse(jv.string, formatter)
         } else {
-            val formatter = DateTimeFormatter.ofPattern("d/MMM/yyyy")
+            val formatter = DateTimeFormatter.ofPattern(Config.PERSISTENT_MOT_PATTERN)
             LocalDate.parse("1/Jan/2000", formatter)
         }
     }

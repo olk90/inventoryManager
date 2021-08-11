@@ -99,8 +99,8 @@
                   <Insets right="5.0" />
                </padding>
                <buttons>
-                  <Button mnemonicParsing="false" text="Cancel" />
-                  <Button mnemonicParsing="false" text="OK" />
+                  <Button fx:id="rollbackButton" mnemonicParsing="false" onAction="#rollback" text="Cancel" />
+                  <Button fx:id="commitButton" mnemonicParsing="false" onAction="#commit" text="OK" />
                </buttons>
             </ButtonBar>
          </children>

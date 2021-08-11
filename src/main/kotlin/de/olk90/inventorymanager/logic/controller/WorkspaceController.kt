@@ -3,7 +3,7 @@ package de.olk90.inventorymanager.logic.controller
 import com.beust.klaxon.Klaxon
 import com.beust.klaxon.KlaxonException
 import com.beust.klaxon.json
-import de.olk90.inventorymanager.logic.datahelpers.*
+import de.olk90.inventorymanager.logic.*
 import de.olk90.inventorymanager.model.DataContainer
 import de.olk90.inventorymanager.view.errorDialog
 import de.olk90.inventorymanager.view.exceptionDialog

@@ -1,9 +1,9 @@
 package de.olk90.inventorymanager.model
 
 import com.beust.klaxon.Json
-import de.olk90.inventorymanager.logic.datahelpers.LendingDate
-import de.olk90.inventorymanager.logic.datahelpers.MotDate
-import de.olk90.inventorymanager.logic.datahelpers.ObjectStore
+import de.olk90.inventorymanager.logic.LendingDate
+import de.olk90.inventorymanager.logic.MotDate
+import de.olk90.inventorymanager.logic.ObjectStore
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleObjectProperty
@@ -50,9 +50,9 @@ class InventoryItem (
         get() = nameProperty.value
         set(value) = nameProperty.set(value)
 
-    var available: Boolean?
+    var available: Boolean
         get() = availableProperty.value
-        set(value) = availableProperty.set(value ?: false)
+        set(value) = availableProperty.set(value)
 
     var lendingDate: LendingDate
         get() = lendingDateProperty.value

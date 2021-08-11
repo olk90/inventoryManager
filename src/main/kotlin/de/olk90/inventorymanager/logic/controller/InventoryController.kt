@@ -1,13 +1,12 @@
 package de.olk90.inventorymanager.logic.controller
 
-import de.olk90.inventorymanager.logic.datahelpers.ObjectStore
+import de.olk90.inventorymanager.logic.Config
+import de.olk90.inventorymanager.logic.ObjectStore
 import de.olk90.inventorymanager.model.InventoryItem
 import de.olk90.inventorymanager.view.addIndexColumn
 import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
-import javafx.scene.control.TableColumn
-import javafx.scene.control.TableView
-import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.control.*
 import javafx.scene.layout.GridPane
 import se.alipsa.ymp.YearMonthPickerCombo
 import java.time.YearMonth
@@ -31,7 +30,7 @@ class InventoryController {
     lateinit var nameCol: TableColumn<InventoryItem, String>
 
     @FXML
-    lateinit var availableCol: TableColumn<InventoryItem, String>
+    lateinit var availableCol: TableColumn<InventoryItem, Boolean>
 
     @FXML
     lateinit var lendingDateCol: TableColumn<InventoryItem, String>
@@ -42,10 +41,66 @@ class InventoryController {
     @FXML
     lateinit var nextMotCol: TableColumn<InventoryItem, String>
 
+    @FXML
+    lateinit var nameTextField: TextField
+
+    @FXML
+    lateinit var availableCheckBox: CheckBox
+
+    lateinit var motCombo: YearMonthPickerCombo
+
+    @FXML
+    lateinit var categoryTextField: TextField
+
+    @FXML
+    lateinit var infoTextArea: TextArea
+
+    @FXML
+    lateinit var commitButton: Button
+
+    @FXML
+    lateinit var rollbackButton: Button
+
+    fun commit() {
+
+    }
+
+    fun rollback() {
+
+    }
+
     fun initialize() {
         initializeColumns()
         initializeEditor()
         reloadTableItems()
+
+        configureEditor()
+    }
+
+    private fun configureEditor() {
+        inventoryTable.selectionModel.selectedItemProperty().addListener { _, _, newValue: InventoryItem ->
+            setEditorFields(newValue)
+        }
+    }
+
+    private fun setEditorFields(item: InventoryItem) {
+        nameTextField.text = item.name
+        availableCheckBox.isSelected = item.available
+
+        selectMotComboItem(item)
+
+        categoryTextField.text = item.category
+        infoTextArea.text = item.info
+    }
+
+    private fun selectMotComboItem(item: InventoryItem) {
+        val date = item.nextMot.date
+        if (date.year != 1970) {
+            val yearMonth = YearMonth.of(date.year, date.month)
+            motCombo.selectionModel.select(yearMonth)
+        } else {
+            motCombo.disarm()
+        }
     }
 
     private fun initializeColumns() {
@@ -60,15 +115,21 @@ class InventoryController {
     }
 
     private fun configureCategoryCol() {
-        categoryCol.cellValueFactory = PropertyValueFactory("category")
+        categoryCol.setCellValueFactory {
+            it.value.categoryProperty
+        }
     }
 
     private fun configureNameCol() {
-        nameCol.cellValueFactory = PropertyValueFactory("name")
+        nameCol.setCellValueFactory {
+            it.value.nameProperty
+        }
     }
 
     private fun configureAvailableCol() {
-        availableCol.cellValueFactory = PropertyValueFactory("available")
+        availableCol.setCellValueFactory {
+            it.value.availableProperty
+        }
     }
 
     private fun configureLendingDateCol() {
@@ -100,7 +161,7 @@ class InventoryController {
             val motString = if (date.year == 1970) {
                 ""
             } else {
-                val formatter = DateTimeFormatter.ofPattern("MMM/yyyy")
+                val formatter = DateTimeFormatter.ofPattern(Config.MOT_PATTERN)
                 date.format(formatter)
             }
             SimpleStringProperty(motString)
@@ -114,10 +175,11 @@ class InventoryController {
             initial.plusYears(6),
             initial,
             Locale.getDefault(),
-            "MMM/yyyy"
+            Config.MOT_PATTERN
         )
         yearMonthPicker.maxWidth = Double.MAX_VALUE
-        editorGrid.add(yearMonthPicker, 1, 2)
+        motCombo = yearMonthPicker
+        editorGrid.add(motCombo, 1, 2)
     }
 
     private fun reloadTableItems() {

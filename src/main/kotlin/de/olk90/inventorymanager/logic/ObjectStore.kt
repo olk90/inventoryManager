@@ -1,18 +1,19 @@
-package de.olk90.inventorymanager.logic.datahelpers
+package de.olk90.inventorymanager.logic
 
 import de.olk90.inventorymanager.model.InventoryItem
 import de.olk90.inventorymanager.model.LendingHistoryRecord
 import de.olk90.inventorymanager.model.Person
 import impl.org.controlsfx.autocompletion.SuggestionProvider
 import javafx.collections.FXCollections
+import javafx.collections.ObservableList
 
 object ObjectStore {
 
-    val persons = FXCollections.observableArrayList<Person>()
-    val inventoryItems = FXCollections.observableArrayList<InventoryItem>()
-    val history = FXCollections.observableArrayList<LendingHistoryRecord>()
+    val persons: ObservableList<Person> = FXCollections.observableArrayList()
+    val inventoryItems: ObservableList<InventoryItem> = FXCollections.observableArrayList()
+    val history: ObservableList<LendingHistoryRecord> = FXCollections.observableArrayList()
 
-    val categories = FXCollections.observableArrayList<String>()
+    val categories: ObservableList<String> = FXCollections.observableArrayList()
     val categoryProvider: SuggestionProvider<String> = SuggestionProvider.create(categories)
 
 

@@ -1,4 +1,4 @@
-package de.olk90.inventorymanager.logic.datahelpers
+package de.olk90.inventorymanager.logic
 
 import de.olk90.inventorymanager.model.FileExtension
 import javafx.stage.FileChooser
@@ -13,9 +13,12 @@ object Config {
     )
 
     val userHome = File(System.getProperty("user.home"))
-//    var model = WorkspaceViewModel()
 
     val configDirectory: File = Paths.get(System.getProperty("user.home"), ".inventoryManager").toFile()
+
+    const val MOT_PATTERN = "MMM/yyyy"
+
+    const val PERSISTENT_MOT_PATTERN = "d/MMM/yyyy"
 
     fun getResourceBundle(): ResourceBundle {
         val locale = Locale.getDefault()
