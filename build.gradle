@@ -3,20 +3,23 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.5.10'
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'org.beryx.jlink' version '2.23.1'
 }
 
-mainClassName = 'de.olk90.inventorymanager.InventoryManagerAppKt'
+mainClassName = "$moduleName/de.olk90.inventorymanager.app.InventoryManagerApp"
 
 group 'de.olk90'
 version '2.0'
-
-sourceCompatibility = 1.16
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-reflect
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.10")
+
+
     // https://mvnrepository.com/artifact/com.beust/klaxon
     implementation('com.beust:klaxon:5.5')
 
@@ -33,9 +36,14 @@ javafx {
     modules = ['javafx.controls', 'javafx.fxml']
 }
 
-compileKotlin {
-    kotlinOptions.jvmTarget = "16"
+jlink {
+    launcher {
+        name = 'inventoryManager'
+    }
 }
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "16"
+
+[compileKotlin, compileTestKotlin].forEach {
+    it.kotlinOptions {
+        jvmTarget = '11'
+    }
 }

@@ -1,4 +1,4 @@
-package de.olk90.inventorymanager
+package de.olk90.inventorymanager.app
 
 import de.olk90.inventorymanager.logic.Config
 import de.olk90.inventorymanager.logic.controller.WorkspaceController
@@ -17,7 +17,7 @@ class InventoryManagerApp : Application() {
         primaryStage.icons.add(Image("icon.png"))
 
         try {
-            val resource = javaClass.classLoader.getResource("fxml/mainView.fxml")
+            val resource = javaClass.classLoader.getResource("mainView.fxml")
             val loader = FXMLLoader(resource)
             val root = loader.load<Parent>()
 

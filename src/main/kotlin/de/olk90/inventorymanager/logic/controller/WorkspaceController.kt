@@ -37,7 +37,7 @@ class WorkspaceController {
     val history = FXCollections.observableArrayList<HistoryEntry>()
 
     fun openNewDatabase() {
-        val resource = javaClass.classLoader.getResource("fxml/databaseFragment.fxml")
+        val resource = javaClass.classLoader.getResource("databaseFragment.fxml")
         val fragment = FXMLLoader.load<Parent>(resource, Config.getResourceBundle())
         val secondaryScene = Scene(fragment, 300.0, 170.0)
 
@@ -50,12 +50,12 @@ class WorkspaceController {
     }
 
     fun openPersonsView() {
-        val resource = javaClass.classLoader.getResource("fxml/personsView.fxml")
+        val resource = javaClass.classLoader.getResource("personsView.fxml")
         mainView.center = FXMLLoader.load<Parent>(resource, Config.getResourceBundle())
     }
 
     fun openInventoryView() {
-        val resource = javaClass.classLoader.getResource("fxml/inventoryView.fxml")
+        val resource = javaClass.classLoader.getResource("inventoryView.fxml")
         mainView.center = FXMLLoader.load<Parent>(resource, Config.getResourceBundle())
     }
 

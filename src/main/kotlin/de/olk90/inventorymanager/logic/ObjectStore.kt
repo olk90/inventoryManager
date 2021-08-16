@@ -3,7 +3,6 @@ package de.olk90.inventorymanager.logic
 import de.olk90.inventorymanager.model.InventoryItem
 import de.olk90.inventorymanager.model.LendingHistoryRecord
 import de.olk90.inventorymanager.model.Person
-import impl.org.controlsfx.autocompletion.SuggestionProvider
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 
@@ -14,7 +13,6 @@ object ObjectStore {
     val history: ObservableList<LendingHistoryRecord> = FXCollections.observableArrayList()
 
     val categories: ObservableList<String> = FXCollections.observableArrayList()
-    val categoryProvider: SuggestionProvider<String> = SuggestionProvider.create(categories)
 
 
     fun nextPersonId(): Int {
@@ -62,13 +60,8 @@ object ObjectStore {
         val c = inventoryItems.map { it.category }.toSet()
         categories.addAll(c)
         // provide updated values to the suggestions in text field
-        updateProvider()
     }
 
-    private fun updateProvider() {
-        categoryProvider.clearSuggestions()
-        categoryProvider.addPossibleSuggestions(categories)
-    }
 
     fun getHistoryOfItem(item: InventoryItem): List<LendingHistoryRecord> {
         return history.filter { it.item == item.id }.sortedByDescending { it.lendingDate }.toList()
