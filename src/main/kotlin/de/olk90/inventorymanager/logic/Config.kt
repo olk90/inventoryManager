@@ -27,5 +27,5 @@ object Config {
 }
 
 // helpers to keep track of the used data containers
-data class HistoryEntry(val filePath: String, var lastAccessTime: Long)
-data class History(val history: ArrayList<HistoryEntry>)
+class HistoryEntry(val filePath: String, var lastAccessTime: Long)
+class History(val history: ArrayList<HistoryEntry>)

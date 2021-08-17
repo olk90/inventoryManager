@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 
 
-<BorderPane fx:id="newDbDialog" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.olk90.inventorymanager.logic.controller.DatabaseController">
+<BorderPane fx:id="newDbDialog" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.olk90.inventorymanager.logic.controller.DatabaseController">
    <top>
       <Label alignment="CENTER" text="%label.newContainer" BorderPane.alignment="CENTER" />
    </top>

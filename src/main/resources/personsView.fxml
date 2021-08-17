@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="860.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.olk90.inventorymanager.logic.controller.PersonController">
+<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="860.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.olk90.inventorymanager.logic.controller.PersonController">
    <children>
       <VBox HBox.hgrow="ALWAYS">
          <children>
