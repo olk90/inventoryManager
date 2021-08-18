@@ -3,6 +3,7 @@ package de.olk90.inventorymanager.logic.controller
 import com.beust.klaxon.Klaxon
 import com.beust.klaxon.KlaxonException
 import com.beust.klaxon.json
+import de.olk90.inventorymanager.ResourceLoader
 import de.olk90.inventorymanager.logic.*
 import de.olk90.inventorymanager.model.DataContainer
 import de.olk90.inventorymanager.view.errorDialog
@@ -37,7 +38,7 @@ class WorkspaceController {
     val history = FXCollections.observableArrayList<HistoryEntry>()
 
     fun openNewDatabase() {
-        val resource = javaClass.classLoader.getResource("databaseFragment.fxml")
+        val resource = ResourceLoader.loadUrl("databaseFragment.fxml")
         val fragment = FXMLLoader.load<Parent>(resource, Config.getResourceBundle())
         val secondaryScene = Scene(fragment, 300.0, 170.0)
 
@@ -50,12 +51,12 @@ class WorkspaceController {
     }
 
     fun openPersonsView() {
-        val resource = javaClass.classLoader.getResource("personsView.fxml")
+        val resource = ResourceLoader.loadUrl("personsView.fxml")
         mainView.center = FXMLLoader.load<Parent>(resource, Config.getResourceBundle())
     }
 
     fun openInventoryView() {
-        val resource = javaClass.classLoader.getResource("inventoryView.fxml")
+        val resource = ResourceLoader.loadUrl("inventoryView.fxml")
         mainView.center = FXMLLoader.load<Parent>(resource, Config.getResourceBundle())
     }
 

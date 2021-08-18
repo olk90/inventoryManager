@@ -3,7 +3,6 @@ package de.olk90.inventorymanager.logic.controller
 import de.olk90.inventorymanager.logic.Config
 import de.olk90.inventorymanager.logic.files.writeToFile
 import de.olk90.inventorymanager.model.FileExtension
-import de.olk90.inventorymanager.view.errorDialog
 import de.olk90.inventorymanager.view.exceptionDialog
 import de.olk90.inventorymanager.view.messages
 import javafx.event.ActionEvent

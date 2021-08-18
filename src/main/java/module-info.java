@@ -9,10 +9,9 @@ module inventoryManager.main {
     requires javafx.graphics;
     requires javafx.fxml;
 
-    opens de.olk90.inventorymanager.logic to kotlin.reflect, klaxon;
-    opens de.olk90.inventorymanager.model to kotlin.reflect, klaxon;
-    opens de.olk90.inventorymanager.logic.controller to javafx.graphics, javafx.fxml;
-
-    exports de.olk90.inventorymanager.app;
+    opens de.olk90.inventorymanager;
+    opens de.olk90.inventorymanager.logic;
+    opens de.olk90.inventorymanager.model;
+    opens de.olk90.inventorymanager.logic.controller;
 
 }
