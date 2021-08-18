@@ -20,10 +20,6 @@ object Config {
 
     const val PERSISTENT_MOT_PATTERN = "d/MMM/yyyy"
 
-    fun getResourceBundle(): ResourceBundle {
-        val locale = Locale.getDefault()
-        return ResourceBundle.getBundle("Messages", locale)
-    }
 }
 
 // helpers to keep track of the used data containers

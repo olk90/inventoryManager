@@ -25,6 +25,9 @@ dependencies {
     // https://mvnrepository.com/artifact/se.alipsa/fx-yearmonth-picker
     implementation("se.alipsa:fx-yearmonth-picker:1.0.2")
 
+    // https://mvnrepository.com/artifact/org.controlsfx/controlsfx
+    implementation("org.controlsfx:controlsfx:11.1.0")
+
 }
 
 javafx {

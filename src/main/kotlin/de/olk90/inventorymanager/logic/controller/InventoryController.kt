@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.fxml.FXML
 import javafx.scene.control.*
 import javafx.scene.layout.GridPane
+import org.controlsfx.control.ToggleSwitch
 import se.alipsa.ymp.YearMonthPickerCombo
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
@@ -45,8 +46,9 @@ class InventoryController {
     lateinit var nameTextField: TextField
 
     @FXML
-    lateinit var availableCheckBox: CheckBox
+    lateinit var availableSwitch: ToggleSwitch
 
+    @FXML
     lateinit var motCombo: YearMonthPickerCombo
 
     @FXML
@@ -85,7 +87,7 @@ class InventoryController {
 
     private fun setEditorFields(item: InventoryItem) {
         nameTextField.text = item.name
-        availableCheckBox.isSelected = item.available
+        availableSwitch.isSelected = item.available
 
         selectMotComboItem(item)
 

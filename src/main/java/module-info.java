@@ -9,6 +9,8 @@ module inventoryManager.main {
     requires javafx.graphics;
     requires javafx.fxml;
 
+    requires org.controlsfx.controls;
+
     opens de.olk90.inventorymanager;
     opens de.olk90.inventorymanager.logic;
     opens de.olk90.inventorymanager.model;

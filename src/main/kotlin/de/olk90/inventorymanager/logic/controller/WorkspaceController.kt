@@ -39,7 +39,7 @@ class WorkspaceController {
 
     fun openNewDatabase() {
         val resource = ResourceLoader.loadUrl("databaseFragment.fxml")
-        val fragment = FXMLLoader.load<Parent>(resource, Config.getResourceBundle())
+        val fragment = FXMLLoader.load<Parent>(resource, ResourceLoader.getResourceBundle())
         val secondaryScene = Scene(fragment, 300.0, 170.0)
 
         val parent = mainView.scene.window
@@ -52,12 +52,12 @@ class WorkspaceController {
 
     fun openPersonsView() {
         val resource = ResourceLoader.loadUrl("personsView.fxml")
-        mainView.center = FXMLLoader.load<Parent>(resource, Config.getResourceBundle())
+        mainView.center = FXMLLoader.load<Parent>(resource, ResourceLoader.getResourceBundle())
     }
 
     fun openInventoryView() {
         val resource = ResourceLoader.loadUrl("inventoryView.fxml")
-        mainView.center = FXMLLoader.load<Parent>(resource, Config.getResourceBundle())
+        mainView.center = FXMLLoader.load<Parent>(resource, ResourceLoader.getResourceBundle())
     }
 
     @Throws(KlaxonException::class)

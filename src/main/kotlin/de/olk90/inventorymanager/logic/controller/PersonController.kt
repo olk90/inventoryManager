@@ -90,8 +90,8 @@ class PersonController {
 
     private fun configureEditor() {
         personTable.selectionModel.selectedItemProperty().addListener { _, _, newValue: Person ->
-                setEditorFields(newValue)
-            }
+            setEditorFields(newValue)
+        }
     }
 
     private fun setEditorFields(person: Person) {
